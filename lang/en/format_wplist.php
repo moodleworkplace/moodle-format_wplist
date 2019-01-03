@@ -27,9 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['editsection'] = 'Edit topic';
 $string['editsectionname'] = 'Edit topic name';
-$string['pluginname'] = 'format_wplist';
-$string['section0name'] = 'General';
-$string['newsectionname'] = 'New name for topic {$a}';
-$string['sectionname'] = 'Topic';
 $string['hidefromothers'] = 'Hide topic';
+$string['newsectionname'] = 'New name for topic {$a}';
+$string['pluginname'] = 'format_wplist';
+$string['privacy:metadata'] = 'The WPlist format plugin does not store any personal data.';
+$string['section0name'] = 'General';
+$string['sectionname'] = 'Topic';
 $string['showfromothers'] = 'Show topic';
