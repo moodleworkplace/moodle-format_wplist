@@ -151,7 +151,7 @@ class format_wplist extends format_base {
      */
     public function extend_course_navigation($navigation, navigation_node $node) {
         global $PAGE;
-        // if section is specified in course/view.php, make sure it is expanded in navigation
+        // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
             $selectedsection = optional_param('section', null, PARAM_INT);
             if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
@@ -160,7 +160,7 @@ class format_wplist extends format_base {
             }
         }
 
-        // check if there are callbacks to extend course navigation
+        // Check if there are callbacks to extend course navigation.
         parent::extend_course_navigation($navigation, $node);
 
         // We want to remove the general section if it is empty.
@@ -184,7 +184,7 @@ class format_wplist extends format_base {
      *
      * @return array This will be passed in ajax respose
      */
-    function ajax_section_move() {
+    public function ajax_section_move() {
         global $PAGE;
         $titles = array();
         $course = $this->get_course();
@@ -382,6 +382,19 @@ class format_wplist extends format_base {
         return !$section->section || $section->visible;
     }
 
+    /**
+     * Callback used in WS core_course_edit_section when teacher performs an AJAX action on a section (show/hide)
+     *
+     * Access to the course is already validated in the WS but the callback has to make sure
+     * that particular action is allowed by checking capabilities
+     *
+     * Course formats should register
+     *
+     * @param stdClass|section_info $section
+     * @param string $action
+     * @param int $sr
+     * @return null|array|stdClass any data for the Javascript post-processor (must be json-encodeable)
+     */
     public function section_action($section, $action, $sr) {
         global $PAGE;
 
