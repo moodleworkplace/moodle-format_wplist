@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>module/check-on--gray</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M12,0 C5.37,0 0,5.37 0,12 C0,18.63 5.37,24 12,24 C18.63,24 24,18.63 24,12 C24,5.37 18.63,0 12,0 Z" id="path-1"></path>
+    </defs>
+    <g id="module/check-on--gray" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Shape" fill="#6F6F6F" fill-rule="nonzero" xlink:href="#path-1"></use>
+            <g id="gray/0.5-#ced4da" mask="url(#mask-2)" fill="#CED4DA">
+                <rect id="gray-0.5-#ced4da" x="0" y="0" width="24" height="24"></rect>
+            </g>
+        </g>
+        <polygon id="Shape" fill="#FFFFFF" fill-rule="nonzero" points="8.64941344 15.1086019 5.43434367 11.9072266 2.97680664 14.3263285 8.64941344 19.236786 20.8376465 8.6861164 18.1927872 6.23850298"></polygon>
+    </g>
+</svg>

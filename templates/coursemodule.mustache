@@ -1,0 +1,87 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_wplist/coursemodule
+
+    This template renders action menu for each course.
+
+    Example context (json):
+    {}
+}}
+<div id="module-{{mod.id}}"
+    data-region="module"
+    data-module="{{mod.id}}"
+    data-module-section="{{mod.section}}"
+    class="wplist-group-item p-0
+        {{^mod.uservisible}} notavailable bg-gray020 {{/mod.uservisible}}
+        {{^editing}}border-0{{/editing}}
+        {{#editing}}border-bottom{{/editing}}
+        activity type-{{mod.modname}} {{mod.extraclasses}}"
+>
+    <div class="d-flex align-items-center module-content position-relative">
+
+        {{#editing}}
+        <span class="moveoptions position-absolute align-self-start">
+            {{{moveicons}}}
+        </span>
+        {{/editing}}
+
+
+
+        {{#availability}}
+            <span class="availability position-absolute {{#editing}}pl-4{{/editing}}">
+                <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
+                    <i class="icon fa fa-lock"></i>
+                </button>
+            </span>
+        {{/availability}}
+
+        {{^availability}}
+            {{#completion}}
+                <span class="completion position-absolute pl-4 {{#editing}}ml-4{{/editing}} align-self-start">
+                    {{{completion}}}
+                </span>
+            {{/completion}}
+        {{/availability}}
+
+        <div class="indent">
+        </div>
+
+        <div class="d-flex flex-column cname-text align-self-start {{#editing}}pl-4{{/editing}}">
+            <span class="d-flex cmname">
+                {{{cmname}}}
+            </span>
+            {{#text}}
+                <span class="text d-flex mb-2">
+                    {{{text}}}
+                </span>
+            {{/text}}
+        </div>
+
+        {{#mod.afterlink}}
+            <span class="afterlink">
+                {{{mod.afterlink}}}
+            </span>
+        {{/mod.afterlink}}
+
+        {{#editing}}
+            <span class="editoptions ml-auto align-self-stretch d-flex p-2">
+                {{{editoptions}}}
+            </span>
+        {{/editing}}
+    </div>
+</div>

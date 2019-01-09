@@ -1,0 +1,154 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format_wplist/multisectionpage
+
+    This template renders action menu for each course.
+
+    Example context (json):
+    {}
+}}
+
+<div id="format-wplist-{{uniqid}}" class="formatwplistcontent">
+    {{{completioninfo}}}
+    {{{heading}}}
+    {{{courseactivityclipboard}}}
+    <div class="accordion" id="formatwplist" data-region="section-container" data-is-root="1" data-courseid="{{courseid}}">
+        {{#sections}}
+            <div class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}" data-region="section" data-section="{{sectionid}}">
+                <div
+                    class="card-header section-header p-0
+                        {{#mutedsection}} bg-gray030 {{/mutedsection}}
+                        {{#visible}}bg-white{{/visible}}
+                        {{^editing}}border-top border-bottom-0{{/editing}}"
+                    id="heading{{sectionid}}"
+                >
+                    <div class="d-flex align-items-center">
+                        {{#move}}
+                            <div class="moveoptions position-absolute">
+                                {{> format_wplist/movesection }}
+                            </div>
+                            <div class="sectionindent">
+                            </div>
+                        {{/move}}
+                            {{#availableinfo}}
+                                <span class="availability position-absolute {{#editing}}pl-3{{/editing}}">
+                                    <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
+                                        <i class="icon fa fa-lock"></i>
+                                    </button>
+                                </span>
+                            {{/availableinfo}}
+                        <button
+                            class="btn btn-link w-100 p-2 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#section-{{sectionid}}"
+                            aria-expanded="true"
+                            aria-controls="collapseOne"
+                        >
+                            <span class="togglesectionicon collapsed-icon-container mr-1">
+                                {{#pix}} t/collapsedcaret, core {{/pix}}
+                            </span>
+                            <span class="togglesectionicon expanded-icon-container mr-1">
+                                {{#pix}} t/expanded, core {{/pix}}
+                            </span>
+                            <h3 class="sectionname">{{{name}}}</h3>
+                            <div class="pr-4 d-flex flex-column ml-auto">
+                                {{{completion}}}
+                            </div>
+                        </button>
+
+                        {{#editing}}
+                        <span class="editoptions ml-auto align-self-stretch d-flex p-2">
+                            {{{editsection}}}
+                            {{{addcm}}}
+                        </span>
+                        {{/editing}}
+                    </div>
+                    {{#expandbtn}}
+                    <div class="d-flex">
+                        {{^editing}}
+                        <button id="expandaccordion" class="ml-auto mr-4 btn btn-link btn-sm" data-action="expand" data-expended="0">
+                            <span class="closed" data-region="collapsed-closed">
+                                {{#str}}expandall{{/str}}
+                            </span>
+                            <span class="open hidden" data-region="collapsed-open">
+                                {{#str}}collapseall{{/str}}
+                            </span>
+                        </button>
+                        {{/editing}}
+                        {{#editing}}
+                        <span class="editoptions ml-auto align-self-stretch d-flex p-2">
+                            <button id="expandaccordion" class="ml-auto btn btn-link btn-sm" data-action="expand" data-expended="0">
+                                <span class="closed" data-region="collapsed-closed">
+                                    {{#str}}expandall{{/str}}
+                                </span>
+                                <span class="open hidden" data-region="collapsed-open">
+                                    {{#str}}collapseall{{/str}}
+                                </span>
+                            </button>
+                        </span>
+                        {{/editing}}
+                    </div>
+                    {{/expandbtn}}
+
+                    {{#summary}}
+                    <div class="d-flex align-items-center">
+                        <div class="sectionsummary pr-3 pb-3 {{#editing}}ml-4{{/editing}}">
+                            {{{summary}}}
+                        </div>
+                        {{#editing}}
+                            <span class="editoptions ml-auto align-self-stretch p-2">
+                            </span>
+                        {{/editing}}
+                    </div>
+                    {{/summary}}
+                </div>
+
+                <div
+                    id="section-{{sectionid}}"
+                    class="collapse {{#expanded}}show{{/expanded}} "
+                    aria-labelledby="section-{{sectionid}}"
+                    data-region="sectioncollapse"
+                    {{#accordion}}
+                    data-parent="#formatwplist"
+                    {{/accordion}}
+                >
+                    <div class="card-body bg-white p-0 {{^editing}}pb-4{{/editing}}">
+                        {{{coursemodules}}}
+                    </div>
+                </div>
+            </div>
+        {{/sections}}
+    </div>
+
+    {{{changenumber}}}
+</div>
+{{#js}}
+require(
+[
+    'jquery',
+    'format_wplist/main',
+],
+function(
+    $,
+    Main
+) {
+    var root = $('#format-wplist-{{uniqid}}');
+    Main.init(root);
+});
+{{/js}}
