@@ -44,6 +44,27 @@ class format_wplist extends format_base {
     }
 
     /**
+     * Returns the default section name for the topics course format.
+     *
+     * If the section number is 0, it will use the string with key = section0name from the course format's lang file.
+     * If the section number is not 0, the base implementation of format_base::get_default_section_name which uses
+     * the string with the key = 'sectionname' from the course format's lang file + the section number will be used.
+     *
+     * @param stdClass $section Section object from database or just field course_sections section
+     * @return string The default value for the section name.
+     */
+    public function get_default_section_name($section) {
+        if ($section->section == 0) {
+            // Return the general section.
+            return get_string('section0name', 'format_wplist');
+        } else {
+            // Use format_base::get_default_section_name implementation which
+            // will display the section name in "Topic n" format.
+            return parent::get_default_section_name($section);
+        }
+    }
+
+    /**
      * Returns the display name of the given section that the course prefers.
      *
      * Use section name is specified by user. Otherwise use default ("Topic #")
@@ -56,10 +77,8 @@ class format_wplist extends format_base {
         if ((string)$section->name !== '') {
             return format_string($section->name, true,
                     array('context' => context_course::instance($this->courseid)));
-        } else if ($section->section == 0) {
-            return get_string('section0name', 'format_wplist');
         } else {
-            return get_string('topic').' '.$section->section;
+            return self::get_default_section_name($section);
         }
     }
 

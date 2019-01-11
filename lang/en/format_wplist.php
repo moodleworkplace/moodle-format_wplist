@@ -24,7 +24,7 @@
 
 $string['currentsection'] = 'This wplist';
 $string['deletesection'] = 'Delete Section';
-$string['sectionname'] = 'wplist';
+$string['sectionname'] = 'Topic';
 $string['pluginname'] = 'Workplace list format';
 $string['section0name'] = 'General';
 $string['page-course-view-wplists'] = 'Any course main page in wplists format';
