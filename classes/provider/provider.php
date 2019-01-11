@@ -1,5 +1,5 @@
 <?php
-// This file is part of the Workplace wplist course format
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,17 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Privacy Subsystem implementation for format_wplist.
  *
  * @package    format_wplist
- * @copyright  2019 <bas@moodle.com>
+ * @copyright  2018 SP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace format_wplist\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2019010303;
-$plugin->requires  = 2018120301;
-$plugin->component = 'format_wplist';
-$plugin->release   = '0.1.0';
-$plugin->maturity  = MATURITY_ALPHA;
+/**
+ * Privacy Subsystem for format_wplist implementing null_provider.
+ *
+ * @copyright  2018 SP
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
