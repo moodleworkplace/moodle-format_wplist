@@ -28,7 +28,8 @@ define(
     'core/notification',
     'core/custom_interaction_events',
     'core/ajax',
-    'core/log'
+    'core/log',
+    'core/str'
 ],
 function(
     $,
@@ -36,7 +37,8 @@ function(
     Notification,
     CustomEvents,
     Ajax,
-    Log
+    Log,
+    Str
 ) {
 
     var SELECTORS = {
@@ -223,16 +225,46 @@ function(
 
         var courseid = sectionsContainer.attr('data-courseid');
 
-        new Sortablewplist(sectionsContainer);
+        var getSectionName = function(element) {
+            return element.find('h3.sectionname .inplaceeditable').text();
+        };
+        var getModuleName = function(element) {
+            return element.find('.cmname .inplaceeditable').text();
+        };
+        var findClosestSection = function(element) {
+            return element.closest('[data-region="section"][data-section]');
+        };
+
+        var sectionsSortable = new Sortablewplist(sectionsContainer, {moveHandlerSelector: '.movesection > [data-drag-type=move]'});
+        sectionsSortable.getElementName = function(element) {
+            return $.Deferred().resolve(getSectionName(element));
+        };
 
         // Variables for moving modules.
         var modulesContainers = root.find(SELECTORS.MODULES_CONTAINER);
 
-        new Sortablewplist(modulesContainers);
+        var modulesSortable = new Sortablewplist(modulesContainers, {moveHandlerSelector: '.movemodule > [data-drag-type=move]'});
+        modulesSortable.getElementName = function(element) {
+            return $.Deferred().resolve(getModuleName(element));
+        };
+        modulesSortable.getDestinationName = function(parentElement, afterElement) {
+            if (!afterElement.length) {
+                return Str.get_string('totopofsection', 'moodle',
+                        getSectionName(findClosestSection(parentElement)));
+            } else {
+                return Str.get_string('movecontentafter', 'moodle', getModuleName(afterElement));
+            }
+        };
 
-        sections.on(Sortablewplist.EVENTS.DROP, function(_, info) {
+        sections.on(Sortablewplist.EVENTS.DROP, function(e, info) {
+            e.stopPropagation();
             if (info.positionChanged) {
                 if (info.element.attr('data-section')) {
+                    if (info.targetNextElement && info.targetNextElement.attr('data-section') === "0") {
+                        // Can not move before general section.
+                        sectionsSortable.moveElement(info.sourceList, info.sourceNextElement);
+                        return;
+                    }
                     var sectionid = info.element.attr('data-section');
                     var sectiontarget = info.targetNextElement.attr('data-section');
                     var args = {
@@ -249,7 +281,7 @@ function(
                 if (info.element.attr('data-module')) {
                     var moduleid = info.element.attr('data-module');
                     var moduletarget = info.targetNextElement.attr('data-module');
-                    var sectionid = info.targetNextElement.attr('data-module-section');
+                    var sectionid = findClosestSection(info.targetList).attr('data-section');
                     var args = {
                         moduleid: moduleid,
                         moduletarget: moduletarget,

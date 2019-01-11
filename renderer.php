@@ -219,6 +219,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             if ($PAGE->user_is_editing()) {
                 if ($section > 0) {
                     $sectiontemp->move = true;
+                    $sectiontemp->movetitle = get_string('movesection', 'moodle', $section);
                 }
                 $sectiontemp->editsection = $this->edit_section($thissection, $course, false);
             } else {
@@ -361,15 +362,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $modcontext = context_module::instance($mod->id);
         $hasmanageactivities = has_capability('moodle/course:manageactivities', $modcontext);
 
-        $template->str = get_string('move');
-
-        $template->url = new moodle_url('/course/mod.php', array('sesskey' => sesskey(), 'copy' => $mod->id));
-
-        $template->sr = $sr;
-
-        if ($sr !== null) {
-            $template->url->param('sr', $sr);
-        }
+        $template->movetitle = get_string('movecoursemodule', 'moodle');
 
         if ($hasmanageactivities) {
             return $this->render_from_template('format_wplist/movecoursemodule', $template);

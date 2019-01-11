@@ -45,8 +45,8 @@ class format_wplist_external extends core_course_external {
      */
     public static function move_section_parameters() {
         return new external_function_parameters([
-            'sectionid' => new external_value(PARAM_INT, 'Section ID', VALUE_DEFAULT, 0),
-            'sectiontarget' => new external_value(PARAM_INT, 'Section Target', VALUE_DEFAULT, 0),
+            'sectionid' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
+            'sectiontarget' => new external_value(PARAM_INT, 'Target section number', VALUE_DEFAULT, 0),
             'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
         ]);
     }
@@ -74,12 +74,13 @@ class format_wplist_external extends core_course_external {
         $courseid = $params['courseid'];
 
         if ($sectionid == 0) {
-            throw new moodle_exception('Bad Section ID ' . $sectionid);
+            throw new moodle_exception('Bad section number ' . $sectionid);
         }
 
         if (!$DB->record_exists('course_sections', array('course' => $courseid, 'section' => $sectionid))) {
-            throw new moodle_exception('Bad Section ID ' . $sectionid);
+            throw new moodle_exception('Bad section number ' . $sectionid);
         }
+        $maxsection = $DB->get_fieldset_sql('SELECT max(section) FROM {course_sections} WHERE course = ?', [$courseid]);
 
         $course = $DB->get_record('course', ['id' => $courseid]);
 
@@ -89,7 +90,17 @@ class format_wplist_external extends core_course_external {
 
         $warnings = [];
 
-        if (!move_section_to($course, $sectionid, $sectiontarget, true)) {
+        if (!$sectiontarget) {
+            $destination = $maxsection;
+        } else if ($sectionid < $sectiontarget) {
+            $destination = $sectiontarget - 1;
+        } else {
+            $destination = $sectiontarget;
+        }
+        if ($destination <=0 || $destination > $maxsection) {
+            throw new moodle_exception('Bad target section number ' . $sectiontarget);
+        }
+        if (!move_section_to($course, $sectionid, $destination, true)) {
             $warnings[] = array(
                 'item' => 'section',
                 'itemid' => $sectionid,
@@ -126,8 +137,8 @@ class format_wplist_external extends core_course_external {
     public static function move_module_parameters() {
         return new external_function_parameters([
             'moduleid' => new external_value(PARAM_INT, 'Module ID', VALUE_DEFAULT, 0),
-            'moduletarget' => new external_value(PARAM_INT, 'Module Target', VALUE_DEFAULT, 0),
-            'sectionid' => new external_value(PARAM_INT, 'Section ID', VALUE_DEFAULT, 0),
+            'moduletarget' => new external_value(PARAM_INT, 'Target module ID', VALUE_DEFAULT, 0),
+            'sectionid' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
             'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
         ]);
     }
@@ -156,8 +167,8 @@ class format_wplist_external extends core_course_external {
         $sectionid = $params['sectionid'];
         $courseid = $params['courseid'];
 
-        if (!$section = $DB->get_record('course_sections', array('course' => $courseid, 'id' => $sectionid))) {
-            throw new moodle_exception('Bad section ID '.$sectionid);
+        if (!$section = $DB->get_record('course_sections', array('course' => $courseid, 'section' => $sectionid))) {
+            throw new moodle_exception('Bad section number '.$sectionid);
         }
 
         $mod = get_coursemodule_from_id(null, $moduleid, $courseid, false, MUST_EXIST);

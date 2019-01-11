@@ -20,15 +20,8 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "movetitle" : "Move resource"
+    }
 }}
-<a href="{{{url}}}"
-	class="movemodule"
-	aria-haspopup="true"
-	data-drag-type="move"
-	data-sectionreturn="{{sr}}"
-	style="cursor: move;"
->
-	<i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-	<span class="sr-only">{{{str}}}</span>
-</a>
+<span class="movemodule">{{> core/drag_handle }}</span>

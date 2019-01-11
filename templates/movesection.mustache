@@ -20,16 +20,8 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "movetitle" : "Move section 4"
+    }
 }}
-<a href="#"
-	role="button"
-	aria-haspopup="true"
-	data-drag-type="move"
-	class="movesection"
-	data-action="movesection"
-	style="cursor: move;"
->
-	<i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i>
-	<span class="sr-only">{{#str}} movesection, core, {{sectionid}} {{/str}}</span>
-</a>
+<span class="movesection" data-action="movesection">{{> core/drag_handle }}</span>
