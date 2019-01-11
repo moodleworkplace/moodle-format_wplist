@@ -23,13 +23,13 @@
  */
 
 $string['currentsection'] = 'This wplist';
-$string['deletesection'] = 'Delete Section';
-$string['sectionname'] = 'Topic';
-$string['pluginname'] = 'Workplace list format';
-$string['section0name'] = 'General';
+$string['deletesection'] = 'Delete section';
+$string['hidefromothers'] = 'Hide section';
+$string['highlight'] = 'Highlight section';
 $string['page-course-view-wplists'] = 'Any course main page in wplists format';
 $string['page-course-view-wplists-x'] = 'Any course page in wplists format';
-$string['hidefromothers'] = 'Hide Section';
-$string['showfromothers'] = 'Show Section';
-$string['highlight'] = 'Highlight Section';
-$string['remhighlight'] = 'Disable Highlight';
+$string['pluginname'] = 'Workplace list format';
+$string['remhighlight'] = 'Disable highlight';
+$string['section0name'] = 'General';
+$string['sectionname'] = 'Topic';
+$string['showfromothers'] = 'Show section';
