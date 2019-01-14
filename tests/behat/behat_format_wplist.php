@@ -40,6 +40,11 @@ use Behat\Gherkin\Node\TableNode as TableNode,
  */
 class behat_format_wplist extends behat_base {
 
+    /**
+     * Get the section CSS selector
+     * @param  int $sectionnumber Section number.
+     * @return string The section css selector.
+     */
     protected function get_section_css_selector(int $sectionnumber) {
         return 'div[data-region=section][data-section=' . $sectionnumber . ']';
     }
