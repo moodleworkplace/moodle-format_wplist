@@ -97,7 +97,7 @@ class format_wplist_external extends core_course_external {
         } else {
             $destination = $sectiontarget;
         }
-        if ($destination <=0 || $destination > $maxsection) {
+        if ($destination <= 0 || $destination > $maxsection) {
             throw new moodle_exception('Bad target section number ' . $sectiontarget);
         }
         if (!move_section_to($course, $sectionid, $destination, true)) {
@@ -148,6 +148,7 @@ class format_wplist_external extends core_course_external {
      *
      * @param int $moduleid module ID
      * @param int $moduletarget module Target ID
+     * @param int $sectionid Section ID
      * @param int $courseid Course ID
      *
      * @return  array of warnings

@@ -416,6 +416,10 @@ class format_wplist_renderer extends format_section_renderer_base {
 
     /**
      * calculates and renders the section completion progressbar
+     *
+     * @param stdClass $course
+     * @param completion_info $completioninfo
+     * @param int $section Section number
      */
     private function course_section_completion($course, &$completioninfo, $section) {
         $template = new stdClass();
@@ -604,7 +608,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             $control->attributes = '';
             if (is_array($action->attributes)) {
                 foreach ($action->attributes as $name => $value) {
-                    $control->attributes .=  $name . '="' . $value . '"';
+                    $control->attributes .= $name . '="' . $value . '"';
                 }
             }
             $control->attribute = $action->attributes;
