@@ -212,7 +212,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         foreach ($modinfo->get_section_info_all() as $section => $thissection) {
 
             $sectiontemp = $thissection;
-            $sectiontemp->sectionid = $section;
+            $sectiontemp->sectionnumber = $section;
             if ($section == 0) {
                 $sectiontemp->expandbtn = true;
             }
@@ -276,9 +276,8 @@ class format_wplist_renderer extends format_section_renderer_base {
 
     /**
      * Renders HTML to display a wplist of course modules in a course section
-     * Also displays "move here" controls in Javascript-disabled mode
      *
-     * This function calls {@link core_course_renderer::course_section_cm()}
+     * This function calls {@link core_course_renderer::course_section_cm_wplist_item()}
      *
      * @param stdClass $course course object
      * @param int|stdClass|section_info $section relative section number or section object
@@ -429,7 +428,7 @@ class format_wplist_renderer extends format_section_renderer_base {
     private function course_section_completion($course, &$completioninfo, $section) {
         $template = new stdClass();
 
-        $template->section = $section;
+        $template->sectionnumber = $section;
 
         $completionok = array(COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS);
         $completionfail = array(COMPLETION_COMPLETE_FAIL, COMPLETION_INCOMPLETE);
@@ -534,7 +533,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
         }
         $template = new stdClass();
-        $template->section = $mod->get_section_info()->section;
+        $template->sectionnumber = $mod->get_section_info()->section;
         $template->mod = $mod;
         $template->completionicon = $completionicon;
         $template->courseid = $course->id;

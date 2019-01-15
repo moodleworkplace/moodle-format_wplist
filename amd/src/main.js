@@ -63,8 +63,8 @@ function(
      * @param {Object} args Arguments to pass to webservice
      *
      * Valid args are:t
-     * int sectionid     id of section to move
-     * int sectiontarget id of section to position after
+     * int sectionnumber number of section to move
+     * int sectiontarget number of section to position after
      * int courseid.     id of course this module belongs to
      *
      * @return {promise} Resolved with void or array of warnings
@@ -87,7 +87,7 @@ function(
      * Valid args are:t
      * int moduleid      id of module to move
      * int moduletarget  id of module to position after
-     * int sectionid     id of section to move module to
+     * int sectionnumber number of section to move module to
      * int courseid.     id of course this section belongs to
      *
      * @return {promise} Resolved with void or array of warnings
@@ -147,11 +147,11 @@ function(
      * Update the section completion progress bar.
      *
      * @param {Object} root The course format root container element.
-     * @param {Number} sectionid Section ID.
+     * @param {Number} sectionnumber Section ID.
      * @param {Number} targetstate New state.
      */
-    var updateSectionCompletion = function(root, sectionid, targetstate) {
-        var sectionprogress = root.find('#sectionprogress-' + sectionid);
+    var updateSectionCompletion = function(root, sectionnumber, targetstate) {
+        var sectionprogress = root.find('#sectionprogress-' + sectionnumber);
         var completedmodules = sectionprogress.attr('data-completed-modules');
         var completionmodules = sectionprogress.attr('data-completion-modules');
         if (targetstate == 1) {
@@ -179,21 +179,21 @@ function(
             var expand = $(e.target).closest(SELECTORS.EXPAND_SECTIONS);
             var openmsg = expand.find(SELECTORS.EXPAND_SECTIONS_OPEN);
             var closedmsg = expand.find(SELECTORS.EXPAND_SECTIONS_CLOSED);
-            var open = expand.attr('data-expended');
+            var open = expand.attr('data-expanded');
             if (open == 0) {
                 $('[data-region="sectioncollapse"]').each(function() {
                     $(this).addClass('show');
                 });
                 openmsg.removeClass('hidden');
                 closedmsg.addClass('hidden');
-                expand.attr('data-expended', 1);
+                expand.attr('data-expanded', 1);
             } else {
                 $('[data-region="sectioncollapse"]').each(function() {
                     $(this).removeClass('show');
                 });
                 openmsg.addClass('hidden');
                 closedmsg.removeClass('hidden');
-                expand.attr('data-expended', 0);
+                expand.attr('data-expanded', 0);
             }
         });
 
@@ -204,7 +204,7 @@ function(
             var targetstate = cc.attr('data-targetstate');
             var courseid = cc.attr('data-courseid');
             var checked = cc.attr('data-checked');
-            var sectionid = cc.attr('data-sectionid');
+            var sectionnumber = cc.attr('data-sectionnumber');
 
             var args = {
                 moduleid: moduleid,
@@ -214,7 +214,7 @@ function(
 
             checkCompletion(args).then(function() {
                 checkCompletionIcon(cc, checked);
-                updateSectionCompletion(root, sectionid, targetstate);
+                updateSectionCompletion(root, sectionnumber, targetstate);
             });
         });
 
@@ -232,7 +232,7 @@ function(
             return element.find('.cmname .inplaceeditable').text();
         };
         var findClosestSection = function(element) {
-            return element.closest('[data-region="section"][data-section]');
+            return element.closest('[data-region="section"][data-sectionnumber]');
         };
 
         var sectionsSortable = new Sortablewplist(sectionsContainer, {moveHandlerSelector: '.movesection > [data-drag-type=move]'});
@@ -259,39 +259,38 @@ function(
         sections.on(Sortablewplist.EVENTS.DROP, function(e, info) {
             e.stopPropagation();
             if (info.positionChanged) {
-                if (info.element.attr('data-section')) {
-                    if (info.targetNextElement && info.targetNextElement.attr('data-section') === "0") {
+                if (info.element.attr('data-sectionnumber')) {
+                    if (info.targetNextElement && info.targetNextElement.attr('data-sectionnumber') === "0") {
                         // Can not move before general section.
                         sectionsSortable.moveElement(info.sourceList, info.sourceNextElement);
                         return;
                     }
-                    var sectionid = info.element.attr('data-section');
-                    var sectiontarget = info.targetNextElement.attr('data-section');
+                    var sectionnumber = info.element.attr('data-sectionnumber');
+                    var sectiontarget = info.targetNextElement.attr('data-sectionnumber');
                     var args = {
-                        sectionid: sectionid,
+                        sectionnumber: sectionnumber,
                         sectiontarget: sectiontarget,
                         courseid: courseid
                     };
-                    moveSection(args).then(function(result) {
-                        info.element.attr('data-section', sectiontarget);
-                        info.targetNextElement.attr('data-section', sectionid);
-                        Log.debug(result);
+                    moveSection(args).then(function() {
+                        info.element.attr('data-sectionnumber', sectiontarget);
+                        info.targetNextElement.attr('data-sectionnumber', sectionnumber);
                     }).catch(Notification.exception);
                 }
                 if (info.element.attr('data-module')) {
                     var moduleid = info.element.attr('data-module');
                     var moduletarget = info.targetNextElement.attr('data-module');
-                    var sectionid = findClosestSection(info.targetList).attr('data-section');
+                    var sectionnumber = findClosestSection(info.targetList).attr('data-sectionnumber');
                     var args = {
                         moduleid: moduleid,
                         moduletarget: moduletarget,
-                        sectionid: sectionid,
+                        sectionnumber: sectionnumber,
                         courseid: courseid
                     };
-                    moveModule(args).then(function(result) {
+                    Log.debug(args);
+                    moveModule(args).then(function() {
                         info.element.attr('data-module', moduletarget);
                         info.targetNextElement.attr('data-module', moduleid);
-                        Log.debug(result);
                     }).catch(Notification.exception);
                 }
             }

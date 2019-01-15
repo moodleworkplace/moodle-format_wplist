@@ -20,7 +20,12 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "modules": "Course modules html",
+        "editing": true,
+        "nomodules": false,
+        "section": 2
+    }
 }}
 <div class="section-modules wplist-group" data-region="course-modules">
 	{{#modules}}

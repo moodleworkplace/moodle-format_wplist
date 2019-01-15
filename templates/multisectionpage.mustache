@@ -20,25 +20,48 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "uniqid": 123456,
+        "completioninfo": "completion help icon html",
+        "courseactivityclipboard": "course activity clipboard html",
+        "courseid": 3,
+        "editing": true,
+        "sections": [
+            {
+                "sectionnumber": 1,
+                "visible": true,
+                "mutedsection": false,
+                "editing": true,
+                "move": true,
+                "availableinfo": true,
+                "availabilitymsg": "Not available untill you complete..",
+                "name": "Section 1",
+                "completion": "<progress>..</progress>",
+                "editsection": "<div class='dropdown'>..</div>",
+                "expandbtn": true,
+                "summary": "This is section 2",
+                "accordion": false,
+                "coursemodules": "Course modules HTML"
+            }
+        ]
+    }
 }}
 
 <div id="format-wplist-{{uniqid}}" class="formatwplistcontent">
     {{{completioninfo}}}
-    {{{heading}}}
     {{{courseactivityclipboard}}}
     <div class="accordion" id="formatwplist" data-region="section-container" data-is-root="1" data-courseid="{{courseid}}">
         {{#sections}}
-            <div id="section-{{sectionid}}"
+            <div id="section-{{sectionnumber}}"
                 class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}"
                 data-region="section"
-                data-section="{{sectionid}}">
+                data-sectionnumber="{{sectionnumber}}">
                 <div
                     class="card-header section-header p-0
                         {{#mutedsection}} bg-gray030 {{/mutedsection}}
                         {{#visible}}bg-white{{/visible}}
                         {{^editing}}border-top border-bottom-0{{/editing}}"
-                    id="heading{{sectionid}}"
+                    id="heading{{sectionnumber}}"
                 >
                     <div class="d-flex align-items-center">
                         {{#move}}
@@ -48,20 +71,20 @@
                             <div class="sectionindent">
                             </div>
                         {{/move}}
-                            {{#availableinfo}}
-                                <span class="availability position-absolute {{#editing}}pl-3{{/editing}}">
-                                    <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
-                                        <i class="icon fa fa-lock"></i>
-                                    </button>
-                                </span>
-                            {{/availableinfo}}
+                        {{#availableinfo}}
+                            <span class="availability position-absolute {{#editing}}pl-3{{/editing}}">
+                                <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{"availabilitymsg"}}}'>
+                                    <i class="icon fa fa-lock"></i>
+                                </button>
+                            </span>
+                        {{/availableinfo}}
                         <button
                             class="btn btn-link w-100 p-2 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
                             type="button"
                             data-toggle="collapse"
-                            data-target="#sectioncontent-{{sectionid}}"
-                            aria-expanded="true"
-                            aria-controls="collapseOne"
+                            data-target="#sectioncontent-{{sectionnumber}}"
+                            aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
+                            aria-controls="sectioncontent-{{sectionnumber}}"
                         >
                             <span class="togglesectionicon collapsed-icon-container mr-1">
                                 {{#pix}} t/collapsedcaret, core {{/pix}}
@@ -78,25 +101,19 @@
                         {{#editing}}
                         <span class="editoptions ml-auto align-self-stretch d-flex p-2">
                             {{{editsection}}}
-                            {{{addcm}}}
                         </span>
                         {{/editing}}
                     </div>
                     {{#expandbtn}}
                     <div class="d-flex">
-                        {{^editing}}
-                        <button id="expandaccordion" class="ml-auto mr-4 btn btn-link btn-sm" data-action="expand" data-expended="0">
-                            <span class="closed" data-region="collapsed-closed">
-                                {{#str}}expandall{{/str}}
-                            </span>
-                            <span class="open hidden" data-region="collapsed-open">
-                                {{#str}}collapseall{{/str}}
-                            </span>
-                        </button>
-                        {{/editing}}
                         {{#editing}}
                         <span class="editoptions ml-auto align-self-stretch d-flex p-2">
-                            <button id="expandaccordion" class="ml-auto btn btn-link btn-sm" data-action="expand" data-expended="0">
+                        {{/editing}}
+                            <button id="expandaccordion"
+                                class="ml-auto mr-4 btn btn-link btn-sm"
+                                data-action="expand"
+                                data-expanded="0"
+                            >
                                 <span class="closed" data-region="collapsed-closed">
                                     {{#str}}expandall{{/str}}
                                 </span>
@@ -104,6 +121,7 @@
                                     {{#str}}collapseall{{/str}}
                                 </span>
                             </button>
+                        {{#editing}}
                         </span>
                         {{/editing}}
                     </div>
@@ -123,9 +141,9 @@
                 </div>
 
                 <div
-                    id="sectioncontent-{{sectionid}}"
+                    id="sectioncontent-{{sectionnumber}}"
                     class="sectioncontent collapse {{#expanded}}show{{/expanded}} "
-                    aria-labelledby="section-{{sectionid}}"
+                    aria-labelledby="section-{{sectionnumber}}"
                     data-region="sectioncollapse"
                     {{#accordion}}
                     data-parent="#formatwplist"

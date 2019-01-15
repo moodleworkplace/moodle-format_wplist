@@ -45,7 +45,7 @@ class format_wplist_external extends core_course_external {
      */
     public static function move_section_parameters() {
         return new external_function_parameters([
-            'sectionid' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
+            'sectionnumber' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
             'sectiontarget' => new external_value(PARAM_INT, 'Target section number', VALUE_DEFAULT, 0),
             'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
         ]);
@@ -54,31 +54,31 @@ class format_wplist_external extends core_course_external {
     /**
      * Move course section.
      *
-     * @param int $sectionid Section ID
-     * @param int $sectiontarget Section Target ID
+     * @param int $sectionnumber Section Number
+     * @param int $sectiontarget Section Target Number
      * @param int $courseid Course ID
      *
      * @return  array of warnings
      */
-    public static function move_section($sectionid, $sectiontarget, $courseid) {
+    public static function move_section($sectionnumber, $sectiontarget, $courseid) {
         global $DB;
 
         $params = self::validate_parameters(self::move_section_parameters(), [
-            'sectionid' => $sectionid,
+            'sectionnumber' => $sectionnumber,
             'sectiontarget' => $sectiontarget,
             'courseid' => $courseid
         ]);
 
-        $sectionid = $params['sectionid'];
+        $sectionnumber = $params['sectionnumber'];
         $sectiontarget = $params['sectiontarget'];
         $courseid = $params['courseid'];
 
-        if ($sectionid == 0) {
-            throw new moodle_exception('Bad section number ' . $sectionid);
+        if ($sectionnumber == 0) {
+            throw new moodle_exception('Bad section number ' . $sectionnumber);
         }
 
-        if (!$DB->record_exists('course_sections', array('course' => $courseid, 'section' => $sectionid))) {
-            throw new moodle_exception('Bad section number ' . $sectionid);
+        if (!$DB->record_exists('course_sections', array('course' => $courseid, 'section' => $sectionnumber))) {
+            throw new moodle_exception('Bad section number ' . $sectionnumber);
         }
         $maxsection = $DB->get_fieldset_sql('SELECT max(section) FROM {course_sections} WHERE course = ?', [$courseid]);
 
@@ -92,7 +92,7 @@ class format_wplist_external extends core_course_external {
 
         if (!$sectiontarget) {
             $destination = $maxsection;
-        } else if ($sectionid < $sectiontarget) {
+        } else if ($sectionnumber < $sectiontarget) {
             $destination = $sectiontarget - 1;
         } else {
             $destination = $sectiontarget;
@@ -100,12 +100,12 @@ class format_wplist_external extends core_course_external {
         if ($destination <= 0 || $destination > $maxsection) {
             throw new moodle_exception('Bad target section number ' . $sectiontarget);
         }
-        if (!move_section_to($course, $sectionid, $destination, true)) {
+        if (!move_section_to($course, $sectionnumber, $destination, true)) {
             $warnings[] = array(
                 'item' => 'section',
-                'itemid' => $sectionid,
+                'itemid' => $sectionnumber,
                 'warningcode' => 'movesectionfailed',
-                'message' => 'Section: ' . $sectionid . ' SectionTarget: ' . $sectiontarget . ' CourseID: ' . $courseid
+                'message' => 'Section: ' . $sectionnumber . ' SectionTarget: ' . $sectiontarget . ' CourseID: ' . $courseid
             );
         }
 
@@ -138,7 +138,7 @@ class format_wplist_external extends core_course_external {
         return new external_function_parameters([
             'moduleid' => new external_value(PARAM_INT, 'Module ID', VALUE_DEFAULT, 0),
             'moduletarget' => new external_value(PARAM_INT, 'Target module ID', VALUE_DEFAULT, 0),
-            'sectionid' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
+            'sectionnumber' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
             'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
         ]);
     }
@@ -148,28 +148,28 @@ class format_wplist_external extends core_course_external {
      *
      * @param int $moduleid module ID
      * @param int $moduletarget module Target ID
-     * @param int $sectionid Section ID
+     * @param int $sectionnumber Section Number
      * @param int $courseid Course ID
      *
      * @return  array of warnings
      */
-    public static function move_module($moduleid, $moduletarget, $sectionid, $courseid) {
+    public static function move_module($moduleid, $moduletarget, $sectionnumber, $courseid) {
         global $DB;
 
         $params = self::validate_parameters(self::move_module_parameters(), [
             'moduleid' => $moduleid,
             'moduletarget' => $moduletarget,
-            'sectionid' => $sectionid,
+            'sectionnumber' => $sectionnumber,
             'courseid' => $courseid
         ]);
 
         $moduleid = $params['moduleid'];
         $moduletarget = $params['moduletarget'];
-        $sectionid = $params['sectionid'];
+        $sectionnumber = $params['sectionnumber'];
         $courseid = $params['courseid'];
 
-        if (!$section = $DB->get_record('course_sections', array('course' => $courseid, 'section' => $sectionid))) {
-            throw new moodle_exception('Bad section number '.$sectionid);
+        if (!$section = $DB->get_record('course_sections', array('course' => $courseid, 'section' => $sectionnumber))) {
+            throw new moodle_exception('Bad section number '.$sectionnumber);
         }
 
         $mod = get_coursemodule_from_id(null, $moduleid, $courseid, false, MUST_EXIST);
@@ -187,7 +187,7 @@ class format_wplist_external extends core_course_external {
                 'itemid' => $moduleid,
                 'warningcode' => 'movemodulefailed',
                 'message' => 'module: ' . $moduleid . ' moduleTarget: ' . $moduletarget .
-                    ' CourseID: ' . $courseid . ' SectionID ' . $sectionid
+                    ' CourseID: ' . $courseid . ' sectionnumber ' . $sectionnumber
             );
         }
 

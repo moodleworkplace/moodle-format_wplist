@@ -20,7 +20,22 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "hascompletion": true,
+        "editing": false,
+        "self": true,
+        "auto": false,
+        "imgalt": "completed when ...",
+        "newstate": 1,
+        "mod": {
+            "id": 254,
+            "name": "Activity One",
+            "courseid": 3,
+            "completionicon": "manual-n",
+            "checked": false,
+            "sectionnumber": 2
+        }
+    }
 }}
 {{#hascompletion}}
     {{#editing}}
@@ -49,7 +64,7 @@
                 data-courseid="{{courseid}}"
                 data-image="{{completionicon}}"
                 data-checked="{{#checked}}1{{/checked}}{{^checked}}0{{/checked}}"
-                data-sectionid="{{section}}"
+                data-sectionnumber="{{sectionnumber}}"
             >
                 <div data-region="checkon" class="checkbox-icon {{^checked}}hidden{{/checked}}">
                     {{#pix}}check-on, format_wplist{{/pix}}

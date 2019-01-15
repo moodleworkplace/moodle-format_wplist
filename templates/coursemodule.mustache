@@ -20,12 +20,24 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "editing": false,
+        "availability": "Not available until..",
+        "text": "Module description text",
+        "cmname": "Quiz Math 01",
+        "editoptions": "<div class='dropdown'>edit</div>",
+        "moveicons": "<div><i class='fa fa-arrows'></i></div>",
+        "mod": {
+            "id": 234,
+            "section": 245,
+            "uservisible": true,
+            "afterlink": "<a href='..'>Linkname</a>"
+        }
+    }
 }}
 <div id="module-{{mod.id}}"
     data-region="module"
     data-module="{{mod.id}}"
-    data-module-section="{{mod.section}}"
     class="wplist-group-item p-0 w-100
         {{^mod.uservisible}} notavailable bg-gray020 {{/mod.uservisible}}
         {{^editing}}border-0{{/editing}}
