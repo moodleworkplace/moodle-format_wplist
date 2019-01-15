@@ -46,7 +46,7 @@ class behat_format_wplist extends behat_base {
      * @return string The section css selector.
      */
     protected function get_section_css_selector(int $sectionnumber) {
-        return 'div[data-region=section][data-section=' . $sectionnumber . ']';
+        return 'div[data-region=sectionnumber][data-section=' . $sectionnumber . ']';
     }
 
     /**
