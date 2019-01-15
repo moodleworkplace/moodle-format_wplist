@@ -15,28 +15,17 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template format_wplist/coursemodules
+    @template format_wplist/change_number_sections
 
     This template renders action menu for each course.
 
     Example context (json):
     {}
 }}
-<div class="section-modules wplist-group" data-region="course-modules">
-	{{#modules}}
-		{{{.}}}
-	{{/modules}}
-    {{#editing}}
-        {{#nomodules}}
-            <div
-                data-region="module"
-                data-module="0"
-                data-module-section="{{section}}"
-                class="wplist-group-item p-1 w-100
-                    border-bottom
-                    activity"
-            >
-            </div>
-        {{/nomodules}}
-    {{/editing}}
+
+<div id="changenumsections">
+    <a href="{{{url}}}" class="increase-sections" data-add-sections="{{#str}}addsections{{/str}}" new-sections="{{newsections}}">
+        <i class="fa fa-plus-circle addsectionicon"></i>
+        <span class="sr-only">{{#str}} addsections {{/str}}</span>
+    </a>
 </div>

@@ -245,6 +245,7 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         if ($PAGE->user_is_editing() and has_capability('moodle/course:update', $context)) {
             $template->editing = true;
+            $template->addsection = $this->wplist_change_number_sections($course, 0);
         }
 
         echo $this->render_from_template('format_wplist/multisectionpage', $template);
@@ -290,6 +291,8 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         $template = new stdClass();
 
+        $template->section = $section->section;
+
         $modinfo = get_fast_modinfo($course);
         if (is_object($section)) {
             $section = $modinfo->get_section_info($section->section);
@@ -310,6 +313,8 @@ class format_wplist_renderer extends format_section_renderer_base {
                 $template->modules[] = $this->course_section_cm_wplist_item($course,
                     $completioninfo, $mod, $sectionreturn, $displayoptions);
             }
+        } else {
+            $template->nomodules = true;
         }
         return $this->render_from_template('format_wplist/coursemodules', $template);
     }
@@ -619,5 +624,39 @@ class format_wplist_renderer extends format_section_renderer_base {
         }
 
         return $this->render_from_template('format_wplist/editactivity', $template);
+    }
+
+    /**
+     * Returns controls in the bottom of the page to increase/decrease number of sections
+     *
+     * @param stdClass $course
+     * @param int|null $sectionreturn
+     * @return string
+     */
+    private function wplist_change_number_sections($course, $sectionreturn = null) {
+        $coursecontext = context_course::instance($course->id);
+        if (!has_capability('moodle/course:update', $coursecontext)) {
+            return '';
+        }
+
+        $format = course_get_format($course);
+        $options = $format->get_format_options();
+        $maxsections = $format->get_max_sections();
+        $lastsection = $format->get_last_section_number();
+
+        if ($lastsection >= $maxsections) {
+            return;
+        }
+
+        $template = new stdClass();
+        $template->url = new moodle_url('/course/changenumsections.php',
+            ['courseid' => $course->id, 'insertsection' => 0, 'sesskey' => sesskey()]);
+
+        if ($sectionreturn !== null) {
+            $template->url->param('sectionreturn', $sectionreturn);
+        }
+        $template->newsections = $maxsections - $lastsection;
+
+        return $this->render_from_template('format_wplist/change_number_sections', $template);
     }
 }

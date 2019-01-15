@@ -29,7 +29,10 @@
     {{{courseactivityclipboard}}}
     <div class="accordion" id="formatwplist" data-region="section-container" data-is-root="1" data-courseid="{{courseid}}">
         {{#sections}}
-            <div class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}" data-region="section" data-section="{{sectionid}}">
+            <div id="section-{{sectionid}}"
+                class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}"
+                data-region="section"
+                data-section="{{sectionid}}">
                 <div
                     class="card-header section-header p-0
                         {{#mutedsection}} bg-gray030 {{/mutedsection}}
@@ -56,7 +59,7 @@
                             class="btn btn-link w-100 p-2 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
                             type="button"
                             data-toggle="collapse"
-                            data-target="#section-{{sectionid}}"
+                            data-target="#sectioncontent-{{sectionid}}"
                             aria-expanded="true"
                             aria-controls="collapseOne"
                         >
@@ -120,8 +123,8 @@
                 </div>
 
                 <div
-                    id="section-{{sectionid}}"
-                    class="collapse {{#expanded}}show{{/expanded}} "
+                    id="sectioncontent-{{sectionid}}"
+                    class="sectioncontent collapse {{#expanded}}show{{/expanded}} "
                     aria-labelledby="section-{{sectionid}}"
                     data-region="sectioncollapse"
                     {{#accordion}}
@@ -135,8 +138,11 @@
             </div>
         {{/sections}}
     </div>
-
-    {{{changenumber}}}
+    {{#addsection}}
+        <div class="addsectionwrapper">
+            {{{addsection}}}
+        </div>
+    {{/addsection}}
 </div>
 {{#js}}
 require(
