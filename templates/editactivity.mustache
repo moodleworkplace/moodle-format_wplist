@@ -20,7 +20,19 @@
     This template renders action menu for each course.
 
     Example context (json):
-    {}
+    {
+        "controls": [
+            {
+                "url": "http://moodle.site/course/mod.php?hide=103",
+                "attributes": "data-action='hide'",
+                "string": "hide",
+                "alt": "hide",
+                "icon": {
+                    "pix": "t/hide"
+                }
+            }
+        ]
+    }
 }}
 <div class="activityactions dropdown align-self-center ml-auto mr-2">
     <a class="p-1" aria-expanded="true" data-toggle="dropdown" href="">
@@ -29,8 +41,8 @@
 
     <div class="dropdown-menu dropdown-menu-right">
         {{#controls}}
-        <a class="dropdown-item" href="{{{url}}}" title="{{{title}}}" {{{attributes}}}>
-            <span class="text-primary">{{#pix}} {{icon.pix}}, core, {{alt}} {{/pix}}</span>
+        <a class="dropdown-item" href="{{{url}}}" title="{{{string}}}" {{{attributes}}}>
+            <span class="text-primary">{{#pix}} {{icon.pix}}, core {{/pix}}</span>
             {{{string}}}
         </a>
         {{/controls}}

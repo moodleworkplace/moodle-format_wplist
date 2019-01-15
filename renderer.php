@@ -615,9 +615,7 @@ class format_wplist_renderer extends format_section_renderer_base {
                     $control->attributes .= $name . '="' . $value . '"';
                 }
             }
-            $control->attribute = $action->attributes;
             $control->url = $action->url;
-            $control->title = $action->text;
             $control->string = $action->text;
             $template->controls[] = $control;
         }
