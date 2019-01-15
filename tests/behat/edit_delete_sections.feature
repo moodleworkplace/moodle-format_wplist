@@ -78,16 +78,16 @@ Feature: Sections can be edited and deleted in wplist format
     And I should see "Test choice name" in the "[data-region=section][data-sectionnumber=4]" "css_element"
     And I should see "Topic 4"
 
-#  Scenario: Adding sections in wplist format
-#    When I follow "Add sections"
-#    Then the field "Number of sections" matches value "1"
-#    And I press "Add sections"
-#    And I should see "Topic 6" in the "[data-region=section][data-sectionnumber=6]" "css_element"
-#    And "[data-region=section][data-sectionnumber=7]" "css_element" should not exist
-#    And I follow "Add sections"
-#    And I set the field "Number of sections" to "3"
-#    And I press "Add sections"
-#    And I should see "Topic 7" in the "[data-region=section][data-sectionnumber=7]" "css_element"
-#    And I should see "Topic 8" in the "[data-region=section][data-sectionnumber=8]" "css_element"
-#    And I should see "Topic 9" in the "[data-region=section][data-sectionnumber=9]" "css_element"
-#    And "[data-region=section][data-sectionnumber=10]" "css_element" should not exist
+  Scenario: Adding sections in wplist format
+    When I follow "Add sections"
+    Then the field "Number of sections" matches value "1"
+    And I press "Add sections"
+    And I should see "Topic 6" in the "[data-region=section][data-sectionnumber=6]" "css_element"
+    And "[data-region=section][data-sectionnumber=7]" "css_element" should not exist
+    And I follow "Add sections"
+    And I set the field "Number of sections" to "3"
+    And I press "Add sections"
+    And I should see "Topic 7" in the "[data-region=section][data-sectionnumber=7]" "css_element"
+    And I should see "Topic 8" in the "[data-region=section][data-sectionnumber=8]" "css_element"
+    And I should see "Topic 9" in the "[data-region=section][data-sectionnumber=9]" "css_element"
+    And "[data-region=section][data-sectionnumber=10]" "css_element" should not exist
