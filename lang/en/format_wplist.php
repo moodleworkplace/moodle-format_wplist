@@ -29,6 +29,7 @@ $string['highlight'] = 'Highlight section';
 $string['page-course-view-wplists'] = 'Any course main page in wplists format';
 $string['page-course-view-wplists-x'] = 'Any course page in wplists format';
 $string['pluginname'] = 'Workplace list format';
+$string['privacy:metadata'] = 'The WPlist format plugin does not store any personal data.';
 $string['remhighlight'] = 'Disable highlight';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';

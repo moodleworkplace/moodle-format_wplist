@@ -26,10 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot. '/course/format/lib.php');
 
 /**
- * Main class for the Topics course format
+ * Main class for the WPlist course format
  *
  * @package    format_wplist
- * @copyright  2012 Marina Glancy
+ * @copyright  2019 <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_wplist extends format_base {
