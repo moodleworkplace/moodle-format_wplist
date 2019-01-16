@@ -652,7 +652,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         if ($sectionreturn !== null) {
             $template->url->param('sectionreturn', $sectionreturn);
         }
-        $template->newsections = $maxsections - $lastsection;
+        $template->attributes = [['name' => 'new-sections', 'value' => $maxsections - $lastsection]];
 
         return $this->render_from_template('format_wplist/change_number_sections', $template);
     }

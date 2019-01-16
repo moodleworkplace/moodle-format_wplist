@@ -46,7 +46,7 @@ class behat_format_wplist extends behat_base {
      * @return string The section css selector.
      */
     protected function get_section_css_selector(int $sectionnumber) {
-        return 'div[data-region=section][data-section=' . $sectionnumber . ']';
+        return 'div[data-region=sectionnumber][data-section=' . $sectionnumber . ']';
     }
 
     /**
@@ -59,7 +59,7 @@ class behat_format_wplist extends behat_base {
     protected function section_exists($sectionnumber) {
 
         // Just to give more info in case it does not exist.
-        $xpath = "//div[@data-region='section' and @data-section='" . $sectionnumber . "']";
+        $xpath = "//div[@data-region='section' and @data-sectionnumber='" . $sectionnumber . "']";
         $exception = new ElementNotFoundException($this->getSession(), "Section $sectionnumber with xpath $xpath ");
         $this->find('xpath', $xpath, $exception);
 
