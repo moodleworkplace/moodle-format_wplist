@@ -44,17 +44,15 @@
         {{#editing}}border-bottom{{/editing}}
         activity type-{{mod.modname}} {{mod.extraclasses}}"
 >
-    <div class="d-flex align-items-center module-content position-relative">
+    <div class="d-flex align-items-start module-content position-relative">
 
         {{#editing}}
-        <span class="moveoptions position-absolute align-self-start">
             {{{moveicons}}}
-        </span>
         {{/editing}}
 
         {{#availability}}
-            <span class="availability position-absolute {{#editing}}pl-4{{/editing}}">
-                <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
+            <span class="availability iconlarge nomargin">
+                <button class="btn btn-link border-0 p-3" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
                     <i class="icon fa fa-lock"></i>
                 </button>
             </span>
@@ -62,19 +60,23 @@
 
         {{^availability}}
             {{#completion}}
-                <span class="completion position-absolute pl-4 {{#editing}}ml-4{{/editing}} align-self-start">
+                <span class="completion iconlarge nomargin p-3 align-self-start">
                     {{{completion}}}
                 </span>
             {{/completion}}
+            {{^completion}}
+            <div class="iconlarge nomargin p-3">
+                <i class="icon fa fa-fw"></i>
+            </div>
+            {{/completion}}
         {{/availability}}
 
-        <div class="indent">
-        </div>
-
-        <div class="d-flex flex-column cname-text align-self-start {{#editing}}pl-4{{/editing}}">
-            <span class="d-flex cmname">
+        <div class="d-flex flex-column pt-3 align-self-start pl-1">
+            {{#cmname}}
+            <span class="d-flex cmname pb-2 iconlarge">
                 {{{cmname}}}
             </span>
+            {{/cmname}}
             {{#text}}
                 <span class="text d-flex mb-2">
                     {{{text}}}

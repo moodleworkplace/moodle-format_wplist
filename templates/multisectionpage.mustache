@@ -57,46 +57,87 @@
                 data-region="section"
                 data-sectionnumber="{{sectionnumber}}">
                 <div
-                    class="card-header section-header p-0
+                    class="border-bottom section-header p-0
                         {{#mutedsection}} bg-gray030 {{/mutedsection}}
                         {{#visible}}bg-white{{/visible}}
                         {{^editing}}border-top border-bottom-0{{/editing}}"
                     id="heading{{sectionnumber}}"
                 >
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-start">
                         {{#move}}
-                            <div class="moveoptions position-absolute">
-                                {{> format_wplist/movesection }}
-                            </div>
-                            <div class="sectionindent">
-                            </div>
+                            {{> format_wplist/movesection }}
                         {{/move}}
                         {{#availableinfo}}
-                            <span class="availability position-absolute {{#editing}}pl-3{{/editing}}">
+                            <span class="availability {{#editing}}pl-3{{/editing}}">
                                 <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{"availabilitymsg"}}}'>
                                     <i class="icon fa fa-lock"></i>
                                 </button>
                             </span>
                         {{/availableinfo}}
-                        <button
-                            class="btn btn-link w-100 p-2 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#sectioncontent-{{sectionnumber}}"
-                            aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
-                            aria-controls="sectioncontent-{{sectionnumber}}"
-                        >
-                            <span class="togglesectionicon collapsed-icon-container mr-1">
-                                {{#pix}} t/collapsedcaret, core {{/pix}}
-                            </span>
-                            <span class="togglesectionicon expanded-icon-container mr-1">
-                                {{#pix}} t/expanded, core {{/pix}}
-                            </span>
-                            <h3 class="sectionname">{{{name}}}</h3>
-                            <div class="pr-4 d-flex flex-column ml-auto">
+                            <button
+                                class="btn btn-link p-3 d-flex align-items-center border-0 course-section-toggle {{^expanded}}collapsed{{/expanded}}"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#sectioncontent-{{sectionnumber}}"
+                                aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
+                                aria-controls="sectioncontent-{{sectionnumber}}"
+                            >
+                                <span class="togglesectionicon collapsed-icon-container nomargin iconlarge">
+                                    {{#pix}} t/collapsedcaret, core {{/pix}}
+                                </span>
+                                <span class="togglesectionicon expanded-icon-container nomargin iconlarge">
+                                    {{#pix}} t/expanded, core {{/pix}}
+                                </span>
+                            </button>
+                            <div class="d-flex flex-column">
+                            <h3
+                                class="sectionname pt-2 mt-1 iconlarge"
+                                {{^editing}}
+                                    data-toggle="collapse"
+                                    data-target="#sectioncontent-{{sectionnumber}}"
+                                    aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
+                                    aria-controls="sectioncontent-{{sectionnumber}}"
+                                {{/editing}}
+                            >
+                                {{{name}}}
+                            </h3>
+                                {{#summary}}
+                                    <div class="d-flex align-items-center">
+                                        <div class="sectionsummary pb-3">
+                                            {{{summary}}}
+                                        </div>
+                                    </div>
+                                {{/summary}}
+                            </div>
+                            <button
+                                class="btn btn-link flex-fill p-3 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#sectioncontent-{{sectionnumber}}"
+                                aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
+                                aria-controls="sectioncontent-{{sectionnumber}}"
+                            >
+                                &nbsp;
+                            </button>
+                            <div class="pr-4 d-flex align-items-center">
+                               {{#expandbtn}}
+                                <div class="d-flex">
+                                    <button id="expandaccordion"
+                                        class="ml-auto mr-4 btn btn-link btn-sm"
+                                        data-action="expand"
+                                        data-expanded="0"
+                                    >
+                                        <span class="closed" data-region="collapsed-closed">
+                                            {{#str}}expandall{{/str}}
+                                        </span>
+                                        <span class="open hidden" data-region="collapsed-open">
+                                            {{#str}}collapseall{{/str}}
+                                        </span>
+                                    </button>
+                                </div>
+                                {{/expandbtn}}
                                 {{{completion}}}
                             </div>
-                        </button>
 
                         {{#editing}}
                         <span class="editoptions ml-auto align-self-stretch d-flex p-2">
@@ -104,40 +145,6 @@
                         </span>
                         {{/editing}}
                     </div>
-                    {{#expandbtn}}
-                    <div class="d-flex">
-                        {{#editing}}
-                        <span class="editoptions ml-auto align-self-stretch d-flex p-2">
-                        {{/editing}}
-                            <button id="expandaccordion"
-                                class="ml-auto mr-4 btn btn-link btn-sm"
-                                data-action="expand"
-                                data-expanded="0"
-                            >
-                                <span class="closed" data-region="collapsed-closed">
-                                    {{#str}}expandall{{/str}}
-                                </span>
-                                <span class="open hidden" data-region="collapsed-open">
-                                    {{#str}}collapseall{{/str}}
-                                </span>
-                            </button>
-                        {{#editing}}
-                        </span>
-                        {{/editing}}
-                    </div>
-                    {{/expandbtn}}
-
-                    {{#summary}}
-                    <div class="d-flex align-items-center">
-                        <div class="sectionsummary pr-3 pb-3 {{#editing}}ml-4{{/editing}}">
-                            {{{summary}}}
-                        </div>
-                        {{#editing}}
-                            <span class="editoptions ml-auto align-self-stretch p-2">
-                            </span>
-                        {{/editing}}
-                    </div>
-                    {{/summary}}
                 </div>
 
                 <div

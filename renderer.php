@@ -271,7 +271,7 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     public function section_title($section, $course) {
-        return $this->render(course_get_format($course)->inplace_editable_render_section_name($section));
+        return $this->render(course_get_format($course)->inplace_editable_render_section_name($section, false));
     }
 
     /**
