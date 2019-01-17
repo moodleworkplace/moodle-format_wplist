@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the Workplace wplist course format
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Version details
  *
- * @package     format_wplist
- * @copyright   2018 SP
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_wplist
+ * @copyright  2019 <bas@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+$plugin->version   = 2019010303;
+$plugin->requires  = 2018120301;
 $plugin->component = 'format_wplist';
-$plugin->release = '0.1.0';
-$plugin->version = 2019010300;
-$plugin->requires = 2018051700;
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->release   = '0.1.0';
+$plugin->maturity  = MATURITY_ALPHA;

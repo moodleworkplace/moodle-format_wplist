@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>module/check-green--dotted</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M23.8598,10.1589054 L21.8308761,10.1589054 C21.0920347,6.18889252 18.0077208,3.04337839 14.0701,2.21452865 L14.0701,0.177698761 C19.1163787,1.05430609 23.0786498,5.08041281 23.8598,10.1589054 Z M23.8598,13.8410946 C23.0786498,18.9195872 19.1163787,22.9456939 14.0701,23.8223012 L14.0701,21.7854713 C18.0077208,20.9566216 21.0920347,17.8111075 21.8308761,13.8410946 L23.8598,13.8410946 Z M0.140200048,13.8410946 L2.16912394,13.8410946 C2.90796532,17.8111075 5.99227922,20.9566216 9.92989998,21.7854713 L9.92989998,23.8223012 C4.88362131,22.9456939 0.921350168,18.9195872 0.140200048,13.8410946 Z M0.140200048,10.1589054 C0.921350168,5.08041281 4.88362131,1.05430609 9.92989998,0.177698761 L9.92989998,2.21452865 C5.99227922,3.04337839 2.90796532,6.18889252 2.16912394,10.1589054 L0.140200048,10.1589054 Z" id="path-1"></path>
+    </defs>
+    <g id="module/check-green--dotted" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Shape" fill="#A8DA73" fill-rule="nonzero" xlink:href="#path-1"></use>
+            <g id="gray/0.5-#ced4da" mask="url(#mask-2)" fill="#CED4DA">
+                <rect id="gray-0.5-#ced4da" x="0" y="0" width="24" height="24"></rect>
+            </g>
+        </g>
+        <polygon id="Path" fill="#A8DA73" fill-rule="nonzero" points="9.79095077 14.2778187 7.70244106 12.1982049 6.10602471 13.7696538 9.79095077 16.9594876 17.7084284 10.1057714 15.9903275 8.51580139"></polygon>
+    </g>
+</svg>

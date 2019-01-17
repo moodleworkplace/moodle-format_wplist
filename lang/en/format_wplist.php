@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Strings for course format.
  *
- * @package     format_wplist
- * @category    string
- * @copyright   2018 SP
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_wplist
+ * @copyright  2018 <bas@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$string['editsection'] = 'Edit topic';
-$string['editsectionname'] = 'Edit topic name';
-$string['hidefromothers'] = 'Hide topic';
-$string['newsectionname'] = 'New name for topic {$a}';
-$string['pluginname'] = 'format_wplist';
+$string['currentsection'] = 'This wplist';
+$string['deletesection'] = 'Delete section';
+$string['hidefromothers'] = 'Hide section';
+$string['highlight'] = 'Highlight section';
+$string['page-course-view-wplists'] = 'Any course main page in wplists format';
+$string['page-course-view-wplists-x'] = 'Any course page in wplists format';
+$string['pluginname'] = 'Workplace list format';
 $string['privacy:metadata'] = 'The WPlist format plugin does not store any personal data.';
+$string['remhighlight'] = 'Disable highlight';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';
-$string['showfromothers'] = 'Show topic';
+$string['showfromothers'] = 'Show section';
