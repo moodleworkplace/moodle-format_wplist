@@ -30,15 +30,15 @@
 }}
 {{#hascompletion}}
 <div class="sectionprogress progress ml-auto my-4">
-    <div class="progress-bar progress-bar-success"
+    <div class="progress-bar bg-info-light"
         id="sectionprogress-{{sectionnumber}}"
-    	data-completion-modules="{{completionmodcount}}"
-    	data-completed-modules="{{completedmodscount}}"
-    	role="progressbar"
-    	aria-valuenow="{{completionmodcount}}"
-    	aria-valuemin="0"
-    	aria-valuemax="100"
-    	style="width: {{{percentagecompleted}}}%">
+        data-completion-modules="{{completionmodcount}}"
+        data-completed-modules="{{completedmodscount}}"
+        role="progressbar"
+        aria-valuenow="{{completionmodcount}}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        style="width: {{{percentagecompleted}}}%">
         <span class="sr-only">{{percentagecompleted}}% Complete</span>
     </div>
 </div>
