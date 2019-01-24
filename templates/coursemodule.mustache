@@ -52,7 +52,7 @@
 
         {{#availability}}
             <span class="availability iconlarge nomargin">
-                <button class="btn btn-link border-0 p-3" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
+                <button class="btn btn-link border-0 py-3 px-4" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
                     <i class="icon fa fa-lock"></i>
                 </button>
             </span>
@@ -60,12 +60,12 @@
 
         {{^availability}}
             {{#completion}}
-                <span class="completion iconlarge nomargin p-3 align-self-start">
+                <span class="completion iconlarge nomargin py-3 px-4 align-self-start">
                     {{{completion}}}
                 </span>
             {{/completion}}
             {{^completion}}
-            <div class="iconlarge nomargin p-3">
+            <div class="iconlarge nomargin py-3 px-4">
                 <i class="icon fa fa-fw"></i>
             </div>
             {{/completion}}
@@ -78,7 +78,7 @@
             </span>
             {{/cmname}}
             {{#text}}
-                <span class="text d-flex mb-2">
+                <span class="text d-flex mb-2 pr-3">
                     {{{text}}}
                 </span>
             {{/text}}
