@@ -49,9 +49,11 @@ function(
         COMPLETIONCHECKS: '[data-region="completioncheck"]',
         COMPLETION_ON: '[data-region="checkon"]',
         COMPLETION_OFF: '[data-region="checkoff"]',
+        EXPAND_TOGGLE: '[data-toggle="collapse"]',
         EXPAND_SECTIONS: '[data-action="expand"]',
         EXPAND_SECTIONS_OPEN: '[data-region="collapsed-open"]',
         EXPAND_SECTIONS_CLOSED: '[data-region="collapsed-closed"]',
+        EXPAND_SECTIONS_CONTENT: '[data-region="sectioncollapse"]',
         COMPLETION_CONTAINER: '[data-actions="availability"]',
         COMPLETION_INFO: '[data-region="availabilityinfo"]'
 
@@ -181,15 +183,21 @@ function(
             var closedmsg = expand.find(SELECTORS.EXPAND_SECTIONS_CLOSED);
             var open = expand.attr('data-expanded');
             if (open == 0) {
-                $('[data-region="sectioncollapse"]').each(function() {
+                $(SELECTORS.EXPAND_SECTIONS_CONTENT).each(function() {
                     $(this).addClass('show');
+                });
+                $(SELECTORS.EXPAND_TOGGLE).each(function() {
+                    $(this).removeClass('collapsed');
                 });
                 openmsg.removeClass('hidden');
                 closedmsg.addClass('hidden');
                 expand.attr('data-expanded', 1);
             } else {
-                $('[data-region="sectioncollapse"]').each(function() {
+                $(SELECTORS.EXPAND_SECTIONS_CONTENT).each(function() {
                     $(this).removeClass('show');
+                });
+                $(SELECTORS.EXPAND_TOGGLE).each(function() {
+                    $(this).addClass('collapsed');
                 });
                 openmsg.addClass('hidden');
                 closedmsg.removeClass('hidden');
