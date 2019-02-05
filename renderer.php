@@ -220,6 +220,8 @@ class format_wplist_renderer extends format_section_renderer_base {
                 if ($section > 0) {
                     $sectiontemp->move = true;
                     $sectiontemp->movetitle = get_string('movesection', 'moodle', $section);
+                } else {
+                    $sectiontemp->moveplaceholder = true;
                 }
                 $sectiontemp->editsection = $this->edit_section($thissection, $course, false);
             } else {
