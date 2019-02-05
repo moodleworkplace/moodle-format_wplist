@@ -67,6 +67,9 @@
                         {{#move}}
                             {{> format_wplist/movesection }}
                         {{/move}}
+                        {{#moveplaceholder}}
+                            <span class="d-inline p-3 nomargin"><i class="icon fa fa-fw"></i></span>
+                        {{/moveplaceholder}}
                         {{#availableinfo}}
                             <span class="availability {{#editing}}pl-3{{/editing}}">
                                 <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{"availabilitymsg"}}}'>
@@ -74,77 +77,76 @@
                                 </button>
                             </span>
                         {{/availableinfo}}
-                            <button
-                                class="btn btn-link py-3 px-4 align-items-center border-0 ws-toggle d-none d-sm-flex {{^expanded}}collapsed{{/expanded}}"
-                                type="button"
+                        <button
+                            class="btn btn-link py-3 px-4 align-items-center border-0 ws-toggle d-none d-sm-flex course-section-toggle {{^expanded}}collapsed{{/expanded}}"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#sectioncontent-{{sectionnumber}}"
+                            aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
+                            aria-controls="sectioncontent-{{sectionnumber}}"
+                        >
+                            <span class="togglesectionicon text-gray060 collapsed-icon-container nomargin iconlarge">
+                                {{#pix}} t/collapsedcaret, core {{/pix}}
+                            </span>
+                            <span class="togglesectionicon text-gray060 expanded-icon-container nomargin iconlarge">
+                                {{#pix}} t/expanded, core {{/pix}}
+                            </span>
+                        </button>
+                        <h3
+                            class="sectionname flex-fill pt-2 mt-1"
+                            {{^editing}}
                                 data-toggle="collapse"
                                 data-target="#sectioncontent-{{sectionnumber}}"
                                 aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
                                 aria-controls="sectioncontent-{{sectionnumber}}"
-                            >
-                                <span class="togglesectionicon collapsed-icon-container nomargin iconlarge">
-                                    {{#pix}} t/collapsedcaret, core {{/pix}}
-                                </span>
-                                <span class="togglesectionicon expanded-icon-container nomargin iconlarge">
-                                    {{#pix}} t/expanded, core {{/pix}}
-                                </span>
-                            </button>
-                            <div class="d-flex flex-column">
-                            <h3
-                                class="sectionname pt-2 mt-1 iconlarge"
-                                {{^editing}}
-                                    data-toggle="collapse"
-                                    data-target="#sectioncontent-{{sectionnumber}}"
-                                    aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
-                                    aria-controls="sectioncontent-{{sectionnumber}}"
-                                {{/editing}}
-                            >
-                                {{{name}}}
-                            </h3>
-                                {{#summary}}
-                                    <div class="d-flex align-items-center">
-                                        <div class="sectionsummary pb-3">
-                                            {{{summary}}}
-                                        </div>
-                                    </div>
-                                {{/summary}}
+                            {{/editing}}
+                        >
+                            {{{name}}}
+                        </h3>
+                        <div class="pr-4 d-flex align-items-center">
+                           {{#expandbtn}}
+                            <div class="d-none d-sm-flex">
+                                <button id="expandaccordion"
+                                    class="ml-auto mr-4 btn btn-link btn-sm"
+                                    data-action="expand"
+                                    data-expanded="0"
+                                >
+                                    <span class="closed" data-region="collapsed-closed">
+                                        {{#str}}expandall{{/str}}
+                                    </span>
+                                    <span class="open hidden" data-region="collapsed-open">
+                                        {{#str}}collapseall{{/str}}
+                                    </span>
+                                </button>
                             </div>
-                            <button
-                                class="btn btn-link flex-fill p-3 pl-4 py-3 d-flex align-items-center course-section-toggle {{^expanded}}collapsed{{/expanded}}"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#sectioncontent-{{sectionnumber}}"
-                                aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
-                                aria-controls="sectioncontent-{{sectionnumber}}"
-                            >
-                                &nbsp;
-                            </button>
-                            <div class="pr-4 d-flex align-items-center">
-                               {{#expandbtn}}
-                                <div class="d-none d-sm-flex">
-                                    <button id="expandaccordion"
-                                        class="ml-auto mr-4 btn btn-link btn-sm"
-                                        data-action="expand"
-                                        data-expanded="0"
-                                    >
-                                        <span class="closed" data-region="collapsed-closed">
-                                            {{#str}}expandall{{/str}}
-                                        </span>
-                                        <span class="open hidden" data-region="collapsed-open">
-                                            {{#str}}collapseall{{/str}}
-                                        </span>
-                                    </button>
-                                </div>
-                                {{/expandbtn}}
-                                {{{completion}}}
-                            </div>
-
-                        {{#editing}}
-                        <div class="editoptions ml-auto align-self-stretch d-flex flex-column p-2">
-                            {{{editsection}}}
+                            {{/expandbtn}}
+                            {{{completion}}}
                         </div>
+                        {{#editing}}
+                            <div class="editoptions ml-auto align-self-stretch d-flex flex-column p-2">
+                                {{{editsection}}}
+                            </div>
                         {{/editing}}
                     </div>
+
+                    {{#summary}}
+                        <div class="d-flex align-items-center">
+                            {{^editing}}
+                                <span class="px-4"><i class="icon fa fa-fw"></i></span>
+                            {{/editing}}
+                            {{#editing}}
+                                <span class="px-3 nomargin"><i class="icon fa fa-fw"></i></span>
+                                <span class="px-4"><i class="icon fa fa-fw"></i></span>
+                            {{/editing}}
+                            <div class="sectionsummary pb-3 pr-3">
+                                {{{summary}}}
+                            </div>
+                            {{#editing}}
+                                <div class="editoptions ml-auto align-self-stretch">
+                                </div>
+                            {{/editing}}
+                        </div>
+                    {{/summary}}
                 </div>
 
                 <div
