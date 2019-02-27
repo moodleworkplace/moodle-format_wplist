@@ -70,13 +70,6 @@
                         {{#moveplaceholder}}
                             <span class="d-inline p-3 nomargin"><i class="icon fa fa-fw"></i></span>
                         {{/moveplaceholder}}
-                        {{#availableinfo}}
-                            <span class="availability {{#editing}}pl-3{{/editing}}">
-                                <button class="btn btn-link p-0" data-toggle="popover" data-html="true" data-content='{{{"availabilitymsg"}}}'>
-                                    <i class="icon fa fa-lock"></i>
-                                </button>
-                            </span>
-                        {{/availableinfo}}
                         <button
                             class="btn btn-link py-3 px-4 align-items-center border-0 ws-toggle d-none d-sm-flex course-section-toggle {{^expanded}}collapsed{{/expanded}}"
                             type="button"
@@ -125,6 +118,13 @@
                         {{#editing}}
                             <div class="editoptions ml-auto align-self-stretch d-flex flex-column p-2">
                                 {{{editsection}}}
+                                {{#availableinfo}}
+                                    <span class="availability mr-1 mt-2 ml-auto">
+                                        <button class="btn btn-link p-0 iconlarge nomargin" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
+                                            <i class="icon fa fa-lock"></i>
+                                        </button>
+                                    </span>
+                                {{/availableinfo}}
                             </div>
                         {{/editing}}
                     </div>
