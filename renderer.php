@@ -311,6 +311,9 @@ class format_wplist_renderer extends format_section_renderer_base {
         if (!empty($modinfo->sections[$section->section])) {
             foreach ($modinfo->sections[$section->section] as $modnumber) {
                 $mod = $modinfo->cms[$modnumber];
+                if (!$mod->uservisible && empty($mod->availableinfo)) {
+                    continue;
+                }
                 $template->modules[] = $this->course_section_cm_wplist_item($course,
                     $completioninfo, $mod, $sectionreturn, $displayoptions);
             }
