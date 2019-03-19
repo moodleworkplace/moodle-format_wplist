@@ -19,7 +19,7 @@ php:
 
 env:
   global:
-  - MOODLE_REPO=git://github.com/moodlesp/moodle.git
+  - MOODLE_REPO=git://github.com/moodleworkplace/moodle.git
   - MOODLE_BRANCH=workplace
   matrix:
   - DB=pgsql
@@ -29,12 +29,12 @@ before_install:
 - nvm install 8.9
 - nvm use 8.9
 - cd ../../..
-- composer create-project -n --no-dev --prefer-dist --repository='{"type":"git","url":"https://github.com/moodlesp/moodle-plugin-ci","reference":"master"}' blackboard-open-source/moodle-plugin-ci ci ^2
+- composer create-project -n --no-dev --prefer-dist --repository='{"type":"git","url":"https://github.com/moodleworkplace/moodle-plugin-ci","reference":"master"}' blackboard-open-source/moodle-plugin-ci ci ^2
 - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
-- moodle-plugin-ci add-plugin moodlesp/moodle-tool_wp
-- moodle-plugin-ci add-plugin moodlesp/moodle-theme_workplace
+- moodle-plugin-ci add-plugin moodleworkplace/moodle-tool_wp
+- moodle-plugin-ci add-plugin moodleworkplace/moodle-theme_workplace
 - moodle-plugin-ci install
 - cd moodle; php admin/tool/behat/cli/init.php -a
 
