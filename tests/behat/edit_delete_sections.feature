@@ -1,4 +1,4 @@
-@format @format_wplist @javascript
+@format @format_wplist @moodleworkplace @javascript
 Feature: Sections can be edited and deleted in wplist format
   In order to rearrange my course contents
   As a teacher
