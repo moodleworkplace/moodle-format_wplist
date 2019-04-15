@@ -101,7 +101,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $o = "";
         if (!empty($controls)) {
             $menu = new action_menu();
-            $menu->set_menu_trigger('<i class="fa fa-cog"></i>'); // TODO: Solve this.
+            $menu->set_menu_trigger($this->pix_icon('i/settings', '', 'core'));
             $menu->attributes['class'] .= ' section-actions';
             foreach ($controls as $value) {
                 $url = empty($value['url']) ? '' : $value['url'];
@@ -192,7 +192,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         if ($PAGE->user_is_editing()) {
             $template->editoff = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'off']);
         } else {
-            $template->accordion = true;
+            $template->accordion = false; // TODO SP-196: Turn this into a course setting.
             $template->editon = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'on']);
         }
 
