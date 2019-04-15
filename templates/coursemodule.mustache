@@ -53,7 +53,7 @@
         {{#availability}}
             <span class="availability iconlarge nomargin">
                 <button class="btn btn-link border-0 py-3 px-4" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
-                    <i class="icon fa fa-lock"></i>
+                    {{#pix}} i/lock, core {{/pix}}
                 </button>
             </span>
         {{/availability}}
@@ -91,7 +91,7 @@
         {{/mod.afterlink}}
 
         {{#editing}}
-            <span class="editoptions ml-auto align-self-stretch d-flex p-3">
+            <span class="editoptions ml-auto align-self-stretch d-flex p-2">
                 {{{editoptions}}}
             </span>
         {{/editing}}

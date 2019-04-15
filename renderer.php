@@ -101,7 +101,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $o = "";
         if (!empty($controls)) {
             $menu = new action_menu();
-            $menu->set_menu_trigger('<i class="fa fa-cog"></i>');
+            $menu->set_menu_trigger('<i class="fa fa-cog"></i>'); // TODO: Solve this.
             $menu->attributes['class'] .= ' section-actions';
             foreach ($controls as $value) {
                 $url = empty($value['url']) ? '' : $value['url'];
