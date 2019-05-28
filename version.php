@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'format_wplist';
 $plugin->release = '0.2.0';
-$plugin->version = 2019030700;
+$plugin->version = 2019030702;
 $plugin->requires = 2019012401;
 $plugin->maturity  = MATURITY_ALPHA;

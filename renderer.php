@@ -204,6 +204,14 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         $template->accordion = $options['accordioneffect'];
 
+        $opensections = [];
+        $preferences = get_user_preferences('format_wplist_opensections');
+        if (is_array(json_decode($preferences, true))) {
+            $opensections = json_decode($preferences, true);
+        } else {
+            set_user_preference('format_wplist_opensections', '[]');
+        }
+
         $context = context_course::instance($course->id);
         $completioninfo = new completion_info($course);
 
@@ -243,6 +251,9 @@ class format_wplist_renderer extends format_section_renderer_base {
             $sectiontemp->name = $this->section_title($thissection, $course);
             $sectiontemp->summary = $this->format_summary_text($thissection);
             $sectiontemp->expanded = false;
+            if (in_array($thissection->id, $opensections)) {
+                $sectiontemp->expanded = true;
+            }
             $sectiontemp->coursemodules = $this->course_section_cm_wplist($course, $thissection, 0);
 
             $template->sections[] = $sectiontemp;
