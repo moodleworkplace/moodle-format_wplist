@@ -192,14 +192,17 @@ class format_wplist_renderer extends format_section_renderer_base {
         if ($PAGE->user_is_editing()) {
             $template->editoff = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'off']);
         } else {
-            $template->accordion = false; // TODO SP-196: Turn this into a course setting.
             $template->editon = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'on']);
         }
+        $courseformat = course_get_format($course);
+        $course = $courseformat->get_course();
+        $options = $courseformat->get_format_options();
 
         $template->sections = [];
 
         $modinfo = get_fast_modinfo($course);
-        $course = course_get_format($course)->get_course();
+
+        $template->accordion = $options['accordioneffect'];
 
         $context = context_course::instance($course->id);
         $completioninfo = new completion_info($course);

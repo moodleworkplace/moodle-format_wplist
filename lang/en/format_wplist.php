@@ -34,3 +34,5 @@ $string['remhighlight'] = 'Disable highlight';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';
 $string['showfromothers'] = 'Show section';
+$string['accordioneffect'] = 'Accordion effect';
+$string['accordioneffect_help'] = 'Select Yes to close open sections when opening another section';
