@@ -215,6 +215,10 @@ class format_wplist extends format_base {
                     'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT,
                 ),
+                'accordioneffect' => array(
+                    'default' => 0,
+                    'type' => PARAM_INT,
+                ),
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -256,6 +260,18 @@ class format_wplist extends format_base {
                     ),
                     'help' => 'coursedisplay',
                     'help_component' => 'moodle',
+                ),
+                'accordioneffect' => array(
+                    'label' => new lang_string('accordioneffect', 'format_wplist'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => new lang_string('no'),
+                            1 => new lang_string('yes')
+                        )
+                    ),
+                    'help' => 'accordioneffect',
+                    'help_component' => 'format_wplist',
                 )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
