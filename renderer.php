@@ -254,6 +254,9 @@ class format_wplist_renderer extends format_section_renderer_base {
             if (in_array($thissection->id, $opensections)) {
                 $sectiontemp->expanded = true;
             }
+            if ($PAGE->user_is_editing()) {
+                $sectiontemp->expanded = true;
+            }
             $sectiontemp->coursemodules = $this->course_section_cm_wplist($course, $thissection, 0);
 
             $template->sections[] = $sectiontemp;

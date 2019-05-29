@@ -307,11 +307,51 @@ function(
                         sectionnumber: sectionnumber,
                         courseid: courseid
                     };
-                    moveModule(args).then(function() {
-                        info.element.attr('data-module', moduletarget);
-                        info.targetNextElement.attr('data-module', moduleid);
-                    }).catch(Notification.exception);
+                    if (typeof moduleid !== 'undefined' && moduleid != 0) {
+                        moveModule(args).catch(Notification.exception);
+                    }
                 }
+            }
+        });
+
+        // Count the number of modules in each Modules container.
+        var countmodules = function () {
+            root.find(SELECTORS.SECTION).each(function() {
+                var modulesContainer = $(this).find(SELECTORS.MODULES_CONTAINER);
+                var nummodules = modulesContainer.children().length - 1;
+
+                modulesContainer.attr('data-nummodules', nummodules);
+
+                if (nummodules == 0) {
+                    modulesContainer.addClass('nomodules');
+                } else {
+                    modulesContainer.removeClass('nomodules');
+                }
+            });
+        };
+
+        countmodules();
+
+        sections.on(Sortablewplist.EVENTS.DRAG, function(e, info) {
+            if (info.element.attr('data-module')) {
+                root.find(SELECTORS.SECTION).each(function() {
+                    $(this).removeClass('movemodule');
+                });
+
+                var oldSectionModules = findClosestSection(info.sourceList).find(SELECTORS.MODULES_CONTAINER);
+                var numoldmodules = oldSectionModules.attr('data-nummodules');
+                if (numoldmodules == 1) {
+                    oldSectionModules.addClass('nomodules');
+                }
+
+                var newSection = findClosestSection(info.targetList);
+                newSection.addClass('movemodule');
+            }
+        });
+
+        sections.on(Sortablewplist.EVENTS.DRAGEND, function(e, info) {
+            if (info.element.attr('data-module')) {
+                countmodules();
             }
         });
     };

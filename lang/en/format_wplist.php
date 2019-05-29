@@ -22,8 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['accordioneffect'] = 'Accordion effect';
+$string['accordioneffect_help'] = 'Select Yes to close open sections when opening another section';
 $string['currentsection'] = 'This wplist';
 $string['deletesection'] = 'Delete section';
+$string['emptysection'] = 'This section is empty';
 $string['hidefromothers'] = 'Hide section';
 $string['highlight'] = 'Highlight section';
 $string['page-course-view-wplists'] = 'Any course main page in Workplace list format';
@@ -34,5 +37,3 @@ $string['remhighlight'] = 'Disable highlight';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';
 $string['showfromothers'] = 'Show section';
-$string['accordioneffect'] = 'Accordion effect';
-$string['accordioneffect_help'] = 'Select Yes to close open sections when opening another section';

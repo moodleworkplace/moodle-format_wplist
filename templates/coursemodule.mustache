@@ -52,7 +52,7 @@
 
         {{#availability}}
             <span class="availability iconlarge nomargin">
-                <button class="btn btn-link border-0 py-3 px-4" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
+                <button class="btn btn-link border-0 py-3 px-md-4 popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
                     {{#pix}} i/lock, core {{/pix}}
                 </button>
             </span>
@@ -60,12 +60,12 @@
 
         {{^availability}}
             {{#completion}}
-                <span class="completion iconlarge nomargin py-3 px-4 align-self-start">
+                <span class="completion iconlarge nomargin py-3 px-md-4 align-self-start">
                     {{{completion}}}
                 </span>
             {{/completion}}
             {{^completion}}
-            <div class="iconlarge nomargin py-3 px-4">
+            <div class="iconlarge nomargin py-3 px-md-4">
                 <i class="icon fa fa-fw"></i>
             </div>
             {{/completion}}
