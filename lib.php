@@ -373,6 +373,20 @@ class format_wplist extends format_base {
 
 
 /**
+ * Get the current user preferences that are available
+ *
+ * @return mixed Array representing current options along with defaults
+ */
+function format_wplist_user_preferences() {
+    $preferences['format_wplist_opensections'] = array(
+        'type' => PARAM_RAW,
+        'null' => NULL_NOT_ALLOWED,
+        'default' => ''
+    );
+    return $preferences;
+}
+
+/**
  * Implements callback inplace_editable() allowing to edit values in-place
  *
  * @param string $itemtype

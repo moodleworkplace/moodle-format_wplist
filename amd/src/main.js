@@ -205,6 +205,18 @@ function(
             }
         });
 
+        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('hidden.bs.collapse', function () {
+            var sectionid = $(this).attr('data-sectionid');
+            var isaccordion = $(this).attr('data-isaccordion');
+            storeSectionPreference(sectionid, isaccordion, false);
+        });
+
+        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('shown.bs.collapse', function () {
+            var sectionid = $(this).attr('data-sectionid');
+            var isaccordion = $(this).attr('data-isaccordion');
+            storeSectionPreference(sectionid, isaccordion, true);
+        });
+
         // Listen for changes on completion.
         root.on(CustomEvents.events.activate, SELECTORS.COMPLETIONCHECKS, function(e) {
             var cc = $(e.target).closest(SELECTORS.COMPLETIONCHECKS);
@@ -295,7 +307,6 @@ function(
                         sectionnumber: sectionnumber,
                         courseid: courseid
                     };
-                    Log.debug(args);
                     moveModule(args).then(function() {
                         info.element.attr('data-module', moduletarget);
                         info.targetNextElement.attr('data-module', moduleid);
@@ -303,6 +314,61 @@ function(
                 }
             }
         });
+    };
+
+    /**
+     * Store the user display preference for this section
+     *
+     * @param {Number} sectionid Section ID.
+     * @param {Bool} opened = true or closed = false.
+     */
+    var storeSectionPreference = function(sectionid, isaccordion, opened) {
+
+        var requestget = {
+            methodname: 'core_user_get_user_preferences',
+            args: {
+                name: 'format_wplist_opensections'
+            }
+        };
+
+        var sections = [];
+
+        Ajax.call([requestget])[0].fail(Notification.exception)
+            .then(function(p) {
+                if (isaccordion) {
+                    if (opened) {
+                        sections = [sectionid];
+                    } else {
+                        sections = [];
+                    }
+                } else {
+                    if (p.preferences.length && p.preferences[0].value) {
+                        sections = JSON.parse(p.preferences[0].value);
+                    }
+                    var index = sections.indexOf(sectionid);
+                    if (opened) {
+                        if (index == -1) {
+                            sections.push(sectionid);
+                        }
+                    } else {
+                        if (index > -1) {
+                            sections.splice(index, 1);
+                        }
+                    }
+                }
+                var requestset = {
+                    methodname: 'core_user_update_user_preferences',
+                    args: {
+                        preferences: [
+                            {
+                            type: 'format_wplist_opensections',
+                            value: JSON.stringify(sections)
+                            }
+                        ]
+                    }
+                };
+                Ajax.call([requestset])[0].fail(Notification.exception);
+            });
     };
 
     /**

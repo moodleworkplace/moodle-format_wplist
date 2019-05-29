@@ -153,8 +153,10 @@
                     id="sectioncontent-{{sectionnumber}}"
                     class="sectioncontent collapse {{#expanded}}show{{/expanded}} "
                     aria-labelledby="section-{{sectionnumber}}"
+                    data-sectionid="{{id}}"
                     data-region="sectioncollapse"
                     {{#accordion}}
+                    data-isaccordion=true
                     data-parent="#formatwplist"
                     {{/accordion}}
                 >
