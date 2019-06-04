@@ -27,21 +27,24 @@
         "section": 2
     }
 }}
-<div class="section-modules wplist-group" data-region="course-modules">
+<div class="section-modules wplist-group {{#nomodules}}nomodules{{/nomodules}}" data-region="course-modules">
 	{{#modules}}
 		{{{.}}}
 	{{/modules}}
     {{#editing}}
-        {{#nomodules}}
-            <div
-                data-region="module"
-                data-module="0"
-                data-module-section="{{section}}"
-                class="wplist-group-item p-1 w-100
-                    border-bottom
-                    activity"
-            >
+        <div
+            data-region="module"
+            data-module="0"
+            data-module-section="{{section}}"
+            class="wplist-group-item p-1 py-3  w-100
+                border-bottom dropactivity
+                activity"
+        >
+            <div class="pl-5">
+                <div class="text-danger pl-5 ml-1">
+                    {{#str}}emptysection, format_wplist{{/str}}
+                </div>
             </div>
-        {{/nomodules}}
+        </div>
     {{/editing}}
 </div>
