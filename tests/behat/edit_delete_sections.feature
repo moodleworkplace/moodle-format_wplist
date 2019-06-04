@@ -74,7 +74,6 @@ Feature: Sections can be edited and deleted in wplist format
     And I press "Delete"
     Then I should not see "Topic 5"
     And I should not see "Test chat name"
-    And I expand wplist section "4"
     And I should see "Test choice name" in the "[data-region=section][data-sectionnumber=4]" "css_element"
     And I should see "Topic 4"
 

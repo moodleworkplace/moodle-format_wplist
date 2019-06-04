@@ -67,7 +67,9 @@ class behat_format_wplist extends behat_base {
     }
 
     /**
-     * Waits until the section is available to interact with it. Useful when the section is performing an action and the section is overlayed with a loading layout.
+     * Waits until the section is available to interact with it.
+     * Useful when the section is performing an action and the section
+     * is overlayed with a loading layout.
      *
      * Using the protected method as this method will be usually
      * called by other methods which are not returning a set of
@@ -85,8 +87,8 @@ class behat_format_wplist extends behat_base {
 
         // Looks for a hidden lightbox or a non-existent lightbox in that section.
         $sectionxpath = $this->section_exists($sectionnumber);
-        $hiddenlightboxxpath = $sectionxpath . "/descendant::div[contains(concat(' ', @class, ' '), ' lightbox ')][contains(@style, 'display: none')]" .
-            " | " .
+        $hiddenlightboxxpath = $sectionxpath . "/descendant::div[contains(concat(' ', @class, ' ')," .
+            " ' lightbox ')][contains(@style, 'display: none')] | " .
             $sectionxpath . "[count(child::div[contains(@class, 'lightbox')]) = 0]";
 
         $this->ensure_element_exists($hiddenlightboxxpath, 'xpath_element');
@@ -111,7 +113,8 @@ class behat_format_wplist extends behat_base {
         $xpath = $this->section_exists($sectionnumber);
         $xpath .= "/descendant::div[contains(@class, 'section-actions')]/descendant::a[contains(@class, 'dropdown-toggle')]";
 
-        $exception = new ExpectationException('Section actions menu for section "' . $sectionnumber . '" was not found', $this->getSession());
+        $exception = new ExpectationException('Section actions menu for section "' .
+            $sectionnumber . '" was not found', $this->getSession());
         $menu = $this->find('xpath', $xpath, $exception);
         $menu->click();
         $this->i_wait_until_wplist_section_is_available($sectionnumber);
