@@ -125,6 +125,13 @@
                         {{#editing}}
                             <div class="editoptions ml-auto align-self-stretch d-flex flex-column p-2">
                                 {{{editsection}}}
+                                {{#availableinfo}}
+                                    <span class="availability mr-1 mt-2 ml-auto">
+                                        <button class="btn btn-link p-0 iconlarge nomargin popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
+                                            {{#pix}} i/lock, core {{/pix}}
+                                        </button>
+                                    </span>
+                                {{/availableinfo}}
                             </div>
                         {{/editing}}
                     </div>
