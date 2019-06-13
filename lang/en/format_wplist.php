@@ -36,5 +36,5 @@ $string['privacy:metadata'] = 'The Workplace list format plugin does not store a
 $string['remhighlight'] = 'Disable highlight';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';
-$string['section_completion'] = 'This section is {$a}% Completed';
+$string['section_completion'] = 'This section is {$a}% completed';
 $string['showfromothers'] = 'Show section';
