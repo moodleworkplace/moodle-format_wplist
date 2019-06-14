@@ -28,7 +28,6 @@ define(
     'core/notification',
     'core/custom_interaction_events',
     'core/ajax',
-    'core/log',
     'core/str'
 ],
 function(
@@ -37,7 +36,6 @@ function(
     Notification,
     CustomEvents,
     Ajax,
-    Log,
     Str
 ) {
 
@@ -129,10 +127,10 @@ function(
      * Toggle the completion icon for self completion.
      *
      * @param  {Object} checkbox Container checkbox dom element.
-     * @param  {Number} targetstate Value of data-checked
+     * @param  {Boolean} checked
      */
     var checkCompletionIcon = function(checkbox, checked) {
-        if (checked == 0) {
+        if (!checked) {
             checkbox.attr('data-checked', 1);
             checkbox.attr('data-targetstate', 0);
             checkbox.find(SELECTORS.COMPLETION_ON).removeClass('hidden');
@@ -156,14 +154,13 @@ function(
         var sectionprogress = root.find('#sectionprogress-' + sectionnumber);
         var completedmodules = sectionprogress.attr('data-completed-modules');
         var completionmodules = sectionprogress.attr('data-completion-modules');
-        if (targetstate == 1) {
+        if (targetstate === 1) {
             completedmodules++;
         } else {
             completedmodules--;
         }
         sectionprogress.attr('data-completed-modules', completedmodules);
         var newCompletionPercentage = 100 * (completedmodules / completionmodules);
-        Log.debug('hello', completedmodules);
         sectionprogress.css('width', newCompletionPercentage + '%');
     };
 
@@ -181,8 +178,8 @@ function(
             var expand = $(e.target).closest(SELECTORS.EXPAND_SECTIONS);
             var openmsg = expand.find(SELECTORS.EXPAND_SECTIONS_OPEN);
             var closedmsg = expand.find(SELECTORS.EXPAND_SECTIONS_CLOSED);
-            var open = expand.attr('data-expanded');
-            if (open == 0) {
+            var open = parseInt(expand.attr('data-expanded'));
+            if (open === 0) {
                 $(SELECTORS.EXPAND_SECTIONS_CONTENT).each(function() {
                     $(this).addClass('show');
                 });
@@ -205,13 +202,13 @@ function(
             }
         });
 
-        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('hidden.bs.collapse', function () {
+        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('hidden.bs.collapse', function() {
             var sectionid = $(this).attr('data-sectionid');
             var isaccordion = $(this).attr('data-isaccordion');
             storeSectionPreference(sectionid, isaccordion, false);
         });
 
-        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('shown.bs.collapse', function () {
+        $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('shown.bs.collapse', function() {
             var sectionid = $(this).attr('data-sectionid');
             var isaccordion = $(this).attr('data-isaccordion');
             storeSectionPreference(sectionid, isaccordion, true);
@@ -220,11 +217,11 @@ function(
         // Listen for changes on completion.
         root.on(CustomEvents.events.activate, SELECTORS.COMPLETIONCHECKS, function(e) {
             var cc = $(e.target).closest(SELECTORS.COMPLETIONCHECKS);
-            var moduleid = cc.attr('data-module');
-            var targetstate = cc.attr('data-targetstate');
-            var courseid = cc.attr('data-courseid');
-            var checked = cc.attr('data-checked');
-            var sectionnumber = cc.attr('data-sectionnumber');
+            var moduleid = parseInt(cc.attr('data-module'));
+            var targetstate = parseInt(cc.attr('data-targetstate'));
+            var courseid = parseInt(cc.attr('data-courseid'));
+            var checked = parseInt(cc.attr('data-checked'));
+            var sectionnumber = parseInt(cc.attr('data-sectionnumber'));
 
             var args = {
                 moduleid: moduleid,
@@ -235,7 +232,9 @@ function(
             checkCompletion(args).then(function() {
                 checkCompletionIcon(cc, checked);
                 updateSectionCompletion(root, sectionnumber, targetstate);
-            });
+                return null;
+            })
+            .fail(Notification.exception);
         });
 
         // Variables for moving sections.
@@ -278,6 +277,8 @@ function(
 
         sections.on(Sortablewplist.EVENTS.DROP, function(e, info) {
             e.stopPropagation();
+            var sectionnumber,
+                args;
             if (info.positionChanged) {
                 if (info.element.attr('data-sectionnumber')) {
                     if (info.targetNextElement && info.targetNextElement.attr('data-sectionnumber') === "0") {
@@ -285,9 +286,9 @@ function(
                         sectionsSortable.moveElement(info.sourceList, info.sourceNextElement);
                         return;
                     }
-                    var sectionnumber = info.element.attr('data-sectionnumber');
+                    sectionnumber = info.element.attr('data-sectionnumber');
                     var sectiontarget = info.targetNextElement.attr('data-sectionnumber');
-                    var args = {
+                    args = {
                         sectionnumber: sectionnumber,
                         sectiontarget: sectiontarget,
                         courseid: courseid
@@ -295,19 +296,20 @@ function(
                     moveSection(args).then(function() {
                         info.element.attr('data-sectionnumber', sectiontarget);
                         info.targetNextElement.attr('data-sectionnumber', sectionnumber);
+                        return null;
                     }).catch(Notification.exception);
                 }
                 if (info.element.attr('data-module')) {
                     var moduleid = info.element.attr('data-module');
                     var moduletarget = info.targetNextElement.attr('data-module');
-                    var sectionnumber = findClosestSection(info.targetList).attr('data-sectionnumber');
-                    var args = {
+                    sectionnumber = findClosestSection(info.targetList).attr('data-sectionnumber');
+                    args = {
                         moduleid: moduleid,
                         moduletarget: moduletarget,
                         sectionnumber: sectionnumber,
                         courseid: courseid
                     };
-                    if (typeof moduleid !== 'undefined' && moduleid != 0) {
+                    if (typeof moduleid !== 'undefined' && moduleid !== 0) {
                         moveModule(args).catch(Notification.exception);
                     }
                 }
@@ -315,14 +317,14 @@ function(
         });
 
         // Count the number of modules in each Modules container.
-        var countmodules = function () {
+        var countmodules = function() {
             root.find(SELECTORS.SECTION).each(function() {
                 var modulesContainer = $(this).find(SELECTORS.MODULES_CONTAINER);
                 var nummodules = modulesContainer.children().length - 1;
 
                 modulesContainer.attr('data-nummodules', nummodules);
 
-                if (nummodules == 0) {
+                if (nummodules === 0) {
                     modulesContainer.addClass('nomodules');
                 } else {
                     modulesContainer.removeClass('nomodules');
@@ -339,8 +341,8 @@ function(
                 });
 
                 var oldSectionModules = findClosestSection(info.sourceList).find(SELECTORS.MODULES_CONTAINER);
-                var numoldmodules = oldSectionModules.attr('data-nummodules');
-                if (numoldmodules == 1) {
+                var numoldmodules = parseInt(oldSectionModules.attr('data-nummodules'));
+                if (numoldmodules === 1) {
                     oldSectionModules.addClass('nomodules');
                 }
 
@@ -360,7 +362,8 @@ function(
      * Store the user display preference for this section
      *
      * @param {Number} sectionid Section ID.
-     * @param {Bool} opened = true or closed = false.
+     * @param {Boolean} isaccordion
+     * @param {Boolean} opened = true or closed = false.
      */
     var storeSectionPreference = function(sectionid, isaccordion, opened) {
 
@@ -373,7 +376,7 @@ function(
 
         var sections = [];
 
-        Ajax.call([requestget])[0].fail(Notification.exception)
+        Ajax.call([requestget])[0]
             .then(function(p) {
                 if (isaccordion) {
                     if (opened) {
@@ -387,7 +390,7 @@ function(
                     }
                     var index = sections.indexOf(sectionid);
                     if (opened) {
-                        if (index == -1) {
+                        if (index === -1) {
                             sections.push(sectionid);
                         }
                     } else {
@@ -399,16 +402,15 @@ function(
                 var requestset = {
                     methodname: 'core_user_update_user_preferences',
                     args: {
-                        preferences: [
-                            {
+                        preferences: [{
                             type: 'format_wplist_opensections',
                             value: JSON.stringify(sections)
-                            }
-                        ]
+                        }]
                     }
                 };
-                Ajax.call([requestset])[0].fail(Notification.exception);
-            });
+                return Ajax.call([requestset])[0];
+            })
+        .fail(Notification.exception);
     };
 
     /**

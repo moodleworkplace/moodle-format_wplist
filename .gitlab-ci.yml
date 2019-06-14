@@ -31,13 +31,12 @@ jobtest:
   - . check moodle-plugin-ci phplint
   - . check moodle-plugin-ci phpcpd
   #- . check moodle-plugin-ci phpmd
-  - . check moodle-plugin-ci codechecker
-#  - . check moodle-plugin-ci codechecker --files all --max-warnings 0 # TODO replace previous line
+  - . check moodle-plugin-ci codechecker --files all --max-warnings 0
   - . check moodle-plugin-ci phpdoc
   - . check moodle-plugin-ci validate
   - . check moodle-plugin-ci savepoints
   - . check moodle-plugin-ci mustache
-#  - . check moodle-plugin-ci eslint --max-warnings 0 # TODO uncomment
+  - . check moodle-plugin-ci eslint --max-warnings 0
   - . check moodle-plugin-ci grunt
   - . check vendor/bin/phpunit --fail-on-risky --disallow-test-output -v admin/tool/dataprivacy/tests/metadata_registry_test.php
   - . check vendor/bin/phpunit --fail-on-risky --disallow-test-output -v lib/tests/externallib_test.php
