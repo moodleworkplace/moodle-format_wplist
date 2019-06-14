@@ -562,7 +562,7 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         if ($completionicon) {
             $template->hascompletion = true;
-            $formattedname = $mod->get_formatted_name();
+            $formattedname = $mod->get_formatted_name(['escape' => false]);
             $template->imgalt = get_string('completion-alt-' . $completionicon, 'completion', $formattedname);
 
             if ($this->page->user_is_editing()) {
