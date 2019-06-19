@@ -271,7 +271,12 @@ function(
                 return Str.get_string('totopofsection', 'moodle',
                         getSectionName(findClosestSection(parentElement)));
             } else {
-                return Str.get_string('movecontentafter', 'moodle', getModuleName(afterElement));
+                // We check that is not the empty section message.
+                if ($(afterElement).find('.cmname').length === 0) {
+                    return null;
+                } else {
+                    return Str.get_string('movecontentafter', 'moodle', getModuleName(afterElement));
+                }
             }
         };
 
