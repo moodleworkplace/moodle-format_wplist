@@ -50,28 +50,19 @@
             {{{moveicons}}}
         {{/editing}}
 
-        {{#availability}}
-            <span class="availability iconlarge nomargin">
-                <button class="btn btn-link border-0 py-3 px-md-4 popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
-                    {{#pix}} i/lock, core {{/pix}}
-                </button>
+        {{#completion}}
+            <span class="completion iconlarge nomargin py-3 px-md-4 align-self-start">
+                {{{completion}}}
             </span>
-        {{/availability}}
-
-        {{^availability}}
-            {{#completion}}
-                <span class="completion iconlarge nomargin py-3 px-md-4 align-self-start">
-                    {{{completion}}}
-                </span>
-            {{/completion}}
-            {{^completion}}
+        {{/completion}}
+        {{^completion}}
             <div class="iconlarge nomargin py-3 px-md-4">
                 <i class="icon fa fa-fw"></i>
             </div>
-            {{/completion}}
-        {{/availability}}
+        {{/completion}}
 
-        <div class="d-flex flex-column pt-3 align-self-start pl-1">
+
+        <div class="d-flex flex-column pt-3 align-self-start pl-1 flex-fill">
             {{#cmname}}
             <span class="d-flex cmname pb-2 iconlarge">
                 {{{cmname}}}
@@ -89,6 +80,14 @@
                 {{{mod.afterlink}}}
             </span>
         {{/mod.afterlink}}
+
+        {{#availability}}
+            <span class="availability iconlarge nomargin">
+                <button class="btn btn-link border-0 py-3 px-md-4 popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availability}}}'>
+                    {{#pix}} i/lock, core {{/pix}}
+                </button>
+            </span>
+        {{/availability}}
 
         {{#editing}}
             <span class="editoptions ml-auto align-self-stretch d-flex p-2">

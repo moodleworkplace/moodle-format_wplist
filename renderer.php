@@ -120,7 +120,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
 
             $o .= html_writer::div($this->render($menu), 'section_action_menu',
-                array('data-sectionid' => $section->id));
+                array('data-sectionid' => $section->id, 'title' => get_string('edit', 'moodle')));
         }
 
         return $o;
