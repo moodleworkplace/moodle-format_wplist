@@ -96,24 +96,17 @@
                         >
                             {{{name}}}
                         </h3>
-                        {{#availableinfo}}
-                            <span class="availability">
-                                <button class="btn btn-link py-4 pr-3 pl-4 pl-md-4 p-l-1 iconlarge nomargin popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
-                                    {{#pix}} i/lock, core {{/pix}}
-                                </button>
-                            </span>
-                        {{/availableinfo}}
                         {{#editing}}
                             {{^availableinfo}}
                                     <span class="iconlarge nomargin py-3 px-md-4"><i class="icon fa fa-fw"></i></span>
                             {{/availableinfo}}
                         {{/editing}}
 
-                        <div class="pt-3 pr-4 d-flex align-items-center">
-                           {{#expandbtn}}
+                        {{#expandbtn}}
+                        <div class="pt-3 px-0 d-flex align-items-center">
                             <div class="d-none d-sm-flex">
                                 <button id="expandaccordion"
-                                    class="ml-auto mr-4 btn btn-link btn-sm"
+                                    class="ml-auto py-2 px-0 btn btn-link btn-sm"
                                     data-action="expand"
                                     data-expanded="0"
                                 >
@@ -125,9 +118,23 @@
                                     </span>
                                 </button>
                             </div>
-                            {{/expandbtn}}
-                            {{{completion}}}
                         </div>
+                        {{/expandbtn}}
+
+                        {{#availableinfo}}
+                            <span class="availability">
+                                <button class="btn btn-link py-4 px-md-4 iconlarge nomargin popover-dismiss" data-toggle="popover" data-html="true" data-content='{{{availabilitymsg}}}'>
+                                    {{#pix}} i/lock, core {{/pix}}
+                                </button>
+                            </span>
+                        {{/availableinfo}}
+
+                        {{^availableinfo}}
+                            <div class="pt-2 px-4 d-flex align-items-center">
+                                {{{completion}}}
+                            </div>
+                        {{/availableinfo}}
+
                         {{#editing}}
                             <div class="editoptions ml-auto align-self-stretch d-flex flex-column px-2 py-3">
                                 {{{editsection}}}
