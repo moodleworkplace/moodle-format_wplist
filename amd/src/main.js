@@ -29,7 +29,8 @@ define(
     'core/notification',
     'core/custom_interaction_events',
     'core/ajax',
-    'core/str'
+    'core/str',
+    'core/templates'
 ],
 function(
     $,
@@ -37,7 +38,8 @@ function(
     Notification,
     CustomEvents,
     Ajax,
-    Str
+    Str,
+    Templates
 ) {
 
     var SELECTORS = {
@@ -46,8 +48,6 @@ function(
         MODULES_CONTAINER: '[data-region="course-modules"]',
         MODULE: '[data-region="module"]',
         COMPLETIONCHECKS: '[data-region="completioncheck"]',
-        COMPLETION_ON: '[data-region="checkon"]',
-        COMPLETION_OFF: '[data-region="checkoff"]',
         EXPAND_TOGGLE: '[data-toggle="collapse"]',
         EXPAND_SECTIONS: '[data-action="expand"]',
         EXPAND_SECTIONS_OPEN: '[data-region="collapsed-open"]',
@@ -122,26 +122,6 @@ function(
         var promise = Ajax.call([request])[0];
         promise.fail(Notification.exception);
         return promise;
-    };
-
-    /**
-     * Toggle the completion icon for self completion.
-     *
-     * @param  {Object} checkbox Container checkbox dom element.
-     * @param  {Boolean} checked
-     */
-    var checkCompletionIcon = function(checkbox, checked) {
-        if (!checked) {
-            checkbox.attr('data-checked', 1);
-            checkbox.attr('data-targetstate', 0);
-            checkbox.find(SELECTORS.COMPLETION_ON).removeClass('hidden');
-            checkbox.find(SELECTORS.COMPLETION_OFF).addClass('hidden');
-        } else {
-            checkbox.attr('data-checked', 0);
-            checkbox.attr('data-targetstate', 1);
-            checkbox.find(SELECTORS.COMPLETION_ON).addClass('hidden');
-            checkbox.find(SELECTORS.COMPLETION_OFF).removeClass('hidden');
-        }
     };
 
     /**
@@ -222,7 +202,6 @@ function(
             var moduleid = parseInt(cc.attr('data-module'));
             var targetstate = parseInt(cc.attr('data-targetstate'));
             var courseid = parseInt(cc.attr('data-courseid'));
-            var checked = parseInt(cc.attr('data-checked'));
             var sectionnumber = parseInt(cc.attr('data-sectionnumber'));
 
             var args = {
@@ -231,9 +210,9 @@ function(
                 courseid: courseid
             };
 
-            checkCompletion(args).then(function() {
-                checkCompletionIcon(cc, checked);
+            checkCompletion(args).then(function(html) {
                 updateSectionCompletion(root, sectionnumber, targetstate);
+                Templates.replaceNode(cc, html.completionicon, '');
                 return null;
             })
             .fail(Notification.exception);

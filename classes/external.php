@@ -236,7 +236,7 @@ class format_wplist_external extends core_course_external {
      * @return  array of warnings
      */
     public static function module_completion($moduleid, $targetstate, $courseid) {
-        global $DB, $USER;
+        global $DB, $PAGE;
 
         $params = self::validate_parameters(self::module_completion_parameters(), [
             'moduleid' => $moduleid,
@@ -245,6 +245,7 @@ class format_wplist_external extends core_course_external {
         ]);
 
         $cm = get_coursemodule_from_id(null, $moduleid, null, true, MUST_EXIST);
+        $cminfo = cm_info::create($cm);
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 
         // Check user is logged in.
@@ -275,8 +276,11 @@ class format_wplist_external extends core_course_external {
 
         $completion->update_state($cm, $targetstate);
 
-        $result = [];
-        $result['warnings'] = $warnings;
+        $renderer = $PAGE->get_renderer('format_wplist');
+        $result = [
+            'completionicon' => $renderer->course_section_cm_completion($course, $completion, $cminfo, []),
+            'warnings' => $warnings
+        ];
         return $result;
     }
 
@@ -289,6 +293,7 @@ class format_wplist_external extends core_course_external {
     public static function module_completion_returns() {
         return new external_single_structure(
             array(
+                'completionicon' => new external_value(PARAM_RAW, 'JSON-encoded data for template'),
                 'warnings' => new external_warnings()
             )
         );

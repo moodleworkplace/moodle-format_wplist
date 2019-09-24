@@ -509,7 +509,7 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string
      */
     public function course_section_cm_completion($course, &$completioninfo, cm_info $mod, $displayoptions = array()) {
-        global $CFG;
+        global $CFG, $USER;
 
         if (!empty($displayoptions['hidecompletion']) || !isloggedin() || isguestuser() || !$mod->uservisible) {
             return "";
@@ -518,15 +518,18 @@ class format_wplist_renderer extends format_section_renderer_base {
             $completioninfo = new completion_info($course);
         }
         $completion = $completioninfo->is_enabled($mod);
+
         if ($completion == COMPLETION_TRACKING_NONE) {
             return "";
         }
 
-        $completiondata = $completioninfo->get_data($mod, true);
+        $isediting = $this->page->user_is_editing();
+        $istrackeduser = $completioninfo->is_tracked_user($USER->id);
 
         $completionicon = '';
 
-        if ($this->page->user_is_editing()) {
+        $completiondata = $completioninfo->get_data($mod, true);
+        if ($isediting) {
             switch ($completion) {
                 case COMPLETION_TRACKING_MANUAL :
                     $completionicon = 'manual-enabled';
@@ -535,29 +538,31 @@ class format_wplist_renderer extends format_section_renderer_base {
                     $completionicon = 'auto-enabled';
                     break;
             }
-        } else if ($completion == COMPLETION_TRACKING_MANUAL) {
-            switch($completiondata->completionstate) {
-                case COMPLETION_INCOMPLETE:
-                    $completionicon = 'manual-n';
-                    break;
-                case COMPLETION_COMPLETE:
-                    $completionicon = 'manual-y';
-                    break;
-            }
         } else {
-            switch($completiondata->completionstate) {
-                case COMPLETION_INCOMPLETE:
-                    $completionicon = 'auto-n';
-                    break;
-                case COMPLETION_COMPLETE:
-                    $completionicon = 'auto-y';
-                    break;
-                case COMPLETION_COMPLETE_PASS:
-                    $completionicon = 'auto-pass';
-                    break;
-                case COMPLETION_COMPLETE_FAIL:
-                    $completionicon = 'auto-fail';
-                    break;
+            if ($completion == COMPLETION_TRACKING_MANUAL) {
+                switch($completiondata->completionstate) {
+                    case COMPLETION_INCOMPLETE:
+                        $completionicon = 'manual-n' . ($completiondata->overrideby ? '-override' : '');
+                        break;
+                    case COMPLETION_COMPLETE:
+                        $completionicon = 'manual-y' . ($completiondata->overrideby ? '-override' : '');
+                        break;
+                }
+            } else {
+                switch($completiondata->completionstate) {
+                    case COMPLETION_INCOMPLETE:
+                        $completionicon = 'auto-n' . ($completiondata->overrideby ? '-override' : '');
+                        break;
+                    case COMPLETION_COMPLETE:
+                        $completionicon = 'auto-y' . ($completiondata->overrideby ? '-override' : '');
+                        break;
+                    case COMPLETION_COMPLETE_PASS:
+                        $completionicon = 'auto-pass';
+                        break;
+                    case COMPLETION_COMPLETE_FAIL:
+                        $completionicon = 'auto-fail';
+                        break;
+                }
             }
         }
         $template = new stdClass();
@@ -567,13 +572,23 @@ class format_wplist_renderer extends format_section_renderer_base {
         $template->courseid = $course->id;
 
         if ($completionicon) {
-            $template->hascompletion = true;
             $formattedname = $mod->get_formatted_name(['escape' => false]);
-            $template->imgalt = get_string('completion-alt-' . $completionicon, 'completion', $formattedname);
+            $template->hascompletion = true;
 
-            if ($this->page->user_is_editing()) {
+            if ($isediting) {
                 $template->editing = true;
             }
+
+            if (!$isediting && $istrackeduser && $completiondata->overrideby) {
+                $args = new stdClass();
+                $args->modname = $formattedname;
+                $overridebyuser = \core_user::get_user($completiondata->overrideby, '*', MUST_EXIST);
+                $args->overrideuser = fullname($overridebyuser);
+                $imgalt = get_string('completion-alt-' . $completionicon, 'completion', $args);
+            } else {
+                $imgalt = get_string('completion-alt-' . $completionicon, 'completion', $formattedname);
+            }
+            $template->imgalt = $imgalt;
 
             if ($completion == COMPLETION_TRACKING_MANUAL) {
                 $template->self = true;
