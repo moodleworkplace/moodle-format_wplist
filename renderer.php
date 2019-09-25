@@ -331,7 +331,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         if (!empty($modinfo->sections[$section->section])) {
             foreach ($modinfo->sections[$section->section] as $modnumber) {
                 $mod = $modinfo->cms[$modnumber];
-                if (!$mod->uservisible && empty($mod->availableinfo)) {
+                if (!$mod->is_visible_on_course_page()) {
                     continue;
                 }
                 $template->modules[] = $this->course_section_cm_wplist_item($course,
@@ -637,10 +637,10 @@ class format_wplist_renderer extends format_section_renderer_base {
             $control->attributes = '';
             if (is_array($action->attributes)) {
                 foreach ($action->attributes as $name => $value) {
-                    $control->attributes .= $name . '="' . $value . '"';
+                    $control->attributes .= s($name) . '="' . s($value) . '"';
                 }
             }
-            $control->url = $action->url;
+            $control->url = $action->url->out(false);
             $control->string = $action->text;
             $template->controls[] = $control;
         }
@@ -671,12 +671,13 @@ class format_wplist_renderer extends format_section_renderer_base {
         }
 
         $template = new stdClass();
-        $template->url = new moodle_url('/course/changenumsections.php',
+        $url = new moodle_url('/course/changenumsections.php',
             ['courseid' => $course->id, 'insertsection' => 0, 'sesskey' => sesskey()]);
 
         if ($sectionreturn !== null) {
-            $template->url->param('sectionreturn', $sectionreturn);
+            $url->param('sectionreturn', $sectionreturn);
         }
+        $template->url = $url->out(false);
         $template->attributes = [['name' => 'new-sections', 'value' => $maxsections - $lastsection]];
 
         return $this->render_from_template('format_wplist/change_number_sections', $template);
