@@ -188,15 +188,25 @@ function(
         });
 
         $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('hidden.bs.collapse', function() {
-            var sectionid = $(this).attr('data-sectionid');
-            var isaccordion = $(this).attr('data-isaccordion');
-            storeSectionPreference(sectionid, isaccordion, false, contextid);
+            var sectionid = $(this).data('sectionid');
+            var sectionnumber = $(this).data('sectionnumber');
+            var isaccordion = $(this).data('isaccordion');
+            var sectionname = $(this).data('sectionname');
+            Str.get_string('expandsection', 'format_wplist', sectionname).done(function(s) {
+                $('.course-section-toggle[data-target="#sectioncontent-' + sectionnumber + '"]').attr('title', s);
+                storeSectionPreference(sectionid, isaccordion, false, contextid);
+            });
         });
 
         $(SELECTORS.EXPAND_SECTIONS_CONTENT).on('shown.bs.collapse', function() {
-            var sectionid = $(this).attr('data-sectionid');
-            var isaccordion = $(this).attr('data-isaccordion');
-            storeSectionPreference(sectionid, isaccordion, true, contextid);
+            var sectionid = $(this).data('sectionid');
+            var sectionnumber = $(this).data('sectionnumber');
+            var isaccordion = $(this).data('isaccordion');
+            var sectionname = $(this).data('sectionname');
+            Str.get_string('collapsesection', 'format_wplist', sectionname).done(function(s) {
+                $('.course-section-toggle[data-target="#sectioncontent-' + sectionnumber + '"]').attr('title', s);
+                storeSectionPreference(sectionid, isaccordion, true, contextid);
+            });
         });
 
         // Listen for changes on completion.

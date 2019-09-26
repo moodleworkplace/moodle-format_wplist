@@ -254,6 +254,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
             $sectiontemp->availabilitymsg = $this->section_availability($thissection);
             $sectiontemp->completion = $this->course_section_completion($course, $completioninfo, $section);
+            $sectiontemp->sectionname = get_section_name($course, $thissection);
             $sectiontemp->name = $this->section_title($thissection, $course);
             $sectiontemp->summary = $this->format_summary_text($thissection);
             $sectiontemp->expanded = false;
@@ -262,6 +263,11 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
             if ($PAGE->user_is_editing()) {
                 $sectiontemp->expanded = true;
+            }
+            if ($sectiontemp->expanded == true) {
+                $sectiontemp->toggletitle = get_string('collapsesection', 'format_wplist', $sectiontemp->sectionname);
+            } else {
+                $sectiontemp->toggletitle = get_string('expandsection', 'format_wplist', $sectiontemp->sectionname);
             }
             $sectiontemp->coursemodules = $this->course_section_cm_wplist($course, $thissection, 0);
 
