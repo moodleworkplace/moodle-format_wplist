@@ -140,9 +140,12 @@ function(
         } else {
             completedmodules--;
         }
-        sectionprogress.attr('data-completed-modules', completedmodules);
         var newCompletionPercentage = 100 * (completedmodules / completionmodules);
-        sectionprogress.css('width', newCompletionPercentage + '%');
+        Str.get_string('section_completion', 'format_wplist', newCompletionPercentage).done(function(s) {
+            sectionprogress.attr('title', s);
+            sectionprogress.attr('data-completed-modules', completedmodules);
+            sectionprogress.css('width', newCompletionPercentage + '%');
+        });
     };
 
     /**
