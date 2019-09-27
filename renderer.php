@@ -28,10 +28,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/format/renderer.php');
 
 /**
- * Basic renderer for topics format.
+ * Basic renderer for wplist format.
  *
- * @copyright 2012 Dan Poltawski
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_wplist
+ * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
+ * @author     2019 <bas@moodle.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_wplist_renderer extends format_section_renderer_base {
 
