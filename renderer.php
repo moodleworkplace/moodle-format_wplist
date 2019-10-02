@@ -76,7 +76,7 @@ class format_wplist_renderer extends format_section_renderer_base {
      * Generate the content to displayed on the right part of a section
      * before course modules are included
      *
-     * @param stdClass $section The course_section entry from DB
+     * @param stdClass|section_info $section The course_section entry from DB
      * @param stdClass $course The course entry from DB
      * @param bool $onsectionpage true if being printed on a section page
      * @return string HTML to output.
@@ -104,7 +104,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $o = "";
         if (!empty($controls)) {
             $menu = new action_menu();
-            $menu->set_menu_trigger($this->pix_icon('i/settings', '', 'core'));
+            $menu->set_menu_trigger($this->output->pix_icon('i/settings', '', 'core'));
             $menu->attributes['class'] .= ' section-actions';
             foreach ($controls as $value) {
                 $url = empty($value['url']) ? '' : $value['url'];
@@ -197,6 +197,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         } else {
             $template->editon = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'on']);
         }
+        /** @var format_wplist $courseformat */
         $courseformat = course_get_format($course);
         $course = $courseformat->get_course();
         $options = $courseformat->get_format_options();
@@ -224,11 +225,11 @@ class format_wplist_renderer extends format_section_renderer_base {
         $template->completioninfo = $completioninfo->display_help_icon();
         $template->courseactivityclipboard = $this->course_activity_clipboard($course, 0);
 
-        $numsections = course_get_format($course)->get_last_section_number();
+        $numsections = $courseformat->get_last_section_number();
 
         foreach ($modinfo->get_section_info_all() as $section => $thissection) {
 
-            $sectiontemp = $thissection;
+            $sectiontemp = (object)$thissection;
             $sectiontemp->sectionnumber = $section;
             if ($section == 0) {
                 $sectiontemp->expandbtn = true;
@@ -254,7 +255,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
             $sectiontemp->availabilitymsg = $this->section_availability($thissection);
             $sectiontemp->completion = $this->course_section_completion($course, $completioninfo, $section);
-            $sectiontemp->sectionname = get_section_name($course, $thissection);
+            $sectiontemp->sectionname = $courseformat->get_section_name($thissection);
             $sectiontemp->name = $this->section_title($thissection, $course);
             $sectiontemp->summary = $this->format_summary_text($thissection);
             $sectiontemp->expanded = false;
@@ -297,7 +298,7 @@ class format_wplist_renderer extends format_section_renderer_base {
     /**
      * Generate the section title, wraps it in a link to the section page if page is to be displayed on a separate page
      *
-     * @param stdClass $section The course_section entry from DB
+     * @param stdClass|section_info $section The course_section entry from DB
      * @param stdClass $course The course entry from DB
      * @return string HTML to output.
      */
@@ -314,7 +315,7 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @param int|stdClass|section_info $section relative section number or section object
      * @param int $sectionreturn section number to return to
      * @param int $displayoptions
-     * @return void
+     * @return string
      */
     public function course_section_cm_wplist($course, $section, $sectionreturn = null, $displayoptions = array()) {
         global $PAGE;
@@ -373,7 +374,7 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         $template->text = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
         $template->completion = $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
-        $template->cmname = $this->courserenderer->course_section_cm_name($mod, $displayoptions, false);
+        $template->cmname = $this->courserenderer->course_section_cm_name($mod, $displayoptions);
         $template->editing = $PAGE->user_is_editing();
         $template->availability = $this->courserenderer->course_section_cm_availability($mod, $displayoptions);
 
@@ -406,31 +407,6 @@ class format_wplist_renderer extends format_section_renderer_base {
             return $this->render_from_template('format_wplist/movecoursemodule', $template);
         }
         return '';
-    }
-
-
-    /**
-     * Renders html to display the module content on the course page (i.e. text of the labels)
-     *
-     * @param cm_info $mod
-     * @param array $displayoptions
-     * @return string
-     */
-    public function course_section_cm_text(cm_info $mod, $displayoptions = array()) {
-        $output = '';
-        if (!$mod->uservisible && empty($mod->availableinfo)) {
-            // Nothing to be displayed to the user.
-            return $output;
-        }
-        $accesstext = '';
-        $textclasses = '';
-
-        $groupinglabel = $mod->get_grouping_label($textclasses);
-
-            // No link, so display only content.
-        return html_writer::tag('div', $accesstext . $content . $groupinglabel,
-                    array('class' => 'contentwithoutlink '));
-
     }
 
     /**
@@ -686,12 +662,11 @@ class format_wplist_renderer extends format_section_renderer_base {
         }
 
         $format = course_get_format($course);
-        $options = $format->get_format_options();
         $maxsections = $format->get_max_sections();
         $lastsection = $format->get_last_section_number();
 
         if ($lastsection >= $maxsections) {
-            return;
+            return '';
         }
 
         $template = new stdClass();
