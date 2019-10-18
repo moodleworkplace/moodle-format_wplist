@@ -21,6 +21,7 @@
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 
@@ -34,6 +35,7 @@ require_once($CFG->dirroot.'/course/format/renderer.php');
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 class format_wplist_renderer extends format_section_renderer_base {
 

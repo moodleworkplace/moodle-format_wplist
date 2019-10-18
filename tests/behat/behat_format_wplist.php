@@ -21,6 +21,7 @@
  * @copyright   2019 Moodle Pty Ltd <support@moodle.com>
  * @author      2019 Marina Glancy
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
@@ -39,6 +40,7 @@ use Behat\Gherkin\Node\TableNode as TableNode,
  * @copyright   2019 Moodle Pty Ltd <support@moodle.com>
  * @author      2019 Marina Glancy
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 class behat_format_wplist extends behat_base {
 

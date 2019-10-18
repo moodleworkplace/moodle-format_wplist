@@ -21,6 +21,7 @@
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 Daniel Neis Araujo <daniel@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 use \format_wplist\privacy\provider;
@@ -38,6 +39,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 Daniel Neis Araujo <daniel@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 class format_wplist_privacy_provider_testcase extends \core_privacy\tests\provider_testcase {
 

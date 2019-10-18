@@ -21,6 +21,7 @@
  * @copyright  2018 Moodle Pty Ltd <support@moodle.com>
  * @author     2018 <bas@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 $string['accordioneffect'] = 'Accordion effect';
