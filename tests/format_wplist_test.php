@@ -21,6 +21,7 @@
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -35,6 +36,7 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 class format_wplist_testcase extends advanced_testcase {
 

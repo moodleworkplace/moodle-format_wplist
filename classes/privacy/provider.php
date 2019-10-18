@@ -21,6 +21,7 @@
  * @copyright  2018 Moodle Pty Ltd <support@moodle.com>
  * @author     2018 Workplace team
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
 namespace format_wplist\privacy;
@@ -40,6 +41,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2018 Moodle Pty Ltd <support@moodle.com>
  * @author     2018 Workplace team
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 class provider implements
         \core_privacy\local\metadata\provider,
