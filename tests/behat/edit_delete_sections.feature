@@ -8,6 +8,7 @@ Feature: Sections can be edited and deleted in wplist format
     Given the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | 1        | teacher1@example.com |
+      | student1 | Student   | 1        | student1@example.com |
     And the following "courses" exist:
       | fullname | shortname | format | coursedisplay | numsections |
       | Course 1 | C1        | wplist | 0             | 5           |
@@ -20,6 +21,7 @@ Feature: Sections can be edited and deleted in wplist format
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
+      | student1 | C1     | student        |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
 
@@ -90,3 +92,38 @@ Feature: Sections can be edited and deleted in wplist format
     And I should see "Topic 8" in the "[data-region=section][data-sectionnumber=8]" "css_element"
     And I should see "Topic 9" in the "[data-region=section][data-sectionnumber=9]" "css_element"
     And "[data-region=section][data-sectionnumber=10]" "css_element" should not exist
+
+  Scenario: Rearranging sections in wplist format
+    And "Test chat name" "link" should appear after "Test book name" "link"
+    And I click on "Move section 4" "button"
+    And I follow "After \" General \""
+    And "Test chat name" "link" should appear before "Test book name" "link"
+    And I log out
+
+  Scenario: Hiding a section in wplist format
+    And I hide wplist section "2"
+    And I open availability popup for wplist section "2"
+    And I should see "Hidden from students"
+    And I log out
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I should see "Topic 1"
+    And I should see "Topic 2"
+    And I open availability popup for wplist section "2"
+    And I should see "Not available"
+    And I should see "Topic 3"
+    And I log out
+    And I log in as "teacher1"
+    And I am on "Course 1" course homepage
+    And I navigate to "Edit settings" in current page administration
+    And I expand all fieldsets
+    And the field "Format" matches value "Workplace list format"
+    And I set the field "Hidden sections" to "Hidden sections are completely invisible"
+    And I press "Save and display"
+    And I log out
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I should see "Topic 1"
+    And I should not see "Topic 2"
+    And I should see "Topic 3"
+    And I log out

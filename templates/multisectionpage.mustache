@@ -27,6 +27,7 @@
         "courseid": 3,
         "editing": true,
         "contextid": 2,
+        "pagetitle": "Topics outline",
         "sections": [
             {
                 "sectionnumber": 1,
@@ -50,6 +51,7 @@
 
 <div id="format-wplist-{{uniqid}}" class="formatwplistcontent">
     {{{completioninfo}}}
+    <h2 class="accesshide">{{{pagetitle}}}</h2>
     {{{courseactivityclipboard}}}
     <div class="accordion" id="formatwplist" data-region="section-container" data-is-root="1" data-courseid="{{courseid}}">
         {{#sections}}
@@ -76,10 +78,13 @@
                             type="button"
                             title="{{toggletitle}}"
                             data-sectionname="{{sectionname}}"
+                            {{^disableexpanding}}
                             data-toggle="collapse"
                             data-target="#sectioncontent-{{sectionnumber}}"
                             aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
                             aria-controls="sectioncontent-{{sectionnumber}}"
+                            {{/disableexpanding}}
+                            {{#disableexpanding}}disabled="disabled"{{/disableexpanding}}
                         >
                             <span class="togglesectionicon text-gray060 collapsed-icon-container nomargin iconlarge">
                                 {{#pix}} t/collapsedcaret, core {{/pix}}
@@ -91,10 +96,12 @@
                         <h3
                             class="sectionname flex-fill pt-4"
                             {{^editing}}
+                                {{^disableexpanding}}
                                 data-toggle="collapse"
                                 data-target="#sectioncontent-{{sectionnumber}}"
                                 aria-expanded="{{#expanded}}true{{/expanded}}{{^expanded}}false{{/expanded}}"
                                 aria-controls="sectioncontent-{{sectionnumber}}"
+                                {{/disableexpanding}}
                             {{/editing}}
                         >
                             {{{name}}}
@@ -124,19 +131,20 @@
                         </div>
                         {{/expandbtn}}
 
-                        {{#availableinfo}}
+                        {{#availabilitymsg}}
                             <span class="availability">
-                                <button class="btn btn-link py-4 px-md-4 iconlarge nomargin popover-dismiss" data-toggle="popover" data-html="true" data-content="{{availabilitymsg}}">
+                                <a class="btn btn-link py-4 px-md-4 iconlarge nomargin popover-dismiss" data-toggle="popover"
+                                        data-trigger="focus" data-html="true" data-content="{{availabilitymsg}}" data-placement="left" tabindex="0">
                                     {{#pix}} i/lock, core {{/pix}}
-                                </button>
+                                </a>
                             </span>
-                        {{/availableinfo}}
+                        {{/availabilitymsg}}
 
-                        {{^availableinfo}}
+                        {{^availabilitymsg}}
                             <div class="pt-2 px-4 d-flex align-items-center">
                                 {{{completion}}}
                             </div>
-                        {{/availableinfo}}
+                        {{/availabilitymsg}}
 
                         {{#editing}}
                             <div class="editoptions ml-auto align-self-stretch d-flex flex-column px-2 py-3">

@@ -54,6 +54,30 @@ class behat_format_wplist extends behat_base {
     }
 
     /**
+     * Gets the current course format.
+     *
+     * @return string The course format in a frankenstyled name.
+     */
+    protected function get_course_format() {
+        return 'format_wplist';
+    }
+
+    /**
+     * Returns the DOM node of the activity from <li>.
+     *
+     * @throws ElementNotFoundException Thrown by behat_base::find
+     * @param string $activityname The activity name
+     * @return \Behat\Mink\Element\NodeElement
+     */
+    protected function get_activity_node($activityname) {
+
+        $activityname = behat_context_helper::escape($activityname);
+        $xpath = "//div[@data-region='module'][contains(., $activityname)]";
+
+        return $this->find('xpath', $xpath);
+    }
+
+    /**
      * Checks if the course section exists.
      *
      * @throws ElementNotFoundException Thrown by behat_base::find
@@ -202,6 +226,36 @@ class behat_format_wplist extends behat_base {
     }
 
     /**
+     * Hides the specified visible section. You need to be in the course page and on editing mode.
+     *
+     * @Given /^I hide wplist section "(?P<section_number>\d+)"$/
+     * @param int $sectionnumber
+     */
+    public function i_hide_wplist_section($sectionnumber) {
+        // Ensures the section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        // We need to know the course format as the text strings depends on them.
+        $courseformat = $this->get_course_format();
+        if (get_string_manager()->string_exists('hidefromothers', $courseformat)) {
+            $strhide = get_string('hidefromothers', $courseformat);
+        } else {
+            $strhide = get_string('hidesection');
+        }
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_wplist_section_edit_menu($sectionnumber);
+        }
+
+        // Click on delete link.
+        $xpath .= "/descendant::div[contains(@class, 'section-actions')]";
+        $this->execute('behat_general::i_click_on_in_the',
+            array($strhide, "link", $this->escape($xpath), "xpath_element")
+        );
+    }
+
+    /**
      * Expands course section.
      *
      * @Given /^I expand wplist section "(?P<section_number>\d+)"$/
@@ -215,6 +269,274 @@ class behat_format_wplist extends behat_base {
         $this->execute('behat_general::i_click_on_in_the',
             array('button.course-section-toggle', "css_element", $xpath, "xpath_element")
         );
+    }
+
+    /**
+     * Open the availability popup for the seciton
+     *
+     * @Given /^I open availability popup for wplist section "(?P<section_number>\d+)"$/
+     * @param int $sectionnumber The section number
+     */
+    public function i_open_availability_popup_for_wplist_section($sectionnumber) {
+        // Ensures the section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        // Click on expand link.
+        $this->execute('behat_general::i_click_on_in_the',
+            array('.availability a', "css_element", $xpath, "xpath_element")
+        );
+
+    }
+
+    /**
+     * Checks that the specified activity's action menu is open.
+     *
+     * @Then /^wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu should be open$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param string $activityname
+     */
+    public function wplist_activity_actions_menu_should_be_open($activityname) {
+
+        if (!$this->running_javascript()) {
+            throw new DriverException('Activities actions menu not available when Javascript is disabled');
+        }
+
+        $activitynode = $this->get_activity_node($activityname);
+        // Find the menu.
+        $menunode = $activitynode->find('css', 'a[data-toggle=dropdown]');
+        if (!$menunode) {
+            throw new ExpectationException(sprintf('Could not find actions menu for the activity "%s"', $activityname),
+                $this->getSession());
+        }
+        $expanded = $menunode->getAttribute('aria-expanded');
+        if ($expanded != 'true') {
+            throw new ExpectationException(sprintf("The action menu for '%s' is not open", $activityname), $this->getSession());
+        }
+    }
+
+    /**
+     * Opens an activity actions menu if it is not already opened.
+     *
+     * @Given /^I open wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param string $activityname
+     */
+    public function i_open_wplist_activity_actions_menu($activityname) {
+
+        if (!$this->running_javascript()) {
+            throw new DriverException('Activities actions menu not available when Javascript is disabled');
+        }
+
+        $this->execute('behat_format_wplist::i_click_on_in_the_wplist_activity',
+            array("a[data-toggle='dropdown']", "css_element", $this->escape($activityname))
+        );
+
+        $this->wplist_activity_actions_menu_should_be_open($activityname);
+    }
+
+    /**
+     * Checks that the specified activity's action menu contains an item.
+     *
+     * @Then /^wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu should have "(?P<menu_item_string>(?:[^"]|\\")*)" item$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param string $activityname
+     * @param string $menuitem
+     */
+    public function wplist_activity_actions_menu_should_have_item($activityname, $menuitem) {
+        $activitynode = $this->get_activity_node($activityname);
+
+        $notfoundexception = new ExpectationException('"' . $activityname . '" doesn\'t have a "' .
+            $menuitem . '" item', $this->getSession());
+        $this->find('named_partial', array('link', $menuitem), $notfoundexception, $activitynode);
+    }
+
+    /**
+     * Checks that the specified activity's action menu does not contains an item.
+     *
+     * @Then /^wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu should not have "(?P<menu_item_string>(?:[^"]|\\")*)" item$/
+     * @throws DriverException The step is not available when Javascript is disabled
+     * @param string $activityname
+     * @param string $menuitem
+     */
+    public function wplist_activity_actions_menu_should_not_have_item($activityname, $menuitem) {
+        $activitynode = $this->get_activity_node($activityname);
+
+        try {
+            $this->find('named_partial', array('link', $menuitem), false, $activitynode);
+            throw new ExpectationException('"' . $activityname . '" has a "' . $menuitem .
+                '" item when it should not', $this->getSession());
+        } catch (ElementNotFoundException $e) {
+            // This is good, the menu item should not be there.
+            null;
+        }
+    }
+
+    /**
+     * Clicks on the specified element inside the activity container.
+     *
+     * @throws ElementNotFoundException
+     * @param string $element
+     * @param string $selectortype
+     * @param string $activityname
+     * @return \Behat\Mink\Element\NodeElement
+     */
+    protected function get_activity_element($element, $selectortype, $activityname) {
+        $activitynode = $this->get_activity_node($activityname);
+
+        $exception = new ElementNotFoundException($this->getSession(), "'{$element}' '{$selectortype}' in '${activityname}'");
+        return $this->find($selectortype, $element, $exception, $activitynode);
+    }
+
+    /**
+     * Clicks on the specified element of the activity. You should be in the course page with editing mode turned on.
+     *
+     * @Given /^I click on "(?P<element_string>(?:[^"]|\\")*)" "(?P<selector_string>(?:[^"]|\\")*)" in the "(?P<activity_name_string>(?:[^"]|\\")*)" wplist activity$/
+     * @param string $element
+     * @param string $selectortype
+     * @param string $activityname
+     */
+    public function i_click_on_in_the_wplist_activity($element, $selectortype, $activityname) {
+        $element = $this->get_activity_element($element, $selectortype, $activityname);
+        $element->click();
+    }
+
+    /**
+     * Returns whether the user can edit the course contents or not.
+     *
+     * @return bool
+     */
+    protected function is_course_editor() {
+
+        // We don't need to behat_base::spin() here as all is already loaded.
+        if (!$this->getSession()->getPage()->findLink(get_string('turneditingoff')) &&
+            !$this->getSession()->getPage()->findLink(get_string('turneditingon'))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns whether the user can edit the course contents and the editing mode is on.
+     *
+     * @return bool
+     */
+    protected function is_editing_on() {
+        return $this->getSession()->getPage()->findButton(get_string('turneditingoff')) ? true : false;
+    }
+
+    /**
+     * Checks that the specified activity is hidden. You need to be in the course page.
+     *
+     * It can be used being logged as a student and as a teacher on editing mode.
+     *
+     * @Then /^"(?P<activity_or_resource_string>(?:[^"]|\\")*)" wplist activity should be hidden$/
+     * @param string $activityname
+     * @throws ExpectationException
+     */
+    public function wplist_activity_should_be_hidden($activityname) {
+
+        if ($this->is_course_editor()) {
+
+            // The activity should exist.
+            $activitynode = $this->get_activity_node($activityname);
+
+            // Should be hidden.
+            $exception = new ExpectationException('"' . $activityname . '" is not dimmed', $this->getSession());
+            $xpath = "/descendant-or-self::a[contains(concat(' ', normalize-space(@class), ' '), ' dimmed ')] | ".
+                "/descendant-or-self::div[contains(concat(' ', normalize-space(@class), ' '), ' dimmed_text ')]";
+            $this->find('xpath', $xpath, $exception, $activitynode);
+
+            // Additional check if this is a teacher in editing mode.
+            if ($this->is_editing_on()) {
+                // Also has either 'Show' or 'Make available' edit control.
+                $noshowexception = new ExpectationException('"' . $activityname . '" has neither "' . get_string('show') .
+                    '" nor "' . get_string('makeavailable') . '" icons', $this->getSession());
+                try {
+                    $this->find('named_partial', array('link', get_string('show')), false, $activitynode);
+                } catch (ElementNotFoundException $e) {
+                    $this->find('named_partial', array('link', get_string('makeavailable')), $noshowexception, $activitynode);
+                }
+            }
+
+        } else {
+
+            // It should not exist at all.
+            try {
+                $this->get_activity_node($activityname);
+                throw new ExpectationException('The "' . $activityname . '" should not appear', $this->getSession());
+            } catch (ElementNotFoundException $e) {
+                // This is good, the activity should not be there.
+                null;
+            }
+        }
+
+    }
+
+    /**
+     * Checks that the specified activity is visible. You need to be in the course page.
+     * It can be used being logged as a student and as a teacher on editing mode.
+     *
+     * @Then /^"(?P<activity_or_resource_string>(?:[^"]|\\")*)" wplist activity should be available but hidden from course page$/
+     * @param string $activityname
+     * @throws ExpectationException
+     */
+    public function wplist_activity_should_be_available_but_hidden_from_course_page($activityname) {
+
+        if ($this->is_course_editor()) {
+
+            // The activity must exists and be visible.
+            $activitynode = $this->get_activity_node($activityname);
+
+            // The activity should not be dimmed.
+            try {
+                $xpath = "/descendant-or-self::a[contains(concat(' ', normalize-space(@class), ' '), ' dimmed ')] | " .
+                    "/descendant-or-self::div[contains(concat(' ', normalize-space(@class), ' '), ' dimmed_text ')]";
+                $this->find('xpath', $xpath, false, $activitynode);
+                throw new ExpectationException('"' . $activityname . '" is hidden', $this->getSession());
+            } catch (ElementNotFoundException $e) {
+                // All ok.
+                null;
+            }
+
+            // Should has "stealth" class.
+            $exception = new ExpectationException('"' . $activityname . '" does not have CSS class "stealth"', $this->getSession());
+            $xpath = "/descendant-or-self::a[contains(concat(' ', normalize-space(@class), ' '), ' stealth ')]";
+            $this->find('xpath', $xpath, $exception, $activitynode);
+
+            // Additional check if this is a teacher in editing mode.
+            if ($this->is_editing_on()) {
+                // Also has either 'Hide' or 'Make unavailable' edit control.
+                $nohideexception = new ExpectationException('"' . $activityname . '" has neither "' . get_string('hide') .
+                    '" nor "' . get_string('makeunavailable') . '" icons', $this->getSession());
+                try {
+                    $this->find('named_partial', array('link', get_string('hide')), false, $activitynode);
+                } catch (ElementNotFoundException $e) {
+                    $this->find('named_partial', array('link', get_string('makeunavailable')), $nohideexception, $activitynode);
+                }
+            }
+
+        } else {
+
+            // Student should not see the activity at all.
+            try {
+                $this->get_activity_node($activityname);
+                throw new ExpectationException('The "' . $activityname . '" should not appear', $this->getSession());
+            } catch (ElementNotFoundException $e) {
+                // This is good, the activity should not be there.
+                null;
+            }
+        }
+    }
+
+    /**
+     * Open the availability popup for the seciton
+     *
+     * @Given /^I open availability popup for wplist activity "(?P<activity_or_resource_string>(?:[^"]|\\")*)"$/
+     * @param string $activityname
+     */
+    public function i_open_availability_popup_for_wplist_activity($activityname) {
+        $this->i_click_on_in_the_wplist_activity('.availability a', "css_element", $activityname);
     }
 
 }

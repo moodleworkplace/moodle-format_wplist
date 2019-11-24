@@ -36,7 +36,7 @@ use \core_privacy\local\request\writer;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for format_wplist implementing null_provider.
+ * Privacy Subsystem for format_wplist.
  *
  * @copyright  2018 Moodle Pty Ltd <support@moodle.com>
  * @author     2018 Workplace team
@@ -114,16 +114,6 @@ class provider implements
 
         $params['preference'] = 'format_wplist_opensections_' . $context->id;
         $userlist->add_from_sql('userid', $sql, $params);
-    }
-
-    /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores data.
-     *
-     * @return  string
-     */
-    public static function get_reason() : string {
-        return 'privacy:metadata';
     }
 
     /**
