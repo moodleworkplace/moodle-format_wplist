@@ -32,7 +32,6 @@ Feature: Operations with activity modules in wplist format
     And "[data-region='module'].type-assign" "css_element" should appear after "[data-region='module'].type-book" "css_element"
     And I log out
 
-  @t1
   Scenario: Stealth activities in wplist format
     Given the following config values are set as admin:
       | allowstealth | 1 |
