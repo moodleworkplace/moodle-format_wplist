@@ -52,11 +52,7 @@ course_create_sections_if_missing($course, 0);
 /** @var format_wplist_renderer $renderer */
 $renderer = $PAGE->get_renderer('format_wplist');
 
-if (!empty($displaysection)) {
-    $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
-} else {
-    $renderer->print_multiple_section_page($course, null, null, null, null);
-}
+$renderer->print_multiple_section_page($course, null, null, null, null);
 
 // Include course format js module.
 $PAGE->requires->js('/course/format/wplist/format.js');

@@ -21,9 +21,11 @@ before_script:
 - cd $CI_PROJECT_DIR/..
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-theme_workplace.git
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-tool_wp.git
-- moodle-plugin-ci install --db-host="$DB_HOST" -vvv
+- moodle-plugin-ci install --db-host="$DB_HOST" --no-init -vvv
 - php -S ${IPADDRESS}:8000 -t $CI_PROJECT_DIR/../moodle > /dev/null 2>&1 &
 - cd moodle
+- php admin/tool/phpunit/cli/init.php
+- php admin/tool/behat/cli/init.php --add-core-features-to-theme --parallel=3 --optimize-runs=@format_wplist
 
 jobtest:
   script:
@@ -34,7 +36,7 @@ jobtest:
   - . check moodle-plugin-ci phplint
   - . check moodle-plugin-ci phpcpd
   #- . check moodle-plugin-ci phpmd
-  - . check moodle-plugin-ci codechecker --files all --max-warnings 0
+  - . check moodle-plugin-ci codechecker --files all --max-warnings 3
   - . check moodle-plugin-ci phpdoc
   - . check moodle-plugin-ci validate
   - . check moodle-plugin-ci savepoints

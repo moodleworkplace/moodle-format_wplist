@@ -226,6 +226,7 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         $template->completioninfo = $completioninfo->display_help_icon();
         $template->courseactivityclipboard = $this->course_activity_clipboard($course, 0);
+        $template->pagetitle = $this->page_title();
 
         $numsections = $courseformat->get_last_section_number();
 
@@ -245,7 +246,13 @@ class format_wplist_renderer extends format_section_renderer_base {
                 }
                 $sectiontemp->editsection = $this->edit_section($thissection, $course, false);
             } else {
-                if (!$thissection->uservisible || !$thissection->visible) {
+                // Show the section if the user is permitted to access it, OR if it's not available
+                // but there is some available info text which explains the reason & should display,
+                // OR it is hidden but the course has a setting to display hidden sections as unavilable.
+                $showsection = $thissection->uservisible ||
+                    ($thissection->visible && !$thissection->available && !empty($thissection->availableinfo)) ||
+                    (!$thissection->visible && !$course->hiddensections);
+                if (!$showsection) {
                     continue;
                 }
             }
@@ -266,6 +273,10 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
             if ($PAGE->user_is_editing()) {
                 $sectiontemp->expanded = true;
+            }
+            if (!$thissection->uservisible) {
+                $sectiontemp->expanded = false;
+                $sectiontemp->disableexpanding = true;
             }
             if ($sectiontemp->expanded == true) {
                 $sectiontemp->toggletitle = get_string('collapsesection', 'format_wplist', $sectiontemp->sectionname);
@@ -294,7 +305,8 @@ class format_wplist_renderer extends format_section_renderer_base {
     public function section_availability($section) {
         $context = context_course::instance($section->course);
         $canviewhidden = has_capability('moodle/course:viewhiddensections', $context);
-        return html_writer::div($this->section_availability_message($section, $canviewhidden));
+        $message = $this->section_availability_message($section, $canviewhidden);
+        return $message ? html_writer::div($message) : null;
     }
 
     /**
@@ -409,25 +421,6 @@ class format_wplist_renderer extends format_section_renderer_base {
             return $this->render_from_template('format_wplist/movecoursemodule', $template);
         }
         return '';
-    }
-
-    /**
-     * Checks if course module has any conditions that may make it unavailable for
-     * all or some of the students
-     *
-     * This function is internal and is only used to create CSS classes for the module name/text
-     *
-     * @param cm_info $mod
-     * @return bool
-     */
-    protected function is_cm_conditionally_hidden(cm_info $mod) {
-        global $CFG;
-        $conditionalhidden = false;
-        if (!empty($CFG->enableavailability)) {
-            $info = new \core_availability\info_module($mod);
-            $conditionalhidden = !$info->is_available_for_all();
-        }
-        return $conditionalhidden;
     }
 
     /**
