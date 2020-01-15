@@ -150,6 +150,40 @@ function(
     };
 
     /**
+     * Update the section collapse button.
+     * @param  {Object} root The course format root container element.
+     * @param  {Number} open Show state for all containers open.
+     * @param  {Bool} auto Check if containers open.
+     * @return {Bool} return early if auto and not all sections closed or open.
+     */
+    var updateSectionCollapse = function(root, open, auto) {
+        if (auto) {
+            if (root.find('.sectioncontent.collapse.show').length === 0) {
+                open = 1;
+            } else if (root.find('.sectioncontent.collapse:not(.show)').length === 0) {
+                open = 0;
+            } else {
+                // Return early since not all sections are open or closed.
+                return false;
+            }
+        }
+
+        var expand = root.find(SELECTORS.EXPAND_SECTIONS);
+        var openmsg = expand.find(SELECTORS.EXPAND_SECTIONS_OPEN);
+        var closedmsg = expand.find(SELECTORS.EXPAND_SECTIONS_CLOSED);
+        if (open === 0) {
+            openmsg.removeClass('hidden');
+            closedmsg.addClass('hidden');
+            expand.attr('data-expanded', 1);
+        } else {
+            openmsg.addClass('hidden');
+            closedmsg.removeClass('hidden');
+            expand.attr('data-expanded', 0);
+        }
+        return true;
+    };
+
+    /**
      * Listen to, and handle events for the workplace list format.
      *
      * @param {Object} root The course format root container element.
@@ -161,10 +195,7 @@ function(
         ]);
 
         root.on(CustomEvents.events.activate, SELECTORS.EXPAND_SECTIONS, function(e) {
-            var expand = $(e.target).closest(SELECTORS.EXPAND_SECTIONS);
-            var openmsg = expand.find(SELECTORS.EXPAND_SECTIONS_OPEN);
-            var closedmsg = expand.find(SELECTORS.EXPAND_SECTIONS_CLOSED);
-            var open = parseInt(expand.attr('data-expanded'));
+            var open = parseInt($(e.target).closest(SELECTORS.EXPAND_SECTIONS).attr('data-expanded'));
             if (open === 0) {
                 $(SELECTORS.EXPAND_SECTIONS_CONTENT).each(function() {
                     $(this).addClass('show');
@@ -172,9 +203,8 @@ function(
                 $(SELECTORS.EXPAND_TOGGLE).each(function() {
                     $(this).removeClass('collapsed');
                 });
-                openmsg.removeClass('hidden');
-                closedmsg.addClass('hidden');
-                expand.attr('data-expanded', 1);
+                updateSectionCollapse(root, 0, false);
+                storeSectionPreference(root, 0, true, true, contextid);
             } else {
                 $(SELECTORS.EXPAND_SECTIONS_CONTENT).each(function() {
                     $(this).removeClass('show');
@@ -182,9 +212,8 @@ function(
                 $(SELECTORS.EXPAND_TOGGLE).each(function() {
                     $(this).addClass('collapsed');
                 });
-                openmsg.addClass('hidden');
-                closedmsg.removeClass('hidden');
-                expand.attr('data-expanded', 0);
+                updateSectionCollapse(root, 1, false);
+                storeSectionPreference(root, 0, true, false, contextid);
             }
         });
 
@@ -193,9 +222,10 @@ function(
             var sectionnumber = $(this).data('sectionnumber');
             var isaccordion = $(this).data('isaccordion');
             var sectionname = $(this).data('sectionname');
+            updateSectionCollapse(root, 1, true);
             Str.get_string('expandsection', 'format_wplist', sectionname).done(function(s) {
                 $('.course-section-toggle[data-target="#sectioncontent-' + sectionnumber + '"]').attr('title', s);
-                storeSectionPreference(sectionid, isaccordion, false, contextid);
+                storeSectionPreference(root, sectionid, isaccordion, false, contextid);
             });
         });
 
@@ -204,9 +234,10 @@ function(
             var sectionnumber = $(this).data('sectionnumber');
             var isaccordion = $(this).data('isaccordion');
             var sectionname = $(this).data('sectionname');
+            updateSectionCollapse(root, 0, true);
             Str.get_string('collapsesection', 'format_wplist', sectionname).done(function(s) {
                 $('.course-section-toggle[data-target="#sectioncontent-' + sectionnumber + '"]').attr('title', s);
-                storeSectionPreference(sectionid, isaccordion, true, contextid);
+                storeSectionPreference(root, sectionid, isaccordion, true, contextid);
             });
         });
 
@@ -361,12 +392,13 @@ function(
     /**
      * Store the user display preference for this section
      *
+     * @param {Object} root The course format root container element.
      * @param {Number} sectionid Section ID.
      * @param {Boolean} isaccordion
      * @param {Boolean} opened = true or closed = false.
      * @param {Number} contextid Course context ID.
      */
-    var storeSectionPreference = function(sectionid, isaccordion, opened, contextid) {
+    var storeSectionPreference = function(root, sectionid, isaccordion, opened, contextid) {
 
         var requestget = {
             methodname: 'core_user_get_user_preferences',
@@ -379,7 +411,13 @@ function(
 
         Ajax.call([requestget])[0]
             .then(function(p) {
-                if (isaccordion) {
+                if (sectionid === 0 && opened) {
+                    sections = [];
+                    root.find('.sectioncontent.collapse').each(function() {
+                        var sectionid = $(this).data('sectionid');
+                        sections.push(sectionid);
+                    });
+                } else if (isaccordion) {
                     if (opened) {
                         sections = [sectionid];
                     } else {
