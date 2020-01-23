@@ -224,7 +224,6 @@ class format_wplist_renderer extends format_section_renderer_base {
 
         $completioninfo = new completion_info($course);
 
-        $template->completioninfo = $completioninfo->display_help_icon();
         $template->courseactivityclipboard = $this->course_activity_clipboard($course, 0);
         $template->pagetitle = $this->page_title();
         $template->hasclosedsections = false;
