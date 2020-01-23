@@ -558,6 +558,10 @@ class format_wplist_renderer extends format_section_renderer_base {
                 $template->editing = true;
             }
 
+            if (\core_availability\info::completion_value_used($course, $mod->id)) {
+                $template->reloadonchange = true;
+            }
+
             if (!$isediting && $istrackeduser && $completiondata->overrideby) {
                 $args = new stdClass();
                 $args->modname = $formattedname;

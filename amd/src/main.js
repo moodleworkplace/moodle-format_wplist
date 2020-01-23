@@ -248,6 +248,7 @@ function(
             var targetstate = parseInt(cc.attr('data-targetstate'));
             var courseid = parseInt(cc.attr('data-courseid'));
             var sectionnumber = parseInt(cc.attr('data-sectionnumber'));
+            var reloadOnChange = parseInt(cc.attr('data-reloadonchange'));
 
             var args = {
                 moduleid: moduleid,
@@ -256,6 +257,9 @@ function(
             };
 
             checkCompletion(args).then(function(html) {
+                if (reloadOnChange) {
+                    window.location.reload();
+                }
                 updateSectionCompletion(root, sectionnumber, targetstate);
                 Templates.replaceNode(cc, html.completionicon, '');
                 return null;
