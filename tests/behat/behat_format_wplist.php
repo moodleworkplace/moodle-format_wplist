@@ -337,6 +337,7 @@ class behat_format_wplist extends behat_base {
     /**
      * Checks that the specified activity's action menu contains an item.
      *
+     * @codingStandardsIgnoreLine
      * @Then /^wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu should have "(?P<menu_item_string>(?:[^"]|\\")*)" item$/
      * @throws DriverException The step is not available when Javascript is disabled
      * @param string $activityname
@@ -353,6 +354,7 @@ class behat_format_wplist extends behat_base {
     /**
      * Checks that the specified activity's action menu does not contains an item.
      *
+     * @codingStandardsIgnoreLine
      * @Then /^wplist activity "(?P<activity_name_string>(?:[^"]|\\")*)" actions menu should not have "(?P<menu_item_string>(?:[^"]|\\")*)" item$/
      * @throws DriverException The step is not available when Javascript is disabled
      * @param string $activityname
@@ -390,6 +392,7 @@ class behat_format_wplist extends behat_base {
     /**
      * Clicks on the specified element of the activity. You should be in the course page with editing mode turned on.
      *
+     * @codingStandardsIgnoreLine
      * @Given /^I click on "(?P<element_string>(?:[^"]|\\")*)" "(?P<selector_string>(?:[^"]|\\")*)" in the "(?P<activity_name_string>(?:[^"]|\\")*)" wplist activity$/
      * @param string $element
      * @param string $selectortype
