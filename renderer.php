@@ -184,21 +184,19 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @param array $modnamesused (argument not used)
      */
     public function print_multiple_section_page($course, $sections, $mods, $modnames, $modnamesused) {
-        global $PAGE;
-
         $template = new stdClass();
-
         $template->courseid = $course->id;
         $template->editing = $this->page->user_is_editing();
         $template->editsettingsurl = new moodle_url('/course/edit.php', ['id' => $course->id]);
         $template->enrolusersurl = new moodle_url('/user/index.php', ['id' => $course->id]);
         $template->incourse = true;
 
-        if ($PAGE->user_is_editing()) {
-            $template->editoff = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'off']);
+        if ($template->editing) {
+            $template->editoff = new moodle_url($this->page->url, ['sesskey' => sesskey(), 'edit' => 'off']);
         } else {
-            $template->editon = new moodle_url($PAGE->url, ['sesskey' => sesskey(), 'edit' => 'on']);
+            $template->editon = new moodle_url($this->page->url, ['sesskey' => sesskey(), 'edit' => 'on']);
         }
+
         /** @var format_wplist $courseformat */
         $courseformat = course_get_format($course);
         $course = $courseformat->get_course();
@@ -237,7 +235,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             if ($section == 0) {
                 $sectiontemp->expandbtn = true;
             }
-            if ($PAGE->user_is_editing()) {
+            if ($template->editing) {
                 if ($section > 0) {
                     $sectiontemp->move = true;
                     $sectiontemp->movetitle = get_string('movesection', 'moodle', $section);
@@ -258,7 +256,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             }
             if ($section > $numsections) {
                 $sectiontemp->mutedsection = true;
-                if (!$PAGE->user_is_editing()) {
+                if (!$template->editing) {
                     continue;
                 }
             }
@@ -271,7 +269,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             if (in_array($thissection->id, $opensections)) {
                 $sectiontemp->expanded = true;
             }
-            if ($PAGE->user_is_editing()) {
+            if ($template->editing) {
                 $sectiontemp->expanded = true;
             }
             if (!$thissection->uservisible) {
@@ -289,8 +287,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             $template->sections[] = $sectiontemp;
         }
 
-        if ($PAGE->user_is_editing() and has_capability('moodle/course:update', $context)) {
-            $template->editing = true;
+        if ($template->editing and has_capability('moodle/course:update', $context)) {
             $template->addsection = $this->wplist_change_number_sections($course, 0);
         }
 
@@ -333,8 +330,6 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string
      */
     public function course_section_cm_wplist($course, $section, $sectionreturn = null, $displayoptions = array()) {
-        global $PAGE;
-
         $template = new stdClass();
 
         $template->section = $section->section;
@@ -348,9 +343,8 @@ class format_wplist_renderer extends format_section_renderer_base {
         $completioninfo = new completion_info($course);
 
         // Check if we are currently in the process of moving a module with JavaScript disabled.
-        $template->ismoving = $PAGE->user_is_editing() && ismoving($course->id);
-
-        $template->editing = $PAGE->user_is_editing();
+        $template->editing = $this->page->user_is_editing();
+        $template->ismoving = $template->editing && ismoving($course->id);
 
         $template->modules = [];
         if (!empty($modinfo->sections[$section->section])) {
@@ -383,17 +377,16 @@ class format_wplist_renderer extends format_section_renderer_base {
      */
     public function course_section_cm_wplist_item($course, &$completioninfo, cm_info $mod, $sectionreturn,
         $displayoptions = array()) {
-        global $OUTPUT, $PAGE;
+
         $template = new stdClass();
         $template->mod = $mod;
-
         $template->text = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
         $template->completion = $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
         $template->cmname = $this->courserenderer->course_section_cm_name($mod, $displayoptions);
-        $template->editing = $PAGE->user_is_editing();
+        $template->editing = $this->page->user_is_editing();
         $template->availability = $this->courserenderer->course_section_cm_availability($mod, $displayoptions);
 
-        if ($PAGE->user_is_editing()) {
+        if ($template->editing) {
             $editactions = course_get_cm_edit_actions($mod, $mod->indent, $sectionreturn);
             $template->editoptions = $this->course_section_cm_edit_actions($editactions, $mod, $displayoptions);
             $template->editoptions .= $mod->afterediticons;
