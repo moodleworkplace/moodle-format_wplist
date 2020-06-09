@@ -142,36 +142,8 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string
      */
     private function course_section_add_cm_control($course, $section, $sectionreturn = null, $displayoptions = array()) {
-        global $CFG;
-
-        $vertical = !empty($displayoptions['inblock']);
-
-        // Check to see if user can add menus and there are modules to add.
-        if (!has_capability('moodle/course:manageactivities', context_course::instance($course->id))
-                || !$this->page->user_is_editing()
-                || !($modnames = get_module_types_names()) || empty($modnames)) {
-            return '';
-        }
-
-        $modules = get_module_metadata($course, $modnames, $sectionreturn);
-        $urlparams = array('section' => $section);
-
-        $activities = array(MOD_CLASS_ACTIVITY => array(), MOD_CLASS_RESOURCE => array());
-
-        foreach ($modules as $module) {
-            $activityclass = MOD_CLASS_ACTIVITY;
-            if ($module->archetype == MOD_ARCHETYPE_RESOURCE) {
-                $activityclass = MOD_CLASS_RESOURCE;
-            } else if ($module->archetype === MOD_ARCHETYPE_SYSTEM) {
-                continue;
-            }
-            $link = $module->link->out(true, $urlparams);
-            $activities[$activityclass][$link] = $module->title;
-        }
-
-        $output = $this->courserenderer->course_modchooser($modules, $course);
-
-        return $output;
+        // TODO WP-1875 there are two "Add activity" controls now.
+        return $this->courserenderer->course_section_add_cm_control($course, $section, $sectionreturn, $displayoptions);
     }
 
     /**

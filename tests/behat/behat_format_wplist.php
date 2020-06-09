@@ -411,8 +411,8 @@ class behat_format_wplist extends behat_base {
     protected function is_course_editor() {
 
         // We don't need to behat_base::spin() here as all is already loaded.
-        if (!$this->getSession()->getPage()->findLink(get_string('turneditingoff')) &&
-            !$this->getSession()->getPage()->findLink(get_string('turneditingon'))) {
+        if (!$this->getSession()->getPage()->findButton(get_string('turneditingoff')) &&
+            !$this->getSession()->getPage()->findButton(get_string('turneditingon'))) {
             return false;
         }
 
