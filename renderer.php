@@ -154,69 +154,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $renderajaxcontrol = $courseajaxenabled && $userchooserenabled && $course->id == $this->page->course->id;
 
         if ($rendernonajaxcontrol) {
-            $vertical = !empty($displayoptions['inblock']);
-
-            if (!has_capability('moodle/course:manageactivities', context_course::instance($course->id))
-                || !$this->page->user_is_editing()) {
-                return '';
-            }
-
-            $contentitemservice = \core_course\local\factory\content_item_service_factory::get_content_item_service();
-            $urlparams = ['section' => $section];
-            if (!is_null($sectionreturn)) {
-                $urlparams['sr'] = $sectionreturn;
-            }
-            $modules = $contentitemservice->get_content_items_for_user_in_course($USER, $course, $urlparams);
-
-            if (empty($modules)) {
-                return '';
-            }
-
-            $activities = array(MOD_CLASS_ACTIVITY => array(), MOD_CLASS_RESOURCE => array());
-
-            foreach ($modules as $module) {
-                $activityclass = MOD_CLASS_ACTIVITY;
-                if ($module->archetype == MOD_ARCHETYPE_RESOURCE) {
-                    $activityclass = MOD_CLASS_RESOURCE;
-                } else if ($module->archetype === MOD_ARCHETYPE_SYSTEM) {
-                    continue;
-                }
-                $link = $module->link;
-                $activities[$activityclass][$link] = $module->title;
-            }
-
-            $straddactivity = get_string('addactivity');
-            $straddresource = get_string('addresource');
-            $sectionname = get_section_name($course, $section);
-            $strresourcelabel = get_string('addresourcetosection', null, $sectionname);
-            $stractivitylabel = get_string('addactivitytosection', null, $sectionname);
-
-            $nonajaxcontrol = html_writer::start_tag('div', array('class' => 'section_add_menus', 'id' => 'add_menus-section-'
-                . $section));
-
-            if (!$vertical) {
-                $nonajaxcontrol .= html_writer::start_tag('div', array('class' => 'horizontal'));
-            }
-
-            if (!empty($activities[MOD_CLASS_RESOURCE])) {
-                $select = new url_select($activities[MOD_CLASS_RESOURCE], '', array('' => $straddresource), "ressection$section");
-                $select->set_help_icon('resources');
-                $select->set_label($strresourcelabel, array('class' => 'accesshide'));
-                $nonajaxcontrol .= $this->output->render($select);
-            }
-
-            if (!empty($activities[MOD_CLASS_ACTIVITY])) {
-                $select = new url_select($activities[MOD_CLASS_ACTIVITY], '', array('' => $straddactivity), "section$section");
-                $select->set_help_icon('activities');
-                $select->set_label($stractivitylabel, array('class' => 'accesshide'));
-                $nonajaxcontrol .= $this->output->render($select);
-            }
-
-            if (!$vertical) {
-                $nonajaxcontrol .= html_writer::end_tag('div');
-            }
-
-            $nonajaxcontrol .= html_writer::end_tag('div');
+            return $this->courserenderer->course_section_add_cm_control($course, $section, $sectionreturn, $displayoptions);
         }
 
         if ($renderajaxcontrol) {
@@ -225,7 +163,7 @@ class format_wplist_renderer extends format_section_renderer_base {
             $ajaxcontrol .= html_writer::start_tag('div', array('class' => 'section-modchooser'));
             $icon = $this->output->pix_icon('plus-circle', $straddeither, 'tool_wp');
             $ajaxcontrol .= html_writer::tag('button', $icon, [
-                    'class' => 'section-modchooser-link btn btn-link p-0 pb-2',
+                    'class' => 'section-modchooser-link btn btn-link pt-0',
                     'data-action' => 'open-chooser',
                     'data-sectionid' => $section,
                 ]
