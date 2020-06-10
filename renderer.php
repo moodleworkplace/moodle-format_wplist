@@ -142,25 +142,10 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string
      */
     private function course_section_add_cm_control($course, $section, $sectionreturn = null, $displayoptions = array()) {
-        global $CFG, $USER;
-
-        $behatsite = defined('BEHAT_SITE_RUNNING');
-        $nonajaxcontrol = '';
-        $ajaxcontrol = '';
-        $courseajaxenabled = course_ajax_enabled($course);
-        $userchooserenabled = get_user_preferences('usemodchooser', $CFG->modchooserdefault);
-
-        $rendernonajaxcontrol = $behatsite || !$courseajaxenabled || !$userchooserenabled || $course->id != $this->page->course->id;
-        $renderajaxcontrol = $courseajaxenabled && $userchooserenabled && $course->id == $this->page->course->id;
-
-        if ($rendernonajaxcontrol) {
-            return $this->courserenderer->course_section_add_cm_control($course, $section, $sectionreturn, $displayoptions);
-        }
-
-        if ($renderajaxcontrol) {
+        if ($course->id == $this->page->course->id) {
             $straddeither = get_string('addresourceoractivity');
-            $ajaxcontrol = html_writer::start_tag('div', array('class' => 'mdl-right'));
-            $ajaxcontrol .= html_writer::start_tag('div', array('class' => 'section-modchooser'));
+            $ajaxcontrol = html_writer::start_tag('div', ['class' => 'mdl-right']);
+            $ajaxcontrol .= html_writer::start_tag('div', ['class' => 'section-modchooser']);
             $icon = $this->output->pix_icon('plus-circle', $straddeither, 'tool_wp');
             $ajaxcontrol .= html_writer::tag('button', $icon, [
                     'class' => 'section-modchooser-link btn btn-link pt-0',
@@ -173,11 +158,7 @@ class format_wplist_renderer extends format_section_renderer_base {
 
             $this->courserenderer->course_activitychooser($course->id);
         }
-        if ($behatsite && $renderajaxcontrol) {
-            $nonajaxcontrol = html_writer::tag('div', $nonajaxcontrol, array('class' => 'hiddenifjs addresourcedropdown'));
-            $ajaxcontrol = html_writer::tag('div', $ajaxcontrol, array('class' => 'visibleifjs addresourcemodchooser'));
-        }
-        return $ajaxcontrol . $nonajaxcontrol;
+        return $ajaxcontrol ?? '';
     }
 
     /**
