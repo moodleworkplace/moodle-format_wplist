@@ -142,8 +142,23 @@ class format_wplist_renderer extends format_section_renderer_base {
      * @return string
      */
     private function course_section_add_cm_control($course, $section, $sectionreturn = null, $displayoptions = array()) {
-        // TODO WP-1875 there are two "Add activity" controls now.
-        return $this->courserenderer->course_section_add_cm_control($course, $section, $sectionreturn, $displayoptions);
+        if ($course->id == $this->page->course->id) {
+            $straddeither = get_string('addresourceoractivity');
+            $ajaxcontrol = html_writer::start_tag('div', ['class' => 'mdl-right']);
+            $ajaxcontrol .= html_writer::start_tag('div', ['class' => 'section-modchooser']);
+            $icon = $this->output->pix_icon('plus-circle', $straddeither, 'tool_wp');
+            $ajaxcontrol .= html_writer::tag('button', $icon, [
+                    'class' => 'section-modchooser-link btn btn-link pt-0',
+                    'data-action' => 'open-chooser',
+                    'data-sectionid' => $section,
+                ]
+            );
+            $ajaxcontrol .= html_writer::end_tag('div');
+            $ajaxcontrol .= html_writer::end_tag('div');
+
+            $this->courserenderer->course_activitychooser($course->id);
+        }
+        return $ajaxcontrol ?? '';
     }
 
     /**
