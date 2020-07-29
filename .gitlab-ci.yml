@@ -19,18 +19,17 @@ variables:
 
 before_script:
 - . prepare-workplace $cibot_sshkey
-- nvm use 14.2.0
 - cd $CI_PROJECT_DIR/..
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-theme_workplace.git
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-tool_wp.git
 - moodle-plugin-ci install --db-host="$DB_HOST" --no-init -vvv
-- php -S ${IPADDRESS}:8000 -t $CI_PROJECT_DIR/../moodle > /dev/null 2>&1 &
 - cd moodle
-- php admin/tool/phpunit/cli/init.php
-- php admin/tool/behat/cli/init.php --add-core-features-to-theme --parallel=3 --optimize-runs=@format_wplist
 
-jobtest:
+codecheck:
   script:
+  - php admin/tool/phpunit/cli/util.php --install
+  - php admin/tool/phpunit/cli/util.php --buildconfig
+  - php admin/tool/phpunit/cli/util.php --buildcomponentconfigs
   - . check-start
   - . check workplace_copyrights_and_licenses
   - . check version_number
@@ -48,5 +47,18 @@ jobtest:
   - . check vendor/bin/phpunit --fail-on-risky --disallow-test-output -v lib/tests/externallib_test.php
   - . check vendor/bin/phpunit --fail-on-risky --disallow-test-output -v privacy/tests/provider_test.php
   - . check moodle-plugin-ci phpunit --coverage-text
+  - . check-finish
+  except:
+  - tags
+
+behat:
+  script:
+  - php -S ${IPADDRESS}:8000 -t $CI_PROJECT_DIR/../moodle > /dev/null 2>&1 &
+  - php admin/tool/behat/cli/init.php --add-core-features-to-theme --parallel=3 --optimize-runs=@format_wplist
+  - . check-start
   - . check moodle-plugin-ci behat --suite workplace --profile chrome
   - . check-finish
+  except:
+  - master
+  - tags
+  - /^WORKPLACE_\d+$/
