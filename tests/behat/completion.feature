@@ -6,8 +6,8 @@ Feature: Allow students to manually mark an activity as complete in wplist forma
 
   Scenario: Mark an activity as completed in wplist format
     Given the following "courses" exist:
-      | fullname | shortname | category | enablecompletion| format |
-      | Course 1 | C1        | 0        | 1               | wplist |
+      | fullname | shortname | category | enablecompletion| format | sectionstate  |
+      | Course 1 | C1        | 0        | 1               | wplist | 0              |
     And the following "activities" exist:
       | activity | name      | intro      | course | idnumber | completion |
       | page     | Test page | PageDesc1  | C1     | PAGE1    | 1          |
