@@ -10,8 +10,8 @@ Feature: Operations with activity modules in wplist format
       | teacher1 | Teacher   | 1        | teacher1@example.com |
       | student1 | Student   | 1        | student1@example.com |
     And the following "courses" exist:
-      | fullname | shortname | format | coursedisplay | numsections |
-      | Course 1 | C1        | wplist | 0             | 5           |
+      | fullname | shortname | format | coursedisplay | numsections | sectionstate  |
+      | Course 1 | C1        | wplist | 0             | 5           | 0              |
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |

@@ -548,5 +548,23 @@ class behat_format_wplist extends behat_base {
     public function i_open_availability_popup_for_wplist_activity($activityname) {
         $this->i_click_on_in_the_wplist_activity('.availability a', "css_element", $activityname);
     }
+    /**
+     * Return the list of partial named selectors.
+     *
+     * Those selectors can be used to capture section elements. Examples:
+     *  And I should see "activity 1" in the "Topic 1" "format_wplist > Section"
+     *
+     * @return array
+     */
+    public static function get_partial_named_selectors(): array {
+        return [
+            new behat_component_named_selector('Section', [
+                <<<XPATH
+    //div[contains(concat(' ', normalize-space(@class), ' '), ' section ') and
+    div[contains(normalize-space(@data-sectionname), %locator%)]]
+XPATH
+            ], true),
+        ];
+    }
 
 }

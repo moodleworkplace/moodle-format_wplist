@@ -201,15 +201,13 @@ class format_wplist_renderer extends format_section_renderer_base {
         $modinfo = get_fast_modinfo($course);
 
         $template->accordion = $options['accordioneffect'];
-
+        $template->expandallsections = $options['sectionstate'];
         $context = context_course::instance($course->id);
 
         $opensections = [];
         $preferences = get_user_preferences('format_wplist_opensections_' . $context->id);
         if ($preferences) {
             $opensections = json_decode($preferences, true);
-        } else {
-            set_user_preference('format_wplist_opensections_' . $context->id, '[]');
         }
 
         $template->contextid = $context->id;
@@ -223,11 +221,13 @@ class format_wplist_renderer extends format_section_renderer_base {
         $numsections = $courseformat->get_last_section_number();
 
         foreach ($modinfo->get_section_info_all() as $section => $thissection) {
-
             $sectiontemp = (object)$thissection;
             $sectiontemp->sectionnumber = $section;
             if ($section == 0) {
                 $sectiontemp->expandbtn = true;
+                $sectiontemp->hideexpandcollapse = true;
+                $sectiontemp->hideheader = is_null($sectiontemp->name);
+                $sectiontemp->expanded = true;
             }
             if ($template->editing) {
                 if ($section > 0) {
@@ -259,8 +259,11 @@ class format_wplist_renderer extends format_section_renderer_base {
             $sectiontemp->sectionname = $courseformat->get_section_name($thissection);
             $sectiontemp->name = $this->section_title($thissection, $course);
             $sectiontemp->summary = $this->format_summary_text($thissection);
-            $sectiontemp->expanded = false;
-            if (in_array($thissection->id, $opensections)) {
+            if ($section != 0) {
+                $sectiontemp->expanded = false;
+            }
+            $expandstate = !is_null($preferences) ? in_array($thissection->id, $opensections) : $template->expandallsections;
+            if ($expandstate) {
                 $sectiontemp->expanded = true;
             }
             if ($template->editing) {
@@ -315,7 +318,7 @@ class format_wplist_renderer extends format_section_renderer_base {
     /**
      * Renders HTML to display a wplist of course modules in a course section
      *
-     * This function calls {@link core_course_renderer::course_section_cm_wplist_item()}
+     * This function calls {@see core_course_renderer::course_section_cm_wplist_item()}
      *
      * @param stdClass $course course object
      * @param int|stdClass|section_info $section relative section number or section object
@@ -360,7 +363,7 @@ class format_wplist_renderer extends format_section_renderer_base {
      * Renders HTML to display one course module for display within a section.
      *
      * This function calls:
-     * {@link core_course_renderer::course_section_cm()}
+     * {@see core_course_renderer::course_section_cm()}
      *
      * @param stdClass $course
      * @param completion_info $completioninfo
