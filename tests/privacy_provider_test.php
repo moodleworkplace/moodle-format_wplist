@@ -53,7 +53,7 @@ class format_wplist_privacy_provider_testcase extends \core_privacy\tests\provid
     /**
      * Test set up.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 
