@@ -378,7 +378,7 @@ function(
 
         sections.on(Sortablewplist.EVENTS.DRAG, function(e, info) {
             if (info.element.attr('data-module')) {
-                root.find(SELECTORS.SECTION).each(function() {
+                sections.each(function() {
                     $(this).removeClass('movemodule');
                 });
 
@@ -396,6 +396,9 @@ function(
         sections.on(Sortablewplist.EVENTS.DRAGEND, function(e, info) {
             if (info.element.attr('data-module')) {
                 countmodules();
+
+                var newSection = findClosestSection(info.element);
+                newSection.removeClass('movemodule');
             }
         });
     };
