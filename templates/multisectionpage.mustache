@@ -181,7 +181,7 @@
 
                 <div
                     id="sectioncontent-{{sectionnumber}}"
-                    class="sectioncontent collapse {{#expanded}}show{{/expanded}} "
+                    class="sectioncontent {{^hideexpandcollapse}}collapse {{#expanded}}show{{/expanded}}{{/hideexpandcollapse}} "
                     aria-labelledby="section-{{sectionnumber}}"
                     data-sectionid="{{id}}"
                     data-sectionnumber="{{sectionnumber}}"
