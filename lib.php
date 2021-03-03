@@ -114,14 +114,10 @@ class format_wplist extends format_base {
             $sectionno = $section;
         }
         if ($sectionno !== null) {
-            if ($sectionno != 0) {
-                $url->param('section', $sectionno);
-            } else {
-                if (empty($CFG->linkcoursesections) && !empty($options['navigation'])) {
-                    return null;
-                }
-                $url->set_anchor('section-'.$sectionno);
+            if (empty($CFG->linkcoursesections) && !empty($options['navigation'])) {
+                return null;
             }
+            $url->set_anchor('section-'.$sectionno);
         }
         return $url;
     }

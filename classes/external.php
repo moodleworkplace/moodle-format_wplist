@@ -264,7 +264,7 @@ class format_wplist_external extends core_course_external {
         // NOTE: All users are allowed to toggle their completion state, including
         // users for whom completion information is not directly tracked. (I.e. even
         // if you are a teacher, or admin who is not enrolled, you can still toggle
-        // your own completion state. You just don't appear on the reports.)
+        // your own completion state. You just don't appear on the reports.).
 
         // Check completion state is manual.
         $warnings = [];
