@@ -54,9 +54,7 @@ Feature: Sections can be edited and deleted in wplist format
     And I should not see "Topic 2" in the "[data-region=section][data-sectionnumber=2]" "css_element"
 
   Scenario: Inline edit section name in wplist format
-    When I click on "Edit section name" "link" in the "[data-region=section][data-sectionnumber=1]" "css_element"
-    And I set the field "New name for section Topic 1" to "Midterm evaluation"
-    And I press key "13" in the field "New name for section Topic 1"
+    When I set the field "Edit section name" in the "[data-region=section][data-sectionnumber=1]" "css_element" to "Midterm evaluation"
     Then I should not see "Topic 1" in the "region-main" "region"
     And "New name for section" "field" should not exist
     And I should see "Midterm evaluation" in the "[data-region=section][data-sectionnumber=1]" "css_element"
