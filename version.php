@@ -35,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
 
 // This plugin is part of Moodle Workplace product.
 $plugin->component    = 'format_wplist';
-$plugin->release      = '3.10.2';
-$plugin->version      = 2021030900;
-$plugin->requires     = 2020110902.00;
+$plugin->release      = '3.10.3';
+$plugin->version      = 2021032500;
+$plugin->requires     = 2020110903.00;
 $plugin->maturity     = MATURITY_STABLE;
