@@ -61,8 +61,8 @@
     {{{courseactivityclipboard}}}
     <div class="accordion" id="formatwplist" data-region="section-container" data-is-root="1" data-courseid="{{courseid}}">
         {{#sections}}
-            <div id="section-{{sectionnumber}}"
-                class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}"
+            <div id="section-{{sectionnumber}}">
+            <div class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}"
                 data-region="section"
                 data-sectionnumber="{{sectionnumber}}">
                 <div
@@ -197,6 +197,7 @@
                         {{{coursemodules}}}
                     </div>
                 </div>
+            </div>
             </div>
         {{/sections}}
     </div>
