@@ -32,6 +32,8 @@
  */
 
 
+use core_course\output\activity_information;
+
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/format/renderer.php');
 
@@ -379,6 +381,7 @@ class format_wplist_renderer extends format_section_renderer_base {
         $template->mod = $mod;
         $template->text = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
         $template->completion = $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
+        $template->activityinfo = $this->course_section_cm_activity_info($course, $mod);
         $template->cmname = $this->courserenderer->course_section_cm_name($mod, $displayoptions);
         $template->editing = $this->page->user_is_editing();
         $template->availability = $this->courserenderer->course_section_cm_availability($mod, $displayoptions);
@@ -636,6 +639,38 @@ class format_wplist_renderer extends format_section_renderer_base {
         }
 
         return $this->render_from_template('format_wplist/editactivity', $template);
+    }
+
+    /**
+     * Renders HTML for displaying the activity information
+     *
+     * @param stdClass $course
+     * @param cm_info $mod
+     * @return string
+     */
+    private function course_section_cm_activity_info(stdClass $course, cm_info $mod): string {
+        global $USER;
+
+        // Fetch completion details.
+        $showcompletionconditions = $course->showcompletionconditions == COMPLETION_SHOW_CONDITIONS;
+        $completiondetails = \core_completion\cm_completion_details::get_instance($mod, $USER->id, $showcompletionconditions);
+
+        // Fetch activity dates.
+        $activitydates = [];
+        if ($course->showactivitydates) {
+            $activitydates = \core\activity_dates::get_dates_for_module($mod, $USER->id);
+        }
+
+        if ($showcompletionconditions || $activitydates) {
+            $activityinfo = new activity_information($mod, $completiondetails, $activitydates);
+            $renderer = $this->page->get_renderer('core', 'course');
+            $context = $activityinfo->export_for_template($renderer);
+            // Override "showmanualcompletion" to false. Never show "Mark as complete" button.
+            $context->showmanualcompletion = false;
+            return $renderer->render_from_template('core_course/activity_info', $context);
+        } else {
+            return '';
+        }
     }
 
     /**
