@@ -41,7 +41,8 @@ define(
     'core/custom_interaction_events',
     'core/ajax',
     'core/str',
-    'core/templates'
+    'core/templates',
+    'theme_boost/popover'
 ],
 function(
     $,
@@ -50,7 +51,9 @@ function(
     CustomEvents,
     Ajax,
     Str,
-    Templates
+    Templates,
+    // eslint-disable-next-line no-unused-vars
+    Popover
 ) {
 
     var SELECTORS = {
@@ -478,6 +481,11 @@ function(
     var init = function(root, contextid) {
         root = $(root);
         registerEventListeners(root, contextid);
+
+        // Do not sanitize availability popovers. We need to print buttons inside it.
+        $('[data-region="availability-popover"]').popover({
+            sanitize: false,
+        });
     };
 
     return {
