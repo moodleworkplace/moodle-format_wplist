@@ -27,7 +27,7 @@
 /**
  * Javascript for course format workplace list.
  *
- * @package    format_wplist
+ * @module     format_wplist/main
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 <bas@moodle.com>
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
