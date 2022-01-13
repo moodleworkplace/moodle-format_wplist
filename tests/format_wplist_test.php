@@ -34,6 +34,10 @@
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
+namespace format_wplist;
+
+use advanced_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -47,7 +51,7 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @author     2019 Marina Glancy
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
-class format_wplist_testcase extends advanced_testcase {
+class format_wplist_test extends advanced_testcase {
 
     /**
      * Tests for format_wplist::get_section_name method with default section names.

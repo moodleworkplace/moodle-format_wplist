@@ -34,12 +34,12 @@
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
+namespace format_wplist;
+
 use \format_wplist\privacy\provider;
 use \core_privacy\local\metadata\collection;
 use \core_privacy\local\request\approved_userlist;
 use \core_privacy\local\request\writer;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy provider tests class.
@@ -50,22 +50,13 @@ defined('MOODLE_INTERNAL') || die();
  * @author     2019 Daniel Neis Araujo <daniel@moodle.com>
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
-class format_wplist_privacy_provider_testcase extends \core_privacy\tests\provider_testcase {
+class privacy_provider_test extends \core_privacy\tests\provider_testcase {
 
     /**
      * Test set up.
      */
     public function setUp(): void {
         $this->resetAfterTest();
-    }
-
-    /**
-     * Get dynamic rule generator
-     *
-     * @return tool_organisation_generator
-     */
-    protected function get_generator(): tool_organisation_generator {
-        return $this->getDataGenerator()->get_plugin_generator('tool_organisation');
     }
 
     /**
