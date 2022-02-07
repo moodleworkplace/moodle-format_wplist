@@ -34,8 +34,6 @@
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
 
-defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot. '/course/format/lib.php');
 
 /**
  * Main class for the WPlist course format
@@ -45,7 +43,7 @@ require_once($CFG->dirroot. '/course/format/lib.php');
  * @author     2019 <bas@moodle.com>
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
  */
-class format_wplist extends format_base {
+class format_wplist extends \core_courseformat\base {
 
     /**
      * Returns true if this course format uses sections

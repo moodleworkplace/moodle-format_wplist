@@ -27,8 +27,7 @@ Feature: Course in wplist format can be created and edited
       | Number of sections | 5               |
     And the field "Accordion effect" matches value "No"
     And I press "Save and display"
-    And I press "Proceed to course content"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I expand all fieldsets
     And the field "Format" matches value "Workplace list format"
     And I should not see "Number of sections"
@@ -50,13 +49,12 @@ Feature: Course in wplist format can be created and edited
     And the field "Accordion effect" matches value "No"
     And the field "Initial section state" matches value "Expanded"
     And I press "Save and display"
-    And I press "Proceed to course content"
     Then I should see "Collapse all"
     And "Collapse section Topic 1" "button" should exist
     And "Collapse section Topic 2" "button" should exist
     And "Collapse section Topic 3" "button" should exist
     And "Collapse section Topic 4" "button" should exist
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I expand all fieldsets
     And I set the following fields to these values:
       | Initial section state | Collapsed               |

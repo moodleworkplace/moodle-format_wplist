@@ -62,7 +62,10 @@ course_create_sections_if_missing($course, 0);
 /** @var format_wplist_renderer $renderer */
 $renderer = $PAGE->get_renderer('format_wplist');
 
-$renderer->print_multiple_section_page($course, null, null, null, null);
+$format = course_get_format($course);
+$outputclass = $format->get_output_classname('content');
+$widget = new $outputclass($format);
+echo $renderer->render($widget);
 
 // Include course format js module.
 $PAGE->requires->js('/course/format/wplist/format.js');
