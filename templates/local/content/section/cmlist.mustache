@@ -26,7 +26,7 @@
     MWL are binding and shall prevail.
 }}
 {{!
-    @template format_wplist/coursemodules
+    @template format_wplist/local/content/section/cmlist
 
     This template renders action menu for each course.
 
@@ -39,15 +39,17 @@
     }
 }}
 <div class="section-modules wplist-group {{#nomodules}}nomodules{{/nomodules}}" data-region="course-modules">
-	{{#modules}}
-		{{{.}}}
-	{{/modules}}
+    {{#cms}}
+        {{#cmitem}}
+            {{> format_wplist/local/content/section/cmitem}}
+        {{/cmitem}}
+    {{/cms}}
     {{#editing}}
         <div
-            data-region="module"
-            data-module="0"
-            data-module-section="{{section}}"
-            class="wplist-group-item p-1 py-3  w-100
+                data-region="module"
+                data-module="0"
+                data-module-section="{{section}}"
+                class="wplist-group-item p-1 py-3  w-100
                 border-bottom dropactivity
                 activity"
         >

@@ -10,8 +10,8 @@ Feature: Sections can be edited and deleted in wplist format
       | teacher1 | Teacher   | 1        | teacher1@example.com |
       | student1 | Student   | 1        | student1@example.com |
     And the following "courses" exist:
-      | fullname | shortname | format | coursedisplay | numsections | sectionstate  |
-      | Course 1 | C1        | wplist | 0             | 5           |  0             |
+      | fullname | shortname | format | coursedisplay | numsections | sectionstate  | hiddensections |
+      | Course 1 | C1        | wplist | 0             | 5           |  0            | 0              |
     And the following "activities" exist:
       | activity   | name                   | intro                         | course | idnumber    | section |
       | assign     | Test assignment name   | Test assignment description   | C1     | assign1     | 0       |
@@ -79,17 +79,8 @@ Feature: Sections can be edited and deleted in wplist format
 
   Scenario: Adding sections in wplist format
     When I follow "Add sections"
-    Then the field "Number of sections" matches value "1"
-    And I press "Add sections"
     And I should see "Topic 6" in the "[data-region=section][data-sectionnumber=6]" "css_element"
     And "[data-region=section][data-sectionnumber=7]" "css_element" should not exist
-    And I follow "Add sections"
-    And I set the field "Number of sections" to "3"
-    And I press "Add sections"
-    And I should see "Topic 7" in the "[data-region=section][data-sectionnumber=7]" "css_element"
-    And I should see "Topic 8" in the "[data-region=section][data-sectionnumber=8]" "css_element"
-    And I should see "Topic 9" in the "[data-region=section][data-sectionnumber=9]" "css_element"
-    And "[data-region=section][data-sectionnumber=10]" "css_element" should not exist
 
   Scenario: Rearranging sections in wplist format
     And "Test chat name" "link" should appear after "Test book name" "link"
@@ -113,7 +104,7 @@ Feature: Sections can be edited and deleted in wplist format
     And I log out
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I expand all fieldsets
     And the field "Format" matches value "Workplace list format"
     And I set the field "Hidden sections" to "Hidden sections are completely invisible"

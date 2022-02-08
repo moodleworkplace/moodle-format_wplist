@@ -26,7 +26,7 @@
     MWL are binding and shall prevail.
 }}
 {{!
-    @template format_wplist/coursemodule
+    @template format_wplist/local/content/section/cmitem
 
     This template renders action menu for each course.
 
@@ -47,12 +47,12 @@
     }
 }}
 <div id="module-{{mod.id}}"
-    data-region="module"
-    data-module="{{mod.id}}"
-    class="wplist-group-item p-0 w-100
+     data-region="module"
+     data-module="{{mod.id}}"
+     class="wplist-group-item p-0 w-100
         {{^mod.uservisible}} notavailable bg-gray020 {{/mod.uservisible}}
-        {{^editing}}border-0{{/editing}}
-        {{#editing}}border-bottom{{/editing}}
+         {{^editing}}border-0{{/editing}}
+         {{#editing}}border-bottom{{/editing}}
         activity type-{{mod.modname}} {{mod.extraclasses}}"
 >
     <div class="d-flex align-items-start module-content position-relative">
@@ -75,9 +75,9 @@
 
         <div class="d-flex flex-column pt-3 align-self-start pl-1 flex-fill">
             {{#cmname}}
-            <span class="d-flex cmname pb-2 iconlarge">
-                {{{cmname}}}
-            </span>
+                <span class="d-flex cmname pb-2 iconlarge">
+                    {{{cmname}}}
+                </span>
             {{/cmname}}
             {{#text}}
                 <span class="text d-flex mb-2 pr-3">
@@ -96,7 +96,7 @@
         {{#availability}}
             <span class="availability iconlarge nomargin">
                 <a class="btn btn-link border-0 py-3 px-md-4 popover-dismiss" data-toggle="popover" data-region="availability-popover"
-                        data-trigger="focus" data-html="true" data-content="{{availability}}" data-placement="left" tabindex="0">
+                   data-trigger="focus" data-html="true" data-content="{{availability}}" data-placement="left" tabindex="0">
                     {{#pix}} i/lock, core {{/pix}}
                 </a>
             </span>
