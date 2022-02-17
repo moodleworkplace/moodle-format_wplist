@@ -51,10 +51,10 @@
 <div id="section-{{sectionnumber}}"
      data-region="section"
      data-sectionnumber="{{sectionnumber}}">
-    <div class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray030{{/visible}}">
+    <div class="card border-0 b-0 section {{#visible}}bg-white{{/visible}}{{^visible}}bg-gray-300{{/visible}}">
         <div
                 class="border-bottom section-header p-0
-                        {{#mutedsection}} bg-gray030 {{/mutedsection}}
+                        {{#mutedsection}} bg-gray-300 {{/mutedsection}}
                     {{#visible}}bg-white{{/visible}}
                     {{^editing}}border-top border-bottom-0{{/editing}}"
                 id="heading{{sectionnumber}}"
@@ -79,10 +79,10 @@
                     {{/disableexpanding}}
                     {{#disableexpanding}}disabled="disabled"{{/disableexpanding}}
                 >
-                            <span class="togglesectionicon text-gray060 collapsed-icon-container nomargin iconlarge">
+                            <span class="togglesectionicon text-gray-600 collapsed-icon-container nomargin iconlarge">
                                 {{#pix}} t/collapsedcaret, core {{/pix}}
                             </span>
-                    <span class="togglesectionicon text-gray060 expanded-icon-container nomargin iconlarge">
+                    <span class="togglesectionicon text-gray-600 expanded-icon-container nomargin iconlarge">
                         {{#pix}} t/expanded, core {{/pix}}
                     </span>
                 </button>
