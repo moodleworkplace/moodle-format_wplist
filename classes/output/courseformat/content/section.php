@@ -49,9 +49,10 @@ class section extends \core_courseformat\output\local\content\section {
     /**
      * Get the name of the template to use for this templatable.
      *
+     * @param \renderer_base $renderer The renderer requesting the template name
      * @return string
      */
-    public function get_template_name(): string {
+    public function get_template_name(\renderer_base $renderer): string {
         return 'format_wplist/local/content/section';
     }
 
@@ -73,7 +74,7 @@ class section extends \core_courseformat\output\local\content\section {
      */
     protected function export_section(\format_wplist_renderer $renderer): ?stdClass {
         /** @var \section_info $thissection */
-        $thissection = $this->thissection;
+        $thissection = $this->section;
         $course = $this->format->get_course();
         $context = context_course::instance($course->id);
         $opensections = [];
@@ -219,7 +220,7 @@ class section extends \core_courseformat\output\local\content\section {
      */
     public function section_availability(format_wplist_renderer $renderer) {
         global $CFG;
-        $section = $this->thissection;
+        $section = $this->section;
         $context = context_course::instance($section->course);
         $canviewhidden = has_capability('moodle/course:viewhiddensections', $context);
         $o = '';
