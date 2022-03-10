@@ -52,15 +52,15 @@
     {{#editing}}
         {{#self}}
             <div class="checkbox">
-                <div class="checkbox-icon iconlarge nomargin">
-                    {{#pix}}check-on-gray, format_wplist, {{imgalt}}{{/pix}}
+                <div class="checkbox-icon">
+                    {{#pix}}i/completion-manual-enabled, core, {{imgalt}}{{/pix}}
                 </div>
             </div>
         {{/self}}
         {{#auto}}
             <div class="checkbox">
-                <div class="checkbox-icon iconlarge nomargin">
-                    {{#pix}}check-on-dotted, format_wplist, {{imgalt}}{{/pix}}
+                <div class="checkbox-icon">
+                    {{#pix}}i/completion-auto-enabled, core, {{imgalt}}{{/pix}}
                 </div>
             </div>
         {{/auto}}
@@ -81,7 +81,7 @@
                 data-sectionnumber="{{sectionnumber}}"
             >
                 <div data-region="check" class="checkbox-icon">
-                    {{#pix}}{{#checked}}check-on{{/checked}}{{^checked}}check-off{{/checked}}, format_wplist, {{imgalt}}{{/pix}}
+                    {{#pix}}i/completion-manual-{{#checked}}y{{/checked}}{{^checked}}n{{/checked}}, core, {{imgalt}}{{/pix}}
                 </div>
             </div>
 
@@ -90,12 +90,12 @@
             <div class="checkbox">
                 {{#checked}}
                 <div class="checkbox-icon">
-                    {{#pix}}check-green-dotted, format_wplist, {{imgalt}}{{/pix}}
+                    {{#pix}}i/completion-auto-y, core, {{imgalt}}{{/pix}}
                 </div>
                 {{/checked}}
                 {{^checked}}
                 <div data-region="checkoff" class="checkbox-icon {{#checked}}hidden{{/checked}}">
-                    {{#pix}}check-off-dotted, format_wplist, {{imgalt}}{{/pix}}
+                    {{#pix}}i/completion-auto-n, core, {{imgalt}}{{/pix}}
                 </div>
                 {{/checked}}
             </div>
