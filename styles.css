@@ -1,0 +1,151 @@
+.pagelayout-course.format-wplist #region-main {
+    padding: 0;
+}
+.pagelayout-course.format-wplist .sectionprogress.progress {
+    height: 0.3rem;
+    border-radius: 0;
+    width: 100px;
+}
+.pagelayout-course.format-wplist .list-group .list-group-item {
+    border-left: 0;
+    border-right: 0;
+}
+.pagelayout-course.format-wplist .list-group .list-group-item:first-child {
+    border-top: 0;
+}
+.pagelayout-course.format-wplist .editoptions {
+    min-width: 105px;
+    background-color: #f8f9fa;
+}
+.pagelayout-course.format-wplist .editoptions i {
+    font-size: 1.2rem;
+}
+.pagelayout-course.format-wplist .course-content .no-overflow {
+    padding: 0;
+    display: inline-block;
+    min-height: auto;
+}
+.pagelayout-course.format-wplist .course-content .no-overflow p:last-child {
+    margin-bottom: 0;
+}
+.pagelayout-course.format-wplist .text.d-flex > .no-overflow {
+    flex: 1 1 auto;
+}
+.pagelayout-course.format-wplist .section {
+    overflow: initial;
+}
+.pagelayout-course.format-wplist .section.sortable-list-is-dragged .collapse {
+    display: none;
+}
+.pagelayout-course.format-wplist .section .actions .dropdown-toggle::after {
+    display: none;
+}
+.pagelayout-course.format-wplist .dropdown-item .wplist-editactivityicon {
+    color: #357992;
+}
+.pagelayout-course.format-wplist .dropdown-item:hover .wplist-editactivityicon {
+    color: #fff;
+}
+.pagelayout-course.format-wplist .activity .availabilityinfo {
+    font-size: 12px;
+    margin: 0;
+}
+.pagelayout-course.format-wplist .section .activity .afterlink {
+    margin-top: 1rem;
+    margin-right: 1.5rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    font-weight: normal;
+    color: #495057 !important; /* stylelint-disable-line declaration-no-important */
+}
+.pagelayout-course.format-wplist .section .activity .afterlink > span.unread {
+    margin-left: 0;
+    background-color: initial;
+    font-size: 0.75rem;
+}
+.pagelayout-course.format-wplist .section .activity .afterlink > span.resourcelinkdetails {
+    font-size: 0.75rem;
+}
+.pagelayout-course.format-wplist .quickeditlink .icon {
+    font-size: 16px;
+}
+.pagelayout-course.format-wplist h3.sectionname,
+.pagelayout-course.format-wplist h3.sectionname a {
+    color: #343a40;
+}
+.pagelayout-course.format-wplist h3.sectionname:hover,
+.pagelayout-course.format-wplist h3.sectionname a:hover {
+    text-decoration: none;
+}
+.pagelayout-course.format-wplist .course-section-toggle:hover {
+    text-decoration: none;
+}
+.pagelayout-course.format-wplist .addsectionwrapper {
+    background-color: #f8f9fa;
+    padding: 41px 5px;
+    text-align: center;
+}
+.pagelayout-course.format-wplist .addsectionwrapper .addsectionicon {
+    font-size: 3.5rem;
+    color: #dee2e6;
+}
+.pagelayout-course.format-wplist .dropactivity {
+    display: none;
+}
+.pagelayout-course.format-wplist .section.movemodule .dropactivity {
+    display: none;
+}
+.pagelayout-course.format-wplist .nomodules .dropactivity {
+    display: block;
+}
+.pagelayout-course.format-wplist div.wplist-group-item:hover {
+    background-color: #f8f9fa;
+}
+.pagelayout-course.format-wplist #section-0 .section-header {
+    border-top: 0 !important; /* stylelint-disable-line declaration-no-important */
+}
+.pagelayout-course.format-wplist .sortable-list-current-position {
+    color: #f8f9fa;
+}
+.pagelayout-course.format-wplist .sortable-list-current-position a,
+.pagelayout-course.format-wplist .sortable-list-current-position .quickeditlink {
+    color: #adb5bd;
+}
+.path-mod-forum.format-wplist .forumsearch {
+    text-align: right;
+    width: 100%;
+}
+.path-mod-forum.format-wplist .forumsearch .form-inline {
+    display: inline-block;
+}
+.path-mod-quiz.format-wplist .qn_buttons .qnbutton {
+    color: #4a4a4a;
+}
+.format-wplist.path-course-view .activity-information {
+    font-size: 0.75rem;
+}
+.format-wplist .activity-information {
+    padding-bottom: 0.5rem;
+    color: #868e96;
+}
+.format-wplist .activity-information .automatic-completion-conditions .badge.badge-secondary {
+    background-color: #f1f3f5;
+    color: #868e96;
+}
+.format-wplist .activity-information .automatic-completion-conditions .badge.badge-success {
+    background-color: #e3fae3;
+    color: #0f580f;
+}
+.format-wplist .activity-information .automatic-completion-conditions .badge strong {
+    font-weight: bold;
+}
+.format-wplist .block_accessreview_view {
+    padding-right: 1rem;
+}
+
+@media (min-width: 576px) {
+    .path-mod-quiz.format-wplist #region-main {
+        min-height: 650px;
+    }
+}
