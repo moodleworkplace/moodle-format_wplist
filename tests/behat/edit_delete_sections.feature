@@ -83,6 +83,10 @@ Feature: Sections can be edited and deleted in wplist format
     And "[data-region=section][data-sectionnumber=7]" "css_element" should not exist
 
   Scenario: Rearranging sections in wplist format
+    # Remove 'Recent activity block' first. Block drawer appears before course content in the DOM.
+    And I open the "Recent activity" blocks action menu
+    And I click on "Delete" "link" in the "Recent activity" "block"
+    And I click on "Delete" "button" in the "Delete block?" "dialogue"
     And "Test chat name" "link" should appear after "Test book name" "link"
     And I click on "Move section 4" "button"
     And I follow "After \" General \""
