@@ -47,7 +47,7 @@ require_once($CFG->dirroot . '/course/lib.php');
  * format_wplist related unit tests
  *
  * @package    format_wplist
- * @covers     \format_wplist\
+ * @covers     \format_wplist
  * @copyright  2019 Moodle Pty Ltd <support@moodle.com>
  * @author     2019 Marina Glancy
  * @license    Moodle Workplace License, distribution is restricted, contact support@moodle.com
