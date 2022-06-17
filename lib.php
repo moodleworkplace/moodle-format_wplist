@@ -376,3 +376,12 @@ function format_wplist_inplace_editable($itemtype, $itemid, $newvalue) {
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }
+
+/**
+ * Get icon mapping for font-awesome.
+ */
+function format_wplist_get_fontawesome_icon_map() {
+    return [
+        'format_wplist:plus-circle' => 'fa-plus-circle',
+    ];
+}
