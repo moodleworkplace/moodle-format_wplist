@@ -47,7 +47,8 @@ Feature: Brickfield in wplist course format
     And I follow "Content types"
     Then I should see "Results per content type: all reviewed courses (2 courses)"
 
-  Scenario: View accessreview block results on a course
+  Scenario: View accessreview block results on a course in a wplist format
+    Given Course format wplist is installed on Moodle Workplace
     Given I log in as "admin"
     And I navigate to "Plugins > Admin tools > Accessibility > Brickfield registration" in site administration
     And I set the field "id_key" to "123456789012345678901234567890ab"
@@ -77,7 +78,8 @@ Feature: Brickfield in wplist course format
     And "Toggle accessibility heatmap" "icon" should exist in the "Accessibility review" "block"
     And "Download accessibility summary report" "icon" should exist in the "Accessibility review" "block"
 
-  Scenario: Toggle highlighting on/off
+  Scenario: Toggle highlighting on/off in a course in a wplist format
+    Given Course format wplist is installed on Moodle Workplace
     Given I log in as "admin"
     Given the following "user preferences" exist:
       | user  | preference                    | value |

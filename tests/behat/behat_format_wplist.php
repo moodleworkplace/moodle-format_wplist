@@ -570,4 +570,16 @@ XPATH
         ];
     }
 
+    /**
+     * Skips tests that are not run on Workplace
+     *
+     * @Given /^Course format wplist is installed on Moodle Workplace$/
+     * @return void
+     */
+    public function course_format_wplist_is_installed_on_moodle_workplace() {
+        if (!core_component::get_component_directory('tool_wp')) {
+            throw new \Moodle\BehatExtension\Exception\SkippedException("Not a Workplace site");
+        }
+    }
+
 }
