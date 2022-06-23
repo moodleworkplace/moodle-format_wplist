@@ -33,8 +33,8 @@ codecheck:
   - php admin/tool/phpunit/cli/util.php --buildconfig
   - php admin/tool/phpunit/cli/util.php --buildcomponentconfigs
   - . check-start
-  - . check workplace_copyrights_and_licenses
-  - . check this_plugin_is_part_of "Moodle Workplace https://moodle.com/workplace based on Moodle" --wplicensecomment
+  - . check no_workplace_licenses
+  - . check this_plugin_is_part_of "the format_wplist plugin for Moodle - http://moodle.org/" --nowplicensecomment
   - . check version_number
   - . check language_file_sorting
   - . check moodle-plugin-ci phplint
