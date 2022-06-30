@@ -53,8 +53,6 @@
 .pagelayout-course.format-wplist .section .activity .afterlink {
     margin-top: 1rem;
     margin-right: 1.5rem;
-    padding: 0.5rem;
-    background-color: #f8f9fa;
     border-radius: 0.25rem;
     font-weight: normal;
     color: #495057 !important; /* stylelint-disable-line declaration-no-important */
@@ -142,6 +140,15 @@
 }
 .format-wplist .block_accessreview_view {
     padding-right: 1rem;
+}
+.format-wplist .cmname .inplaceeditable {
+    display: flex;
+    flex: 0 1 auto;
+    max-width: 100%;
+}
+.format-wplist .cmname .inplaceeditable .quickeditlink,
+.format-wplist .cmname .afterlink {
+    margin: 1.5rem 0 0.2rem 0.5rem;
 }
 
 @media (min-width: 576px) {

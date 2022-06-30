@@ -174,7 +174,7 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
         if ($course->id == $this->page->course->id) {
             $straddeither = get_string('addresourceoractivity');
             $ajaxcontrol = html_writer::start_tag('div', ['class' => 'mdl-right']);
-            $ajaxcontrol .= html_writer::start_tag('div', ['class' => 'section-modchooser']);
+            $ajaxcontrol .= html_writer::start_tag('div', ['class' => 'section-modchooser m-0']);
             $icon = $this->output->pix_icon('plus-circle', $straddeither, 'tool_wp');
             $ajaxcontrol .= html_writer::tag('button', $icon, [
                     'class' => 'section-modchooser-link btn btn-link pt-0',
