@@ -156,3 +156,19 @@
         min-height: 650px;
     }
 }
+
+/*
+ Toggle icons using standard bootstrap collapse.
+*/
+.format-wplist-toggle .collapsed-icon-container {
+    display: none;
+}
+.format-wplist-toggle .expanded-icon-container {
+    display: inline-block;
+}
+.format-wplist-toggle.collapsed .collapsed-icon-container {
+    display: inline-block;
+}
+.format-wplist-toggle.collapsed .expanded-icon-container {
+    display: none;
+}
