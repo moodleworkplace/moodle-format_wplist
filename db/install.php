@@ -27,8 +27,6 @@
  * Custom code to be run on installing the plugin.
  */
 function xmldb_format_wplist_install() {
-    if (!defined('BEHAT_SITE_RUNNING') && !(defined('PHPUNIT_TEST') && PHPUNIT_TEST)) {
-        set_config('format', 'wplist', 'moodlecourse');
-    }
+
     return true;
 }
