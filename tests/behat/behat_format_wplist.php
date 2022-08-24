@@ -503,7 +503,7 @@ class behat_format_wplist extends behat_base {
 
             // Should has "stealth" class.
             $exception = new ExpectationException('"' . $activityname . '" does not have CSS class "stealth"', $this->getSession());
-            $xpath = "/descendant-or-self::a[contains(concat(' ', normalize-space(@class), ' '), ' stealth ')]";
+            $xpath = "/descendant-or-self::div[contains(concat(' ', normalize-space(@class), ' '), ' stealth ')]";
             $this->find('xpath', $xpath, $exception, $activitynode);
 
             // Additional check if this is a teacher in editing mode.

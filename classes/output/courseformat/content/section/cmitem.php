@@ -119,14 +119,10 @@ class cmitem extends \core_courseformat\output\local\content\section\cmitem {
             $format,
             $mod->get_section_info(),
             $mod,
-            $renderer->page->user_is_editing(),
+            null,
             $displayoptions
         );
-
-        $data = $cmname->export_for_template($renderer);
-
-        return $renderer->render_from_template('core/inplace_editable', $data) .
-            $groupinglabel;
+        return $renderer->render($cmname) . $groupinglabel;
     }
 
     /**

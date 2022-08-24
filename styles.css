@@ -148,7 +148,10 @@
 }
 .format-wplist .cmname .inplaceeditable .quickeditlink,
 .format-wplist .cmname .afterlink {
-    margin: 1.5rem 0 0.2rem 0.5rem;
+    margin-left: 0.5rem;
+}
+.format-wplist .cmname .inplaceeditable .quickeditlink {
+    z-index: 2;
 }
 
 @media (min-width: 576px) {
