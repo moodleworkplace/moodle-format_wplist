@@ -109,7 +109,7 @@ class content extends \core_courseformat\output\local\content {
             }
         }
 
-        if ($template->editing and has_capability('moodle/course:update', $context)) {
+        if ($template->editing && has_capability('moodle/course:update', $context)) {
             $template->addsection = $renderer->wplist_change_number_sections($course, 0);
         }
 

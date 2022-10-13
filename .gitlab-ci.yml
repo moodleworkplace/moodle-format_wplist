@@ -24,6 +24,9 @@ before_script:
 - cd $CI_PROJECT_DIR/..
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-theme_workplace.git
 - moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-tool_wp.git
+# TODO WP-3820 remove tool_reportbuilder and tool_tenant dependency when we no longer test on 4.0:
+- moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-tool_reportbuilder.git
+- moodle-plugin-ci add-plugin --clone git@git.in.moodle.com:workplace/moodle-tool_tenant.git
 - moodle-plugin-ci install --db-host="$DB_HOST" --no-init -vvv
 - cd moodle
 
