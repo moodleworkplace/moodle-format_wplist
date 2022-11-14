@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.5 - 2022-11-15
+### Changed
+- Added testing on LMS 4.1 (no functional changes)
+
 ## 4.0.4+ - 2022-10-14
 ### Changed
 - Various changes related to 4.0 rebase and splitting from Moodle Workplace product
