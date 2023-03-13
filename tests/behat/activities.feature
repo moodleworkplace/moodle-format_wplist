@@ -27,7 +27,7 @@ Feature: Operations with activity modules in wplist format
     When I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     And "[data-region='module'].type-assign" "css_element" should appear before "[data-region='module'].type-book" "css_element"
-    And I click on "Move resource" "button" in the "[data-region='module'].type-book" "css_element"
+    And I click on "Move activity" "button" in the "[data-region='module'].type-book" "css_element"
     And I follow "To the top of section \" General \""
     And "[data-region='module'].type-assign" "css_element" should appear after "[data-region='module'].type-book" "css_element"
     And I log out
@@ -63,8 +63,8 @@ Feature: Operations with activity modules in wplist format
     And I click on "Edit settings" "link" in the "Test assignment name" wplist activity
     And I expand all fieldsets
     And the "Availability" select box should contain "Show on course page"
-    And the "Availability" select box should contain "Hide from students"
-    And the field "Availability" matches value "Make available but not shown on course page"
+    And the "Availability" select box should contain "Hide on course page"
+    And the field "Availability" matches value "Make available but don't show on course page"
     And I press "Save and return to course"
     And "Test assignment name" wplist activity should be available but hidden from course page
     And I turn editing mode off

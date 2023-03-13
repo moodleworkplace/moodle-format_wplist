@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- Automated tests fixes related to strings changes in Moodle LMS
+
 ## 4.0.5 - 2022-11-15
 ### Changed
 - Added testing on LMS 4.1 (no functional changes)
