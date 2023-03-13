@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.1.2 - 2023-03-14
 ### Changed
 - Automated tests fixes related to strings changes in Moodle LMS
 
