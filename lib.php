@@ -76,7 +76,7 @@ class format_wplist extends \core_courseformat\base {
         $section = $this->get_section($section);
         if ((string)$section->name !== '') {
             return format_string($section->name, true,
-                    array('context' => context_course::instance($this->courseid), 'escape' => false));
+                    ['context' => context_course::instance($this->courseid), 'escape' => false]);
         } else {
             return self::get_default_section_name($section);
         }
@@ -92,10 +92,10 @@ class format_wplist extends \core_courseformat\base {
      *     'sr' (int) used by multipage formats to specify to which section to return
      * @return null|moodle_url
      */
-    public function get_view_url($section, $options = array()) {
+    public function get_view_url($section, $options = []) {
         global $CFG;
         $course = $this->get_course();
-        $url = new moodle_url('/course/view.php', array('id' => $course->id));
+        $url = new moodle_url('/course/view.php', ['id' => $course->id]);
 
         if (is_object($section)) {
             $sectionno = $section->section;
@@ -144,7 +144,7 @@ class format_wplist extends \core_courseformat\base {
      */
     public function ajax_section_move() {
         global $PAGE;
-        $titles = array();
+        $titles = [];
         $course = $this->get_course();
         $modinfo = get_fast_modinfo($course);
         /** @var format_wplist_renderer $renderer */
@@ -154,7 +154,7 @@ class format_wplist extends \core_courseformat\base {
                 $titles[$number] = $renderer->section_title($section, $course);
             }
         }
-        return array('sectiontitles' => $titles, 'action' => 'move');
+        return ['sectiontitles' => $titles, 'action' => 'move'];
     }
 
     /**
@@ -164,10 +164,10 @@ class format_wplist extends \core_courseformat\base {
      *     each of values is an array of block names (for left and right side columns)
      */
     public function get_default_blocks() {
-        return array(
-            BLOCK_POS_LEFT => array(),
-            BLOCK_POS_RIGHT => array('search_forums', 'news_items', 'calendar_upcoming', 'recent_activity')
-        );
+        return [
+            BLOCK_POS_LEFT => [],
+            BLOCK_POS_RIGHT => ['search_forums', 'news_items', 'calendar_upcoming', 'recent_activity'],
+        ];
     }
 
     /**
@@ -180,20 +180,20 @@ class format_wplist extends \core_courseformat\base {
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
-            $courseformatoptions = array(
-                'hiddensections' => array(
+            $courseformatoptions = [
+                'hiddensections' => [
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
-                ),
-                'accordioneffect' => array(
+                ],
+                'accordioneffect' => [
                     'default' => 0,
                     'type' => PARAM_INT,
-                ),
-                'sectionstate' => array(
+                ],
+                'sectionstate' => [
                     'default' => 1,
                     'type' => PARAM_INT,
-                ),
-            );
+                ],
+            ];
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseconfig = get_config('moodlecourse');
@@ -201,46 +201,46 @@ class format_wplist extends \core_courseformat\base {
             if (!isset($max) || !is_numeric($max)) {
                 $max = 52;
             }
-            $sectionmenu = array();
+            $sectionmenu = [];
             for ($i = 0; $i <= $max; $i++) {
                 $sectionmenu[$i] = "$i";
             }
-            $courseformatoptionsedit = array(
-                'hiddensections' => array(
+            $courseformatoptionsedit = [
+                'hiddensections' => [
                     'label' => new lang_string('hiddensections'),
                     'help' => 'hiddensections',
                     'help_component' => 'moodle',
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
+                    'element_attributes' => [
+                        [
                             0 => new lang_string('hiddensectionscollapsed'),
-                            1 => new lang_string('hiddensectionsinvisible')
-                        )
-                    ),
-                ),
-                'accordioneffect' => array(
+                            1 => new lang_string('hiddensectionsinvisible'),
+                        ],
+                    ],
+                ],
+                'accordioneffect' => [
                     'label' => new lang_string('accordioneffect', 'format_wplist'),
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
+                    'element_attributes' => [
+                        [
                             0 => new lang_string('no'),
-                            1 => new lang_string('yes')
-                        )
-                    ),
+                            1 => new lang_string('yes'),
+                        ],
+                    ],
                     'help' => 'accordioneffect',
                     'help_component' => 'format_wplist',
-                ),
-                'sectionstate' => array(
+                ],
+                'sectionstate' => [
                     'label' => new lang_string('sectionstate', 'format_wplist'),
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(
+                    'element_attributes' => [
+                        [
                             0 => new lang_string('collapsed', 'format_wplist'),
-                            1 => new lang_string('expanded', 'format_wplist')
-                        )
-                    ),
-                )
-            );
+                            1 => new lang_string('expanded', 'format_wplist'),
+                        ],
+                    ],
+                ],
+            ];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
         }
         return $courseformatoptions;
@@ -338,12 +338,12 @@ class format_wplist extends \core_courseformat\base {
  * @return mixed Array representing current options along with defaults
  */
 function format_wplist_user_preferences() {
-    $preferences['/^format_wplist_opensections_(\d)+$/'] = array(
+    $preferences['/^format_wplist_opensections_(\d)+$/'] = [
         'isregex' => true,
         'type' => PARAM_RAW,
         'null' => NULL_NOT_ALLOWED,
-        'default' => '[]'
-    );
+        'default' => '[]',
+    ];
     return $preferences;
 }
 
@@ -361,7 +361,7 @@ function format_wplist_inplace_editable($itemtype, $itemid, $newvalue) {
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
-            array($itemid, 'wplist'), MUST_EXIST);
+            [$itemid, 'wplist'], MUST_EXIST);
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

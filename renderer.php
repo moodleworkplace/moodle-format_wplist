@@ -130,12 +130,12 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
                 $url = empty($value['url']) ? '' : $value['url'];
                 $icon = empty($value['icon']) ? '' : $value['icon'];
                 $name = empty($value['name']) ? '' : $value['name'];
-                $attr = empty($value['attr']) ? array() : $value['attr'];
+                $attr = empty($value['attr']) ? [] : $value['attr'];
                 $class = empty($value['pixattr']['class']) ? '' : $value['pixattr']['class'];
                 $alt = empty($value['pixattr']['alt']) ? '' : $value['pixattr']['alt'];
                 $al = new action_menu_link_secondary(
                     new moodle_url($url),
-                    new pix_icon($icon, $alt, null, array('class' => "smallicon " . $class)),
+                    new pix_icon($icon, $alt, null, ['class' => "smallicon " . $class]),
                     $name,
                     $attr
                 );
@@ -143,7 +143,7 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
             }
 
             $o .= html_writer::div($this->render($menu), 'section_action_menu',
-                array('data-sectionid' => $section->id, 'title' => get_string('edit', 'moodle')));
+                ['data-sectionid' => $section->id, 'title' => get_string('edit', 'moodle')]);
         }
 
         return $o;
@@ -159,7 +159,7 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
      *     option 'inblock' => true, suggesting to display controls vertically
      * @return string
      */
-    public function course_section_add_cm_control($course, $section, $sectionreturn = null, $displayoptions = array()) {
+    public function course_section_add_cm_control($course, $section, $sectionreturn = null, $displayoptions = []) {
         if ($course->id == $this->page->course->id) {
             $straddeither = get_string('addresourceoractivity');
             $ajaxcontrol = html_writer::start_tag('div', ['class' => 'mdl-right']);
@@ -236,8 +236,8 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
 
         $template->sectionnumber = $section;
 
-        $completionok = array(COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS);
-        $completionfail = array(COMPLETION_COMPLETE_FAIL, COMPLETION_INCOMPLETE);
+        $completionok = [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS];
+        $completionfail = [COMPLETION_COMPLETE_FAIL, COMPLETION_INCOMPLETE];
         $output = '';
         $modinfo = get_fast_modinfo($course);
         if ($completioninfo === null) {
@@ -286,7 +286,7 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
      * @param array $displayoptions display options, not used in core
      * @return string
      */
-    public function course_section_cm_completion($course, &$completioninfo, cm_info $mod, $displayoptions = array()) {
+    public function course_section_cm_completion($course, &$completioninfo, cm_info $mod, $displayoptions = []) {
         global $CFG, $USER;
 
         if (!empty($displayoptions['hidecompletion']) || !isloggedin() || isguestuser() || !$mod->uservisible) {
@@ -408,7 +408,7 @@ class format_wplist_renderer extends core_courseformat\output\section_renderer {
      *     donotenhance => If set to true the action menu that gets displayed won't be enhanced by JS.
      * @return string
      */
-    public function course_section_cm_edit_actions($actions, cm_info $mod = null, $displayoptions = array()) {
+    public function course_section_cm_edit_actions($actions, cm_info $mod = null, $displayoptions = []) {
         global $CFG;
 
         if (empty($actions)) {

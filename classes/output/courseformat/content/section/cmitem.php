@@ -65,7 +65,7 @@ class cmitem extends \core_courseformat\output\local\content\section\cmitem {
 
         $template = new stdClass();
         $template->mod = $mod;
-        $template->text = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
+        $template->text = $mod->get_formatted_content(['overflowdiv' => false, 'noclean' => true]);
         $template->completion = $renderer->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
         $template->activityinfo = $renderer->course_section_cm_activity_info($course, $mod);
         $template->cmname = $this->course_section_cm_name($renderer, $mod, $displayoptions);
@@ -96,7 +96,7 @@ class cmitem extends \core_courseformat\output\local\content\section\cmitem {
      * @param array $displayoptions
      * @return string
      */
-    public function course_section_cm_name(\format_wplist_renderer $renderer, cm_info $mod, $displayoptions = array()) {
+    public function course_section_cm_name(\format_wplist_renderer $renderer, cm_info $mod, $displayoptions = []) {
 
         if (!$mod->is_visible_on_course_page() || !$mod->url) {
             // Nothing to be displayed to the user.
@@ -181,7 +181,7 @@ class cmitem extends \core_courseformat\output\local\content\section\cmitem {
             $linkclasses .= ' dimmed';
             $textclasses .= ' dimmed dimmed_text';
         }
-        return array($linkclasses, $textclasses);
+        return [$linkclasses, $textclasses];
     }
 
     /**

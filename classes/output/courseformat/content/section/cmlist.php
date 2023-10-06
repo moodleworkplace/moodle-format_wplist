@@ -82,7 +82,7 @@ class cmlist extends \core_courseformat\output\local\content\section\cmlist {
                 $item = new $this->itemclass($format, $section, $mod, $this->displayoptions);
                 $template->cms[] = (object)[
                     'cmitem' => $item->export_for_template($renderer),
-                    'moveurl' => new \moodle_url('/course/mod.php', array('moveto' => $modnumber, 'sesskey' => sesskey())),
+                    'moveurl' => new \moodle_url('/course/mod.php', ['moveto' => $modnumber, 'sesskey' => sesskey()]),
                 ];
             }
         } else {
