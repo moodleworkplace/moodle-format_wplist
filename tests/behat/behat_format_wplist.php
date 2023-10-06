@@ -169,7 +169,7 @@ class behat_format_wplist extends behat_base {
         // Click on un-highlight topic link.
         $xpath = $this->section_exists($sectionnumber) . "/descendant::div[contains(@class, 'section-actions')]";
         $this->execute('behat_general::i_click_on_in_the',
-            array($stredit, "link", $xpath, "xpath_element")
+            [$stredit, "link", $xpath, "xpath_element"]
         );
 
     }
@@ -219,7 +219,7 @@ class behat_format_wplist extends behat_base {
         // Click on delete link.
         $xpath .= "/descendant::div[contains(@class, 'section-actions')]";
         $this->execute('behat_general::i_click_on_in_the',
-            array($strdelete, "link", $xpath, "xpath_element")
+            [$strdelete, "link", $xpath, "xpath_element"]
         );
     }
 
@@ -249,7 +249,7 @@ class behat_format_wplist extends behat_base {
         // Click on delete link.
         $xpath .= "/descendant::div[contains(@class, 'section-actions')]";
         $this->execute('behat_general::i_click_on_in_the',
-            array($strhide, "link", $this->escape($xpath), "xpath_element")
+            [$strhide, "link", $this->escape($xpath), "xpath_element"]
         );
     }
 
@@ -265,7 +265,7 @@ class behat_format_wplist extends behat_base {
 
         // Click on expand link.
         $this->execute('behat_general::i_click_on_in_the',
-            array('button.course-section-toggle', "css_element", $xpath, "xpath_element")
+            ['button.course-section-toggle', "css_element", $xpath, "xpath_element"]
         );
     }
 
@@ -281,7 +281,7 @@ class behat_format_wplist extends behat_base {
 
         // Click on expand link.
         $this->execute('behat_general::i_click_on_in_the',
-            array('.availability a', "css_element", $xpath, "xpath_element")
+            ['.availability a', "css_element", $xpath, "xpath_element"]
         );
 
     }
@@ -326,7 +326,7 @@ class behat_format_wplist extends behat_base {
         }
 
         $this->execute('behat_format_wplist::i_click_on_in_the_wplist_activity',
-            array("a[data-toggle='dropdown']", "css_element", $this->escape($activityname))
+            ["a[data-toggle='dropdown']", "css_element", $this->escape($activityname)]
         );
 
         $this->wplist_activity_actions_menu_should_be_open($activityname);
@@ -346,7 +346,7 @@ class behat_format_wplist extends behat_base {
 
         $notfoundexception = new ExpectationException('"' . $activityname . '" doesn\'t have a "' .
             $menuitem . '" item', $this->getSession());
-        $this->find('named_partial', array('link', $menuitem), $notfoundexception, $activitynode);
+        $this->find('named_partial', ['link', $menuitem], $notfoundexception, $activitynode);
     }
 
     /**
@@ -362,7 +362,7 @@ class behat_format_wplist extends behat_base {
         $activitynode = $this->get_activity_node($activityname);
 
         try {
-            $this->find('named_partial', array('link', $menuitem), false, $activitynode);
+            $this->find('named_partial', ['link', $menuitem], false, $activitynode);
             throw new ExpectationException('"' . $activityname . '" has a "' . $menuitem .
                 '" item when it should not', $this->getSession());
         } catch (ElementNotFoundException $e) {
@@ -455,9 +455,9 @@ class behat_format_wplist extends behat_base {
                 $noshowexception = new ExpectationException('"' . $activityname . '" has neither "' . get_string('show') .
                     '" nor "' . get_string('makeavailable') . '" icons', $this->getSession());
                 try {
-                    $this->find('named_partial', array('link', get_string('show')), false, $activitynode);
+                    $this->find('named_partial', ['link', get_string('show')], false, $activitynode);
                 } catch (ElementNotFoundException $e) {
-                    $this->find('named_partial', array('link', get_string('makeavailable')), $noshowexception, $activitynode);
+                    $this->find('named_partial', ['link', get_string('makeavailable')], $noshowexception, $activitynode);
                 }
             }
 
@@ -512,9 +512,9 @@ class behat_format_wplist extends behat_base {
                 $nohideexception = new ExpectationException('"' . $activityname . '" has neither "' . get_string('hide') .
                     '" nor "' . get_string('makeunavailable') . '" icons', $this->getSession());
                 try {
-                    $this->find('named_partial', array('link', get_string('hide')), false, $activitynode);
+                    $this->find('named_partial', ['link', get_string('hide')], false, $activitynode);
                 } catch (ElementNotFoundException $e) {
-                    $this->find('named_partial', array('link', get_string('makeunavailable')), $nohideexception, $activitynode);
+                    $this->find('named_partial', ['link', get_string('makeunavailable')], $nohideexception, $activitynode);
                 }
             }
 
@@ -555,6 +555,7 @@ class behat_format_wplist extends behat_base {
     //div[contains(concat(' ', normalize-space(@class), ' '), ' section ') and
     div[contains(normalize-space(@data-sectionname), %locator%)]]
 XPATH
+,
             ], true),
         ];
     }

@@ -25,34 +25,34 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$functions = array(
+$functions = [
 
-    'format_wplist_move_section' => array(
+    'format_wplist_move_section' => [
         'classpath' => 'course/format/wplist/classes/external.php',
         'classname'   => 'format_wplist_external',
         'methodname'  => 'move_section',
         'description' => 'Move Sections.',
         'type'        => 'write',
         'ajax'        => true,
-        'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    ),
-    'format_wplist_move_module' => array(
+        'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
+    'format_wplist_move_module' => [
         'classpath' => 'course/format/wplist/classes/external.php',
         'classname'   => 'format_wplist_external',
         'methodname'  => 'move_module',
         'description' => 'Move Modules.',
         'type'        => 'write',
         'ajax'        => true,
-        'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    ),
-    'format_wplist_module_completion' => array(
+        'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
+    'format_wplist_module_completion' => [
         'classpath' => 'course/format/wplist/classes/external.php',
         'classname'   => 'format_wplist_external',
         'methodname'  => 'module_completion',
         'description' => 'Change module completion.',
         'type'        => 'write',
         'ajax'        => true,
-        'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    )
-);
+        'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
+];
 

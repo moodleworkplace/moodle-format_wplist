@@ -53,11 +53,11 @@ class format_wplist_test extends advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(array('numsections' => $numsections, 'format' => 'wplist'),
-            array('createsections' => true));
+        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'wplist'],
+            ['createsections' => true]);
 
         // Get section names for course.
-        $coursesections = $DB->get_records('course_sections', array('course' => $course->id));
+        $coursesections = $DB->get_records('course_sections', ['course' => $course->id]);
 
         // Test get_section_name with default section names.
         $courseformat = course_get_format($course);

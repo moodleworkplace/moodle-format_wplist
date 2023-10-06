@@ -49,7 +49,7 @@ class format_wplist_external extends core_course_external {
         return new external_function_parameters([
             'sectionnumber' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
             'sectiontarget' => new external_value(PARAM_INT, 'Target section number', VALUE_DEFAULT, 0),
-            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
+            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -68,7 +68,7 @@ class format_wplist_external extends core_course_external {
         $params = self::validate_parameters(self::move_section_parameters(), [
             'sectionnumber' => $sectionnumber,
             'sectiontarget' => $sectiontarget,
-            'courseid' => $courseid
+            'courseid' => $courseid,
         ]);
 
         $sectionnumber = $params['sectionnumber'];
@@ -83,7 +83,7 @@ class format_wplist_external extends core_course_external {
             throw new moodle_exception('Bad section number ' . $sectionnumber);
         }
 
-        if (!$DB->record_exists('course_sections', array('course' => $courseid, 'section' => $sectionnumber))) {
+        if (!$DB->record_exists('course_sections', ['course' => $courseid, 'section' => $sectionnumber])) {
             throw new moodle_exception('Bad section number ' . $sectionnumber);
         }
         $maxsection = $DB->get_fieldset_sql('SELECT max(section) FROM {course_sections} WHERE course = ?', [$courseid]);
@@ -103,12 +103,12 @@ class format_wplist_external extends core_course_external {
             throw new moodle_exception('Bad target section number ' . $sectiontarget);
         }
         if (!move_section_to($course, $sectionnumber, $destination, true)) {
-            $warnings[] = array(
+            $warnings[] = [
                 'item' => 'section',
                 'itemid' => $sectionnumber,
                 'warningcode' => 'movesectionfailed',
-                'message' => 'Section: ' . $sectionnumber . ' SectionTarget: ' . $sectiontarget . ' CourseID: ' . $courseid
-            );
+                'message' => 'Section: ' . $sectionnumber . ' SectionTarget: ' . $sectiontarget . ' CourseID: ' . $courseid,
+            ];
         }
 
         $result = [];
@@ -124,9 +124,9 @@ class format_wplist_external extends core_course_external {
      */
     public static function move_section_returns() {
         return new external_single_structure(
-            array(
-                'warnings' => new external_warnings()
-            )
+            [
+                'warnings' => new external_warnings(),
+            ]
         );
     }
 
@@ -141,7 +141,7 @@ class format_wplist_external extends core_course_external {
             'moduleid' => new external_value(PARAM_INT, 'Module ID', VALUE_DEFAULT, 0),
             'moduletarget' => new external_value(PARAM_INT, 'Target module ID', VALUE_DEFAULT, 0),
             'sectionnumber' => new external_value(PARAM_INT, 'Section number', VALUE_DEFAULT, 0),
-            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
+            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -163,7 +163,7 @@ class format_wplist_external extends core_course_external {
             'moduleid' => $moduleid,
             'moduletarget' => $moduletarget,
             'sectionnumber' => $sectionnumber,
-            'courseid' => $unused
+            'courseid' => $unused,
         ]);
 
         $moduleid = $params['moduleid'];
@@ -180,13 +180,13 @@ class format_wplist_external extends core_course_external {
 
         $warnings = [];
         if (!moveto_module($mod, $section, $moduletarget)) {
-            $warnings[] = array(
+            $warnings[] = [
                 'item' => 'module',
                 'itemid' => $moduleid,
                 'warningcode' => 'movemodulefailed',
                 'message' => 'module: ' . $moduleid . ' moduleTarget: ' . $moduletarget .
-                    ' CourseID: ' . $courseid . ' sectionnumber ' . $sectionnumber
-            );
+                    ' CourseID: ' . $courseid . ' sectionnumber ' . $sectionnumber,
+            ];
         }
 
         $result = [];
@@ -202,9 +202,9 @@ class format_wplist_external extends core_course_external {
      */
     public static function move_module_returns() {
         return new external_single_structure(
-            array(
-                'warnings' => new external_warnings()
-            )
+            [
+                'warnings' => new external_warnings(),
+            ]
         );
     }
 
@@ -218,7 +218,7 @@ class format_wplist_external extends core_course_external {
         return new external_function_parameters([
             'moduleid' => new external_value(PARAM_INT, 'Module ID', VALUE_DEFAULT, 0),
             'targetstate' => new external_value(PARAM_INT, 'Target Target', VALUE_DEFAULT, 0),
-            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0)
+            'courseid' => new external_value(PARAM_INT, 'Course ID', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -238,7 +238,7 @@ class format_wplist_external extends core_course_external {
         $params = self::validate_parameters(self::module_completion_parameters(), [
             'moduleid' => $moduleid,
             'targetstate' => $targetstate,
-            'courseid' => $unused
+            'courseid' => $unused,
         ]);
         $targetstate = $params['targetstate'];
 
@@ -260,13 +260,13 @@ class format_wplist_external extends core_course_external {
         // Check completion state is manual.
         $warnings = [];
         if ($cm->completion != COMPLETION_TRACKING_MANUAL) {
-            $warnings[] = array(
+            $warnings[] = [
                 'item' => 'module',
                 'itemid' => $moduleid,
                 'warningcode' => 'completion change failed',
                 'message' => 'module: ' . $moduleid . ' TargetState: ' .
-                    $targetstate . ' CourseID: ' . $cm->course
-            );
+                    $targetstate . ' CourseID: ' . $cm->course,
+            ];
         }
 
         $completion->update_state($cm, $targetstate);
@@ -275,7 +275,7 @@ class format_wplist_external extends core_course_external {
         $renderer = $PAGE->get_renderer('format_wplist');
         $result = [
             'completionicon' => $renderer->course_section_cm_completion($course, $completion, $cm, []),
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ];
         return $result;
     }
@@ -288,10 +288,10 @@ class format_wplist_external extends core_course_external {
      */
     public static function module_completion_returns() {
         return new external_single_structure(
-            array(
+            [
                 'completionicon' => new external_value(PARAM_RAW, 'JSON-encoded data for template'),
-                'warnings' => new external_warnings()
-            )
+                'warnings' => new external_warnings(),
+            ]
         );
     }
 }
